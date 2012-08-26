@@ -16,8 +16,13 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.8"
+  # make sure to match gem versions with the portal
+  s.add_dependency "rails", "~> 3.2.6"
+  s.add_dependency "haml", "~> 3.1.4"
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec",       "~> 2.10.0"
+  s.add_development_dependency "rspec-rails", "~> 2.10.1"
+  s.add_development_dependency "ci_reporter", "~> 1.7.0"
 end

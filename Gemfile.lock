@@ -2,7 +2,8 @@ PATH
   remote: .
   specs:
     lightweight_activities (0.0.1)
-      rails (~> 3.2.8)
+      haml (~> 3.1.4)
+      rails (~> 3.2.6)
 
 GEM
   remote: http://rubygems.org/
@@ -110,7 +111,6 @@ PLATFORMS
 
 DEPENDENCIES
   ci_reporter (~> 1.7.0)
-  haml (~> 3.1.4)
   jquery-rails
   lightweight_activities!
   rspec (~> 2.10.0)

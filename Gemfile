@@ -7,8 +7,6 @@ gemspec
 
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
-# make sure to match gem versions with the portal
-gem "haml", "~> 3.1.4"
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
@@ -17,8 +15,3 @@ gem "haml", "~> 3.1.4"
 
 # To use debugger
 # gem 'debugger'
-group :test, :development do
-  gem "rspec",       "~> 2.10.0"
-  gem "rspec-rails", "~> 2.10.1"
-  gem "ci_reporter", "~> 1.7.0"
-end
