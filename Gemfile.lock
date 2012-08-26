@@ -3,6 +3,7 @@ PATH
   specs:
     lightweight_activities (0.0.1)
       haml (~> 3.1.4)
+      jquery-rails
       rails (~> 3.2.6)
 
 GEM
@@ -116,7 +117,6 @@ PLATFORMS
 
 DEPENDENCIES
   ci_reporter (~> 1.7.0)
-  jquery-rails
   lightweight_activities!
   rspec (~> 2.10.0)
   rspec-rails (~> 2.10.1)
