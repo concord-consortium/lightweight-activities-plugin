@@ -4,10 +4,10 @@
     %p.question= page.name
   .text
     .instructions= page.text
-  .questions
-    - page.questions.each do |q|
-      - q_type = q.class.name.underscore
-      = render :partial => "#{q_type}/lightweight", :locals => {:question => q}
+    .questions
+      - page.questions.each do |q|
+        - q_type = q.class.name.underscore
+        = render :partial => "#{q_type}/lightweight", :locals => {:question => q}
   .other
     - page.interactives.each do |interactive|
       - i_type = interactive.class.name.underscore
