@@ -11,7 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120826191431) do
+ActiveRecord::Schema.define(:version => 20120826215152) do
+
+  create_table "embeddable_multiple_choice_choices", :force => true do |t|
+    t.integer  "multiple_choice_id"
+    t.text     "choice"
+    t.boolean  "is_correct"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "embeddable_multiple_choices", :force => true do |t|
+    t.string   "name"
+    t.text     "prompt"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "embeddable_open_responses", :force => true do |t|
+    t.string   "name"
+    t.text     "prompt"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "lightweight_interactive_items", :force => true do |t|
     t.integer  "interactive_page_id"
@@ -58,5 +80,14 @@ ActiveRecord::Schema.define(:version => 20120826191431) do
   end
 
   add_index "lightweight_mw_interactives", ["user_id"], :name => "mw_interactives_user_idx"
+
+  create_table "lightweight_question_items", :force => true do |t|
+    t.integer  "interactive_page_id"
+    t.integer  "question_id"
+    t.string   "question_type"
+    t.integer  "position"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
 
 end

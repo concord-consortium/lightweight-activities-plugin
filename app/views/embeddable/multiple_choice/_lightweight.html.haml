@@ -1,0 +1,7 @@
+%p
+  %strong= question.prompt
+  %br
+  %br
+  - question.choices.each do |choice|
+    %input{:type => "radio", :name => question.id}= choice.choice
+  %button= "Check Answer"

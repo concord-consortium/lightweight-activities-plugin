@@ -5,10 +5,31 @@
   <%= stylesheet_link_tag    "lightweight/application", :media => "all" %>
   <%= javascript_include_tag "lightweight/application" %>
   <%= csrf_meta_tags %>
+  <script type="text/javascript" src="http://use.typekit.com/hdw8ayt.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <link rel="stylesheet" href="/_assets/css/style.css" />
 </head>
-<body>
-
-<%= yield %>
-
+<body class="right">
+<div id="container">
+  <div id="header">
+    <div>
+      <h1><img src="/_assets/img/mw-logo.png" alt="Molecular Workbench" /></h1>
+      <p><img src="/_assets/img/cc-logo.png" alt="The Concord Consortium" /></p>
+      <nav>Home / Activities / Physics</nav>
+    </div>
+  </div>
+  <div id="content">
+    <%= yield %>
+  </div><!-- end #content -->
+</div>
+<div id="footer">
+  <div>
+    <p onclick="adjustWidth();">&copy; Copyright 2012 The Concord Consortium. All rights reserved.</p>
+  </div>
+</div>
+<div id="overlay"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script src="/_assets/js/common.js"></script>
 </body>
 </html>
