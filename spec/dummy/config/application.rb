@@ -4,6 +4,7 @@ require 'rails/all'
 
 Bundler.require
 require "lightweight"
+require "haml"
 
 module Dummy
   class Application < Rails::Application
