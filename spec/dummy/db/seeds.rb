@@ -1,0 +1,25 @@
+# setup a simple, one-page activity
+act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+page = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
+Lightweight::InteractiveItem.create!(:interactive_page => page, :interactive => interactive)
+
+# Add questions
+or1 = Embeddable::OpenResponse.create!(:name => "Open Response 1", :prompt => "Why do you think this model is cool?")
+or2 = Embeddable::OpenResponse.create!(:name => "Open Response 2", :prompt => "What would you add to it?")
+
+mc1 = Embeddable::MultipleChoice.create!(:name => "Multiple choice 1", :prompt => "What color is chlorophyll?")
+Embeddable::MultipleChoiceChoice.create(:choice => 'Red', :multiple_choice => mc1)
+Embeddable::MultipleChoiceChoice.create(:choice => 'Green', :multiple_choice => mc1)
+Embeddable::MultipleChoiceChoice.create(:choice => 'Blue', :multiple_choice => mc1)
+
+mc2 = Embeddable::MultipleChoice.create!(:name => "Multiple choice 2", :prompt => "How many protons does Helium have?")
+Embeddable::MultipleChoiceChoice.create(:choice => '1', :multiple_choice => mc2)
+Embeddable::MultipleChoiceChoice.create(:choice => '2', :multiple_choice => mc2)
+Embeddable::MultipleChoiceChoice.create(:choice => '4', :multiple_choice => mc2)
+Embeddable::MultipleChoiceChoice.create(:choice => '7', :multiple_choice => mc2)
+
+Lightweight::QuestionItem.create!(:interactive_page => page, :question => mc1)
+Lightweight::QuestionItem.create!(:interactive_page => page, :question => or1)
+Lightweight::QuestionItem.create!(:interactive_page => page, :question => or2)
+Lightweight::QuestionItem.create!(:interactive_page => page, :question => mc2)
