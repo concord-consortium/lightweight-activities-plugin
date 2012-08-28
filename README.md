@@ -25,7 +25,7 @@ This is a plugin which will eventually provide authoring, runtime and reporting 
 
         bundle exec rails s
 
-6. Browse to the app in your browser: [http://localhost:3000/lightweight/activity/1]()
+6. Browse to the app in your browser: [http://localhost:3000/lightweight/activity/1](http://localhost:3000/lightweight/activity/1)
 
 ## Running RSpec tests
 From the main plugin directory, run
