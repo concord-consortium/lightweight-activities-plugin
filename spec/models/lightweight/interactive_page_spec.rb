@@ -48,7 +48,7 @@ describe Lightweight::InteractivePage do
     @page.interactives.last.name.should == "inter 3"
   end
 
-  it 'should have questions' do
+  it 'should have embeddables' do
     pending
   end
 end

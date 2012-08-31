@@ -5,9 +5,9 @@
   .text
     .instructions= page.text
     .questions
-      - page.questions.each do |q|
-        - q_type = q.class.name.underscore
-        = render :partial => "#{q_type}/lightweight", :locals => {:question => q}
+      - page.embeddables.each do |e|
+        - e_type = e.class.name.underscore
+        = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
   .other
     - page.interactives.each do |interactive|
       - i_type = interactive.class.name.underscore
