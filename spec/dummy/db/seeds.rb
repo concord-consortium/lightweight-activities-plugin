@@ -19,7 +19,10 @@ Embeddable::MultipleChoiceChoice.create(:choice => '2', :multiple_choice => mc2)
 Embeddable::MultipleChoiceChoice.create(:choice => '4', :multiple_choice => mc2)
 Embeddable::MultipleChoiceChoice.create(:choice => '7', :multiple_choice => mc2)
 
+xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
+
 page.add_embeddable(mc1)
 page.add_embeddable(or1)
+page.add_embeddable(xhtml1)
 page.add_embeddable(or2)
 page.add_embeddable(mc2)
