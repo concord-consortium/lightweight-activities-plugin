@@ -51,8 +51,11 @@ describe Lightweight::LightweightActivityController do
       Embeddable::MultipleChoiceChoice.create(:choice => '4', :multiple_choice => mc2)
       Embeddable::MultipleChoiceChoice.create(:choice => '7', :multiple_choice => mc2)
 
+      xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
+
       page.add_embeddable(mc1)
       page.add_embeddable(or1)
+      page.add_embeddable(xhtml1)
       page.add_embeddable(or2)
       page.add_embeddable(mc2)
 
@@ -65,6 +68,7 @@ describe Lightweight::LightweightActivityController do
       response.body.should match /Why do you think this model is cool\?/m
       response.body.should match /What would you add to it\?/m
       response.body.should match /How many protons does Helium have\?/m
+      response.body.should match /This is some <strong>xhtml<\/strong> content!/m
     end
   end
 end
