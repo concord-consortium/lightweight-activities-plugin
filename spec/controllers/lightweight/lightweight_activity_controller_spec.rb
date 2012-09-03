@@ -16,7 +16,7 @@ describe Lightweight::LightweightActivityController do
   describe 'show' do
     it 'should not route when id is not valid' do
       begin
-        get :activity, :id => 'foo'
+        get :show, :id => 'foo'
         throw "Should not have been able to route with id='foo'"
       rescue ActionController::RoutingError
       end
@@ -24,8 +24,8 @@ describe Lightweight::LightweightActivityController do
 
     it 'should render 404 when the activity does not exist' do
       begin
-        get :activity, :id => 34
-      rescue ActionController::RoutingError
+        get :show, :id => 34
+      rescue ActiveRecord::RecordNotFound
       end
     end
 
@@ -62,13 +62,7 @@ describe Lightweight::LightweightActivityController do
       # get the rendering
       get :show, :id => act.id
 
-      # verify the page is as expected
-      response.body.should match /<iframe[^>]*src=['"]http:\/\/google.com['"]/m
-      response.body.should match /What color is chlorophyll\?/m
-      response.body.should match /Why do you think this model is cool\?/m
-      response.body.should match /What would you add to it\?/m
-      response.body.should match /How many protons does Helium have\?/m
-      response.body.should match /This is some <strong>xhtml<\/strong> content!/m
+      response.should redirect_to interactive_page_show_url(page)
     end
   end
 end

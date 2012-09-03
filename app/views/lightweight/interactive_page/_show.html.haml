@@ -1,4 +1,12 @@
+- next_page = nil unless defined?(next_page)
+- previous_page = nil unless defined?(previous_page)
 .content
+  #forward-page
+    -if next_page
+      = link_to "Next page", interactive_page_show_path(next_page)
+  #back-page
+    -if previous_page
+      = link_to "Previous page", interactive_page_show_path(previous_page)
   .title
     = page.lightweight_activity.name
     %p.question= page.name
