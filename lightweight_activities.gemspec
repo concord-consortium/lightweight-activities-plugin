@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Lightweight activity models and views for use in the CC rails portal"
   s.description = "Models to describe the structure of simple, lightweight activities, along with the views necessary to render them in a browser."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   # make sure to match gem versions with the portal
