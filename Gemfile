@@ -15,3 +15,4 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+gem 'themes_for_rails',     "~> 0.5.1"
