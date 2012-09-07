@@ -1,6 +1,6 @@
 module Lightweight
   class InteractivePage < ActiveRecord::Base
-    attr_accessible :lightweight_activity, :name, :position, :user, :text
+    attr_accessible :lightweight_activity, :name, :position, :user, :text, :theme
 
     belongs_to :lightweight_activity, :class_name => 'Lightweight::LightweightActivity'
 
