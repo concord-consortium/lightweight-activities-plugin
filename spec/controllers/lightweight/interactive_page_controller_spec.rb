@@ -131,5 +131,15 @@ describe Lightweight::InteractivePageController do
 
       response.body.should match /<div class='content theme-string'>/
     end
+
+    it 'should set themes in CSS and image tags' do
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :theme => 'theme-string')
+
+      get :show, :id => page1.id
+
+      response.body.should match /<link href=\"\/assets\/theme-string\/style.css?body=1\" media=\"all\" rel=\"stylesheet\" type=\"text\/css\">/
+    end
   end
 end
