@@ -16,7 +16,7 @@ describe Lightweight::LightweightActivityController do
   describe 'show' do
     it 'should not route when id is not valid' do
       begin
-        get :activity, :id => 'foo'
+        get :show, :id => 'foo'
         throw "Should not have been able to route with id='foo'"
       rescue ActionController::RoutingError
       end
@@ -24,8 +24,8 @@ describe Lightweight::LightweightActivityController do
 
     it 'should render 404 when the activity does not exist' do
       begin
-        get :activity, :id => 34
-      rescue ActionController::RoutingError
+        get :show, :id => 34
+      rescue ActiveRecord::RecordNotFound
       end
     end
 
@@ -34,9 +34,9 @@ describe Lightweight::LightweightActivityController do
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://google.com")
-      Lightweight::InteractiveItem.create!(:interactive_page => page, :interactive => interactive)
+      page.add_interactive(interactive)
 
-      # Add questions
+      # Add embeddables
       or1 = Embeddable::OpenResponse.create!(:name => "Open Response 1", :prompt => "Why do you think this model is cool?")
       or2 = Embeddable::OpenResponse.create!(:name => "Open Response 2", :prompt => "What would you add to it?")
 
@@ -51,20 +51,18 @@ describe Lightweight::LightweightActivityController do
       Embeddable::MultipleChoiceChoice.create(:choice => '4', :multiple_choice => mc2)
       Embeddable::MultipleChoiceChoice.create(:choice => '7', :multiple_choice => mc2)
 
-      Lightweight::QuestionItem.create!(:interactive_page => page, :question => mc1)
-      Lightweight::QuestionItem.create!(:interactive_page => page, :question => or1)
-      Lightweight::QuestionItem.create!(:interactive_page => page, :question => or2)
-      Lightweight::QuestionItem.create!(:interactive_page => page, :question => mc2)
+      xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
+
+      page.add_embeddable(mc1)
+      page.add_embeddable(or1)
+      page.add_embeddable(xhtml1)
+      page.add_embeddable(or2)
+      page.add_embeddable(mc2)
 
       # get the rendering
       get :show, :id => act.id
 
-      # verify the page is as expected
-      response.body.should match /<iframe[^>]*src=['"]http:\/\/google.com['"]/m
-      response.body.should match /What color is chlorophyll\?/m
-      response.body.should match /Why do you think this model is cool\?/m
-      response.body.should match /What would you add to it\?/m
-      response.body.should match /How many protons does Helium have\?/m
+      response.should redirect_to interactive_page_show_url(page)
     end
   end
 end

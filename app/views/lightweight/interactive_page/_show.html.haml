@@ -1,13 +1,21 @@
-.content
+- next_page = nil unless defined?(next_page)
+- previous_page = nil unless defined?(previous_page)
+%div{:class => ["content", page.theme]}
+  #forward-page
+    -if next_page
+      = link_to "Next page", interactive_page_show_path(next_page)
+  #back-page
+    -if previous_page
+      = link_to "Previous page", interactive_page_show_path(previous_page)
   .title
     = page.lightweight_activity.name
     %p.question= page.name
   .text
     .instructions= page.text
     .questions
-      - page.questions.each do |q|
-        - q_type = q.class.name.underscore
-        = render :partial => "#{q_type}/lightweight", :locals => {:question => q}
+      - page.embeddables.each do |e|
+        - e_type = e.class.name.underscore
+        = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
   .other
     - page.interactives.each do |interactive|
       - i_type = interactive.class.name.underscore
