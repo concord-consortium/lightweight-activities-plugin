@@ -3,6 +3,8 @@
 <head>
   <title>Lightweight</title>
   <%= stylesheet_link_tag    "lightweight/application", :media => "all" %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
   <%= javascript_include_tag "lightweight/application" %>
   <%= csrf_meta_tags %>
   <script type="text/javascript" src="http://use.typekit.com/hdw8ayt.js"></script>
@@ -23,11 +25,9 @@
 </div>
 <div id="footer">
   <div>
-    <p onclick="adjustWidth();">&copy; Copyright 2012 The Concord Consortium. All rights reserved.</p>
+    <p>&copy; Copyright 2012 The Concord Consortium. All rights reserved.</p>
   </div>
 </div>
 <div id="overlay"></div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 </body>
 </html>
