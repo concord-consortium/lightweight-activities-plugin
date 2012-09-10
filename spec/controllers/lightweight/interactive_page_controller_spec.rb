@@ -121,5 +121,15 @@ describe Lightweight::InteractivePageController do
       response.body.should match /<div id='forward-page'>[^<]*<\/div>/
       response.body.should match /<div id='back-page'>[^<]*<\/div>/
     end
+
+    it 'should include a class value matching the defined theme' do
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :theme => 'theme-string')
+
+      get :show, :id => page1.id
+
+      response.body.should match /<div class='content theme-string'>/
+    end
   end
 end

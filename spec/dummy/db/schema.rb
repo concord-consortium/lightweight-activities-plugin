@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120831191054) do
+ActiveRecord::Schema.define(:version => 20120907161701) do
 
   create_table "embeddable_multiple_choice_choices", :force => true do |t|
     t.integer  "multiple_choice_id"
@@ -60,8 +60,9 @@ ActiveRecord::Schema.define(:version => 20120831191054) do
     t.integer  "user_id"
     t.integer  "position"
     t.text     "text"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.string   "theme",                   :default => "default"
   end
 
   add_index "lightweight_interactive_pages", ["lightweight_activity_id", "position"], :name => "interactive_pages_by_activity_idx"
