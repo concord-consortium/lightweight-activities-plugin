@@ -13,6 +13,8 @@
   .text
     .instructions= page.text
     .questions
+    -# Send these to Portal::OfferingsController#answers
+    -# Need to provide an Offering ID 
       - page.embeddables.each do |e|
         - e_type = e.class.name.underscore
         = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
