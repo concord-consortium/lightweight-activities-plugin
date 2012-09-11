@@ -76,8 +76,8 @@ describe Lightweight::InteractivePageController do
       response.body.should match /What would you add to it\?/m
       response.body.should match /How many protons does Helium have\?/m
       response.body.should match /This is some <strong>xhtml<\/strong> content!/m
-      response.body.should match /<form action='\/portal\/offering\/answer'>/
-      # TODO: check that it's a form
+      response.body.should match /<form accept-charset="UTF-8" action="\/portal\/offerings\/#{offer.id}\/answers" method="post">/
+
     end
 
     it 'should only render the forward navigation link if it is a first page' do
