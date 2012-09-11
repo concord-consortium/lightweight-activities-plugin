@@ -25,7 +25,7 @@ class Portal::OfferingsController < ApplicationController
         end
       end
       flash[:notice] = "Your answers have been saved."
-      redirect_to :home
+      redirect_to :back
     else
       render :text => 'problem loading offering', :status => 500
     end
