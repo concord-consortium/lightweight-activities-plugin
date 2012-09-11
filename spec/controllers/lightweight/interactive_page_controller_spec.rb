@@ -33,6 +33,12 @@ describe Lightweight::InteractivePageController do
     it 'should render the page if it exists' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+
+      # Add the offering
+      offer = Portal::Offering.create!
+      offer.runnable = act
+
+      # set up page
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://google.com")
       page1.add_interactive(interactive)
@@ -70,6 +76,8 @@ describe Lightweight::InteractivePageController do
       response.body.should match /What would you add to it\?/m
       response.body.should match /How many protons does Helium have\?/m
       response.body.should match /This is some <strong>xhtml<\/strong> content!/m
+      response.body.should match /<form action='\/portal\/offering\/answer'>/
+      # TODO: check that it's a form
     end
 
     it 'should only render the forward navigation link if it is a first page' do
@@ -130,10 +138,6 @@ describe Lightweight::InteractivePageController do
       get :show, :id => page1.id
 
       response.body.should match /<div class='content theme-string'>/
-    end
-    
-    
-    it 'should include a form for the parent Offering' do
     end
     
     it 'should include previous Learner answers on this offering if present' do
