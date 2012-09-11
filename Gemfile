@@ -13,5 +13,6 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+gem 'acts_as_list'
 # To use debugger
 # gem 'debugger'
