@@ -4,6 +4,8 @@ class Portal::Offering < ActiveRecord::Base
 
   self.table_name = :portal_offerings
 
+  belongs_to :runnable, :polymorphic => true, :counter_cache => "offerings_count"
+
   has_many :open_responses, :class_name => "Saveable::OpenResponse", :foreign_key => "offering_id" do
     def answered
       find(:all).select { |question| question.answered? }

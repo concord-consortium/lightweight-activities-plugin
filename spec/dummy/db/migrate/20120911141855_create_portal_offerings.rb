@@ -4,8 +4,8 @@ class CreatePortalOfferings < ActiveRecord::Migration
       t.string   :uuid,               :limit => 36
       t.string   :status
       # t.integer  :clazz_id
-      # t.integer  :runnable_id
-      # t.string   :runnable_type
+      t.integer  :runnable_id
+      t.string   :runnable_type
       t.datetime :created_at,         :null => false
       t.datetime :updated_at,         :null => false
       t.boolean  :active,             :default => true
