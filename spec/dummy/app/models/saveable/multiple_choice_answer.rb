@@ -1,4 +1,7 @@
 class Saveable::MultipleChoiceAnswer < ActiveRecord::Base
+  # This model is cribbed from the portal to support testing of answer persistance within
+  # this dummy app. It's not intended to be part of the engine.
+
   self.table_name = "saveable_multiple_choice_answers"
 
   belongs_to :multiple_choice,  :class_name => 'Saveable::MultipleChoice', :counter_cache => :response_count

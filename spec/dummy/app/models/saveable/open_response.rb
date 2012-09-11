@@ -1,4 +1,7 @@
 class Saveable::OpenResponse < ActiveRecord::Base
+  # This model is cribbed from the portal to support testing of answer persistance within
+  # this dummy app. It's not intended to be part of the engine.
+
   self.table_name = "saveable_open_responses"
 
   # belongs_to :learner,        :class_name => 'Portal::Learner'
