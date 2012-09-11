@@ -12,14 +12,16 @@ class Portal::OfferingsController < ApplicationController
   def answers
     @offering = Portal::Offering.find(params[:id])
     if @offering
-      learner = setup_portal_student
-      if learner && params[:questions]
+      # learner = setup_portal_student
+      # if learner && params[:questions]
+      if params[:questions]
         # create saveables
         params[:questions].each do |dom_id, value|
           # translate the dom id into an actual Embeddable
           embeddable = parse_embeddable(dom_id)
           # create saveable
-          create_saveable(embeddable, @offering, learner, value) if embeddable
+          # create_saveable(embeddable, @offering, learner, value) if embeddable
+          create_saveable(embeddable, @offering, value) if embeddable
         end
       end
       flash[:notice] = "Your answers have been saved."
@@ -40,10 +42,11 @@ class Portal::OfferingsController < ApplicationController
     nil
   end
 
-  def create_saveable(embeddable, offering, learner, answer)
+  # def create_saveable(embeddable, offering, learner, answer)
+  def create_saveable(embeddable, offering, answer)
     case embeddable
     when Embeddable::OpenResponse
-      saveable_open_response = Saveable::OpenResponse.find_or_create_by_learner_id_and_offering_id_and_open_response_id(learner.id, offering.id, embeddable.id)
+      saveable_open_response = Saveable::OpenResponse.find_or_create_by_offering_id_and_open_response_id(offering.id, embeddable.id)
       if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != answer
         saveable_open_response.answers.create(:bundle_content_id => nil, :answer => answer)
       end
@@ -51,7 +54,7 @@ class Portal::OfferingsController < ApplicationController
       choice = parse_embeddable(answer)
       answer = choice ? choice.choice : ""
       if embeddable && choice
-        saveable = Saveable::MultipleChoice.find_or_create_by_learner_id_and_offering_id_and_multiple_choice_id(learner.id, offering.id, embeddable.id)
+        saveable = Saveable::MultipleChoice.find_or_create_by_offering_id_and_multiple_choice_id(offering.id, embeddable.id)
         if saveable.answers.empty? || saveable.answers.last.answer != answer
           saveable.answers.create(:bundle_content_id => nil, :choice_id => choice.id)
         end
