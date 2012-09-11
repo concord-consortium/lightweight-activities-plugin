@@ -3,5 +3,5 @@
   %br
   %br
   - embeddable.choices.each do |choice|
-    %input{:type => "radio", :name => embeddable.id}= choice.choice
+    %input{:type => "radio", :name => "questions[embeddable_#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]", :value => choice.choice}= choice.choice
   %button= "Check Answer"
