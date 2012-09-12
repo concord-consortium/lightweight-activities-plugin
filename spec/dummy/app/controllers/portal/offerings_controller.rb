@@ -48,7 +48,7 @@ class Portal::OfferingsController < ApplicationController
     when Embeddable::OpenResponse
       saveable_open_response = Saveable::OpenResponse.find_or_create_by_offering_id_and_open_response_id(offering.id, embeddable.id)
       if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != answer
-        saveable_open_response.answers.create(:bundle_content_id => nil, :answer => answer)
+        saveable_open_response.answers.create(:answer => answer)
       end
     when Embeddable::MultipleChoice
       choice = parse_embeddable(answer)
@@ -56,7 +56,7 @@ class Portal::OfferingsController < ApplicationController
       if embeddable && choice
         saveable = Saveable::MultipleChoice.find_or_create_by_offering_id_and_multiple_choice_id(offering.id, embeddable.id)
         if saveable.answers.empty? || saveable.answers.last.answer != answer
-          saveable.answers.create(:bundle_content_id => nil, :choice_id => choice.id)
+          saveable.answers.create(:choice_id => choice.id)
         end
       else
         if ! choice
