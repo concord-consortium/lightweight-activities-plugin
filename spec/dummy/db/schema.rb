@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907161701) do
+ActiveRecord::Schema.define(:version => 20120911143144) do
 
   create_table "embeddable_multiple_choice_choices", :force => true do |t|
     t.integer  "multiple_choice_id"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120907161701) do
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.string   "theme",                   :default => "default"
+    t.integer  "offerings_count"
   end
 
   add_index "lightweight_interactive_pages", ["lightweight_activity_id", "position"], :name => "interactive_pages_by_activity_idx"
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120907161701) do
     t.string   "publication_status"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "offerings_count"
   end
 
   add_index "lightweight_lightweight_activities", ["publication_status"], :name => "lightweight_activities_publication_status_idx"
@@ -96,6 +98,49 @@ ActiveRecord::Schema.define(:version => 20120907161701) do
     t.integer  "position"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "portal_offerings", :force => true do |t|
+    t.string   "uuid",          :limit => 36
+    t.string   "status"
+    t.integer  "runnable_id"
+    t.string   "runnable_type"
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+    t.boolean  "active",                      :default => true
+    t.integer  "position",                    :default => 0
+  end
+
+  create_table "saveable_multiple_choice_answers", :force => true do |t|
+    t.integer  "multiple_choice_id"
+    t.integer  "choice_id"
+    t.integer  "position"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "saveable_multiple_choices", :force => true do |t|
+    t.integer  "offering_id"
+    t.integer  "multiple_choice_id"
+    t.integer  "response_count",     :default => 0
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  create_table "saveable_open_response_answers", :force => true do |t|
+    t.integer  "open_response_id"
+    t.integer  "position"
+    t.text     "answer"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "saveable_open_responses", :force => true do |t|
+    t.integer  "open_response_id"
+    t.integer  "offering_id"
+    t.integer  "response_count",   :default => 0
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
 end

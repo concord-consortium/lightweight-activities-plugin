@@ -63,3 +63,8 @@ page3.add_embeddable(xhtml1)
 page3.add_embeddable(xhtml2)
 page3.add_embeddable(or1)
 page3.add_embeddable(xhtml3)
+
+# Create an offering
+offer1 = Portal::Offering.create!
+offer1.runnable = act
+offer1.save
