@@ -33,6 +33,12 @@ describe Lightweight::InteractivePageController do
     it 'should render the page if it exists' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+
+      # Add the offering
+      offer = Portal::Offering.create!
+      offer.runnable = act
+
+      # set up page
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://google.com")
       page1.add_interactive(interactive)
@@ -70,6 +76,8 @@ describe Lightweight::InteractivePageController do
       response.body.should match /What would you add to it\?/m
       response.body.should match /How many protons does Helium have\?/m
       response.body.should match /This is some <strong>xhtml<\/strong> content!/m
+      response.body.should match /<form accept-charset="UTF-8" action="\/portal\/offerings\/#{offer.id}\/answers" method="post">/
+
     end
 
     it 'should only render the forward navigation link if it is a first page' do
@@ -130,6 +138,59 @@ describe Lightweight::InteractivePageController do
       get :show, :id => page1.id
 
       response.body.should match /<div class='content theme-string'>/
+    end
+    
+    it 'should display previous answers when viewed again' do
+      # @clazz.should_receive(:is_student?).and_return(true)
+
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+
+      # set up page
+      @runnable = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+
+      # Add embeddables
+      @open_response = Embeddable::OpenResponse.create!(:name => "Open Response 1", :prompt => "Why do you think this model is cool?")
+
+      @multiple_choice = Embeddable::MultipleChoice.create!(:name => "Multiple choice 1", :prompt => "What color is chlorophyll?")
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Red', :multiple_choice => @multiple_choice)
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Green', :multiple_choice => @multiple_choice)
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Blue', :multiple_choice => @multiple_choice)
+
+      @runnable.add_embeddable(@multiple_choice)
+      @runnable.add_embeddable(@open_response)
+    
+      @offering = Portal::Offering.create!
+      @offering.runnable = @runnable
+      @offering.save
+
+      choice = @multiple_choice.choices.last
+
+      # post "/portal/offerings/#{@offering.id}/answers", :id => @offering.id, :questions => answers
+      saveable_open_response = Saveable::OpenResponse.find_or_create_by_offering_id_and_open_response_id(@offering.id, @open_response.id)
+      if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != "This is an OR answer"
+        saveable_open_response.answers.create(:answer => "This is an OR answer")
+      end
+
+      saveable_mc = Saveable::MultipleChoice.find_or_create_by_offering_id_and_multiple_choice_id(@offering.id, @multiple_choice.id)
+      if saveable_mc.answers.empty? || saveable_mc.answers.last.answer != choice
+        saveable_mc.answers.create(:choice_id => choice.id)
+      end
+
+      get :show, :id => @offering.id, :format => 'run_html'
+
+      or_regex = /<textarea.*?name='questions\[embeddable__open_response_(\d+)\].*?>[^<]*This is an OR answer[^<]*<\/textarea>/m
+      response.body.should =~ or_regex
+
+      mc_regex = /<input.*?checked.*?name='questions\[embeddable__multiple_choice_(\d+)\]'.*?type='radio'.*?value='embeddable__multiple_choice_choice_#{choice.id}'/
+      response.body.should =~ mc_regex
+    end
+
+    it 'should disable the submit button when there is no learner' do
+      pending('Not sure this is required')
+      controller.stub!(:setup_portal_student).and_return(nil)
+      get :show, :id => @offering.id, :format => 'run_html'
+      response.body.should =~ /<input.*class='disabled'.*type='submit'/
     end
   end
 end
