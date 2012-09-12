@@ -143,13 +143,39 @@ describe Lightweight::InteractivePageController do
     it 'should display previous answers when viewed again' do
       # @clazz.should_receive(:is_student?).and_return(true)
 
-      mc_sym = "embeddable__multiple_choice_#{@multiple_choice.id}"
-      or_sym = "embeddable__open_response_#{@open_response.id}"
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+
+      # set up page
+      @runnable = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+
+      # Add embeddables
+      @open_response = Embeddable::OpenResponse.create!(:name => "Open Response 1", :prompt => "Why do you think this model is cool?")
+
+      @multiple_choice = Embeddable::MultipleChoice.create!(:name => "Multiple choice 1", :prompt => "What color is chlorophyll?")
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Red', :multiple_choice => @multiple_choice)
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Green', :multiple_choice => @multiple_choice)
+      Embeddable::MultipleChoiceChoice.create(:choice => 'Blue', :multiple_choice => @multiple_choice)
+
+      @runnable.add_embeddable(@multiple_choice)
+      @runnable.add_embeddable(@open_response)
+    
+      @offering = Portal::Offering.create!
+      @offering.runnable = @runnable
+      @offering.save
 
       choice = @multiple_choice.choices.last
-      answers = {mc_sym => "embeddable__multiple_choice_choice_#{choice.id}", or_sym => "This is an OR answer"}
 
-      post :answers, :id => @offering.id, :questions => answers
+      # post "/portal/offerings/#{@offering.id}/answers", :id => @offering.id, :questions => answers
+      saveable_open_response = Saveable::OpenResponse.find_or_create_by_offering_id_and_open_response_id(@offering.id, @open_response.id)
+      if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != "This is an OR answer"
+        saveable_open_response.answers.create(:answer => "This is an OR answer")
+      end
+
+      saveable_mc = Saveable::MultipleChoice.find_or_create_by_offering_id_and_multiple_choice_id(@offering.id, @multiple_choice.id)
+      if saveable_mc.answers.empty? || saveable_mc.answers.last.answer != choice
+        saveable_mc.answers.create(:choice_id => choice.id)
+      end
 
       get :show, :id => @offering.id, :format => 'run_html'
 
