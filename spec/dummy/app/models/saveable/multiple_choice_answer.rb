@@ -3,6 +3,7 @@ class Saveable::MultipleChoiceAnswer < ActiveRecord::Base
   # this dummy app. It's not intended to be part of the engine.
 
   self.table_name = "saveable_multiple_choice_answers"
+  attr_accessible :choice_id
 
   belongs_to :multiple_choice,  :class_name => 'Saveable::MultipleChoice', :counter_cache => :response_count
   # belongs_to :bundle_content, :class_name => 'Dataservice::BundleContent'
