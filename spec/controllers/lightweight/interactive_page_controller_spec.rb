@@ -140,7 +140,5 @@ describe Lightweight::InteractivePageController do
       response.body.should match /<div class='content theme-string'>/
     end
     
-    it 'should include previous Learner answers on this offering if present' do
-    end
   end
 end
