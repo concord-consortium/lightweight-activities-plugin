@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120911143144) do
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.string   "theme",                   :default => "default"
+    t.integer  "offerings_count"
   end
 
   add_index "lightweight_interactive_pages", ["lightweight_activity_id", "position"], :name => "interactive_pages_by_activity_idx"
