@@ -2,6 +2,9 @@
   %strong= embeddable.prompt
   %br
   %br
+  - if saveable = Saveable::MultipleChoice.find_by_multiple_choice_id(embeddable.id)
+    - current_answer = saveable.answers.last.choice if saveable.answered?
   - embeddable.choices.each do |choice|
-    %input{:type => "radio", :name => "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]", :value => "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}"}= choice.choice
+    - selected = (current_answer == choice) ? true : false
+    %input{:type => "radio", :name => "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]", :value => "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}", :checked => selected}= choice.choice
   %button= "Check Answer"
