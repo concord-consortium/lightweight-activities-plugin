@@ -13,5 +13,9 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+# acts_as_list is a dependency of a few models in the dummy app and not
+# of the engine itself, so it can stay here in the Gemfile and doesn't need
+# to go into the Gemspec.
+gem 'acts_as_list'
 # To use debugger
 # gem 'debugger'
