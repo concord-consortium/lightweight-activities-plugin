@@ -12,10 +12,6 @@ describe Portal::OfferingsController do
     # setup
     act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
-    # Add the offering
-    # offer = Portal::Offering.create!
-    # offer.runnable = act
-    # 
     # set up page
     @runnable = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 
@@ -52,33 +48,5 @@ describe Portal::OfferingsController do
     mc_saveables = Saveable::MultipleChoice.find(:all)
     mc_saveables.size.should == (mc_saveables_size + 1)
     mc_saveables.last.answer.should == choice.choice
-  end
-
-  it 'should display previous answers when view again' do
-    pending('First it needs to create savables')
-    @clazz.should_receive(:is_student?).and_return(true)
-
-    mc_sym = "embeddable__multiple_choice_#{@multiple_choice.id}"
-    or_sym = "embeddable__open_response_#{@open_response.id}"
-
-    choice = @multiple_choice.choices.last
-    answers = {mc_sym => "embeddable__multiple_choice_choice_#{choice.id}", or_sym => "This is an OR answer"}
-
-    post :answers, :id => @offering.id, :questions => answers
-
-    get :show, :id => @offering.id, :format => 'run_html'
-
-    or_regex = /<textarea.*?name='questions\[embeddable__open_response_(\d+)\].*?>[^<]*This is an OR answer[^<]*<\/textarea>/m
-    response.body.should =~ or_regex
-
-    mc_regex = /<input.*?checked.*?name='questions\[embeddable__multiple_choice_(\d+)\]'.*?type='radio'.*?value='embeddable__multiple_choice_choice_#{choice.id}'/
-    response.body.should =~ mc_regex
-  end
-
-  it 'should disable the submit button when there is no learner' do
-    pending('Not sure this is required')
-    controller.stub!(:setup_portal_student).and_return(nil)
-    get :show, :id => @offering.id, :format => 'run_html'
-    response.body.should =~ /<input.*class='disabled'.*type='submit'/
   end
 end
