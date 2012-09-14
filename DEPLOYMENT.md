@@ -12,7 +12,7 @@ Updating the rails portal is very similar to updating the dummy app.
 3. Update the plugin, and make sure that Gemfile.lock shows the newly bumped version:
 
         bundle update lightweight_activities
-        cat Gemfile.lock | grep lightweight
+        grep "lightweight" Gemfile.lock
 
 3. Now update the assets
 
