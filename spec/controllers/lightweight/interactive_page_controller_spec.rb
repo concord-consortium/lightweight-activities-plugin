@@ -9,6 +9,7 @@ describe Lightweight::InteractivePageController do
 
   describe 'routing' do
     it 'recognizes and generates #show' do
+      {:get => "page/3/2"}.should route_to(:controller => 'lightweight/interactive_page', :action => 'show', :id => "3", :offering_id => '2')
       {:get => "page/3"}.should route_to(:controller => 'lightweight/interactive_page', :action => 'show', :id => "3")
     end
   end
@@ -37,6 +38,7 @@ describe Lightweight::InteractivePageController do
       # Add the offering
       offer = Portal::Offering.create!
       offer.runnable = act
+      offer.save
 
       # set up page
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -78,6 +80,17 @@ describe Lightweight::InteractivePageController do
       response.body.should match /This is some <strong>xhtml<\/strong> content!/m
       response.body.should match /<form accept-charset="UTF-8" action="\/portal\/offerings\/#{offer.id}\/answers" method="post">/
 
+    end
+
+    it 'should not render a form if the activity has no offering' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
+      page3 = act.pages.create!(:name => "Page 3", :text => "This is the last activity text.")
+
+      get :show, :id => page1.id
+
+      response.body.should_not match /<form accept-charset="UTF-8" action="\/portal\/offerings/
     end
 
     it 'should only render the forward navigation link if it is a first page' do
