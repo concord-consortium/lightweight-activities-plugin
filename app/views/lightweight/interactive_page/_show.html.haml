@@ -13,7 +13,7 @@
   .text
     .instructions= page.text
     .questions
-      = form_tag(main_app.answers_portal_offering_path) do
+      = form_tag(main_app.answers_portal_offering_path(@offering)) do
         - page.embeddables.each do |e|
           - e_type = e.class.name.underscore
           = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
