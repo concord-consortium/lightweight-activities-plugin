@@ -14,8 +14,5 @@ class CreatePortalOfferings < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_column :lightweight_lightweight_activities, :offerings_count, :integer
-    add_column :lightweight_interactive_pages, :offerings_count, :integer
   end
 end
