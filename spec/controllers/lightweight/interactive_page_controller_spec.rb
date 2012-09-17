@@ -211,5 +211,34 @@ describe Lightweight::InteractivePageController do
       get :show, :id => @offering.id, :format => 'run_html'
       response.body.should =~ /<input.*class='disabled'.*type='submit'/
     end
+
+    it 'should show sidebar content on pages which have it' do
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '<p>This is sidebar text.</p>')
+
+      get :show, :id => page1.id
+
+      response.body.should match /<div class='sidebar'>\n<p>This is sidebar text\.<\/p>/
+    end
+
+    it 'should show related content on the last page' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity", :related => '<p>This is related content.</p>')
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+
+      get :show, :id => page1.id
+
+      response.body.should match /<div class='related'>\n<p>This is related content\.<\/p>/
+    end
+
+    it 'should not show related content on pages other than the last page' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity", :related => '<p>This is related content.</p>')
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
+
+      get :show, :id => page1.id
+
+      response.body.should_not match /<div class='related'>/
+    end
   end
 end
