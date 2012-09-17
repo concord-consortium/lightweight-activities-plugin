@@ -3,6 +3,7 @@
 act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
 act.related = "<p>Here are some related links:</p><ul><li><a href='http://google.com'>Google</a></li><li><a href='https://github.com/concord-consortium/lightweight-activities-plugin'>Github repository</a></li></ul>"
+act.save
 
 ### Page 1 ###
 # This creates a page and adds it to the activity.
@@ -42,6 +43,7 @@ page1.add_embeddable(or2)
 page1.add_embeddable(mc2)
 
 page1.sidebar = "<p>This is first-page sidebar text. Only the first page has sidebar text.</p>"
+page1.save
 ### End Page 1 ###
 
 ### page 2 ###
