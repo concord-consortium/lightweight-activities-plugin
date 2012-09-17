@@ -152,9 +152,8 @@ describe Lightweight::InteractivePageController do
 
       response.body.should match /<div class='content theme-string'>/
     end
-    
+
     it 'should display previous answers when viewed again' do
-      # @clazz.should_receive(:is_student?).and_return(true)
 
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
@@ -179,18 +178,24 @@ describe Lightweight::InteractivePageController do
 
       choice = @multiple_choice.choices.last
 
+      # We need a current_user with a portal_student
+      # from which we can draw a learner_id of 1
+      @learner = mock_model('Learner', :id => 1, :offering => @offering)
+      controller.stub(:setup_portal_student) { @learner }
+
       # post "/portal/offerings/#{@offering.id}/answers", :id => @offering.id, :questions => answers
-      saveable_open_response = Saveable::OpenResponse.find_or_create_by_offering_id_and_open_response_id(@offering.id, @open_response.id)
+      saveable_open_response = Saveable::OpenResponse.find_or_create_by_learner_id_and_offering_id_and_open_response_id(@learner.id, @offering.id, @open_response.id)
       if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != "This is an OR answer"
         saveable_open_response.answers.create(:answer => "This is an OR answer")
       end
 
-      saveable_mc = Saveable::MultipleChoice.find_or_create_by_offering_id_and_multiple_choice_id(@offering.id, @multiple_choice.id)
+      saveable_mc = Saveable::MultipleChoice.find_or_create_by_learner_id_and_offering_id_and_multiple_choice_id(@learner.id, @offering.id, @multiple_choice.id)
       if saveable_mc.answers.empty? || saveable_mc.answers.last.answer != choice
         saveable_mc.answers.create(:choice_id => choice.id)
       end
 
       get :show, :id => @offering.id, :format => 'run_html'
+      # We are not getting to the partial with a @learner value.
 
       or_regex = /<textarea.*?name='questions\[embeddable__open_response_(\d+)\].*?>[^<]*This is an OR answer[^<]*<\/textarea>/m
       response.body.should =~ or_regex
