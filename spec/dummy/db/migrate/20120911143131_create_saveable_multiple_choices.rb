@@ -1,7 +1,8 @@
 class CreateSaveableMultipleChoices < ActiveRecord::Migration
   def change
     create_table :saveable_multiple_choices do |t|
-      # t.integer     :learner_id
+      # hard-wiring the learner for the dummy app
+      t.integer     :learner_id, :default => 1
       t.integer     :offering_id
       t.integer     :multiple_choice_id
       t.integer     :response_count,     :default => 0

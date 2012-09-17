@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20120914133416) do
   end
 
   create_table "saveable_multiple_choices", :force => true do |t|
+    t.integer  "learner_id",         :default => 1
     t.integer  "offering_id"
     t.integer  "multiple_choice_id"
     t.integer  "response_count",     :default => 0
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20120914133416) do
   end
 
   create_table "saveable_open_responses", :force => true do |t|
+    t.integer  "learner_id",       :default => 1
     t.integer  "open_response_id"
     t.integer  "offering_id"
     t.integer  "response_count",   :default => 0
