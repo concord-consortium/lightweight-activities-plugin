@@ -184,7 +184,7 @@ describe Lightweight::InteractivePageController do
       @learner = mock_model('Learner', :id => 1, :offering => @offering)
       controller.stub(:setup_portal_student) { @learner }
 
-      # post "/portal/offerings/#{@offering.id}/answers", :id => @offering.id, :questions => answers
+      # To create a saveable with a learner_id, we need to do it directly - posts to Offering#answer won't work.
       saveable_open_response = Saveable::OpenResponse.find_or_create_by_learner_id_and_offering_id_and_open_response_id(@learner.id, @offering.id, @open_response.id)
       if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != "This is an OR answer"
         saveable_open_response.answers.create(:answer => "This is an OR answer")
