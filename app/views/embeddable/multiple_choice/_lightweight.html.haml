@@ -2,7 +2,7 @@
   %strong= embeddable.prompt
   %br
   %br
-  - if saveable = Saveable::MultipleChoice.find_by_multiple_choice_id(embeddable.id)
+  - if @learner and (saveable = Saveable::MultipleChoice.find_by_learner_id_and_multiple_choice_id(@learner, embeddable.id))
     - current_answer = saveable.answers.last.choice if saveable.answered?
   - embeddable.choices.each do |choice|
     - selected = (current_answer == choice) ? true : false

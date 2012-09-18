@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Portal::OfferingsController do
   # Borrowed from the main portal code to test that the lightweight engine works as expected.
+  # The Portal::OfferingsController itself is not what's really being tested here, but rather
+  # that the form inputs are appropriate to let it do its job.
   # http://stackoverflow.com/q/6040479/306084
   before(:each) do
     request.env["HTTP_REFERER"] = "where_i_came_from"
