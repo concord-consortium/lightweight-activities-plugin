@@ -181,6 +181,9 @@ describe Lightweight::InteractivePageController do
 
       # We need a current_user with a portal_student
       # from which we can draw a learner_id of 1
+      # These mocks aren't working, because @learner is nil when we reach the template.
+      # The mock methods exist (or they would raise exceptions) but controller#setup_portal_student
+      # is not returning a Learner.
       @learner = mock_model('Learner', :id => 1, :offering => @offering)
       controller.stub(:setup_portal_student) { @learner }
 
