@@ -7,7 +7,8 @@
   - embeddable.choices.each do |choice|
     - selected = (current_answer == choice) ? true : false
     - control_name = "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]"
-    %input{:type => "radio", :name => control_name, :value => "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}", :checked => selected}
-    %label{:name => control_name}
+    - control_id = "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}"
+    %label{:for => control_id}
+      %input{:type => "radio", :name => control_name, :id => control_id, :value => control_id, :checked => selected}
       = choice.choice
   %button= "Check Answer"
