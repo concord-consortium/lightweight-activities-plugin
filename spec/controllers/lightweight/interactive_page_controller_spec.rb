@@ -154,13 +154,11 @@ describe Lightweight::InteractivePageController do
     end
 
     it 'should display previous answers when viewed again' do
-      pending("I haven't been able to mock the setup_portal_student method to set the learner properly")
-
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
       # set up page
-      @runnable = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      @page = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 
       # Add embeddables
       @open_response = Embeddable::OpenResponse.create!(:name => "Open Response 1", :prompt => "Why do you think this model is cool?")
@@ -170,33 +168,30 @@ describe Lightweight::InteractivePageController do
       Embeddable::MultipleChoiceChoice.create(:choice => 'Green', :multiple_choice => @multiple_choice)
       Embeddable::MultipleChoiceChoice.create(:choice => 'Blue', :multiple_choice => @multiple_choice)
 
-      @runnable.add_embeddable(@multiple_choice)
-      @runnable.add_embeddable(@open_response)
-    
+      @page.add_embeddable(@multiple_choice)
+      @page.add_embeddable(@open_response)
+
       @offering = Portal::Offering.create!
-      @offering.runnable = @runnable
+      @offering.runnable = act
       @offering.save
 
       choice = @multiple_choice.choices.last
 
-      # We need a current_user with a portal_student
-      # from which we can draw a learner_id of 1
       @learner = mock_model('Learner', :id => 1, :offering => @offering)
-      controller.stub(:setup_portal_student) { @learner }
+      controller.stub(:setup_portal_student) { mock_model('Learner', :id => 1) }
 
-      # post "/portal/offerings/#{@offering.id}/answers", :id => @offering.id, :questions => answers
-      saveable_open_response = Saveable::OpenResponse.find_or_create_by_learner_id_and_offering_id_and_open_response_id(@learner.id, @offering.id, @open_response.id)
+      # To create a saveable with a learner_id, we need to do it directly - posts to Offering#answer won't work, because it's a stub action which isn't learner-aware.
+      saveable_open_response = Saveable::OpenResponse.find_or_create_by_learner_id_and_offering_id_and_open_response_id(1, @offering.id, @open_response.id)
       if saveable_open_response.response_count == 0 || saveable_open_response.answers.last.answer != "This is an OR answer"
         saveable_open_response.answers.create(:answer => "This is an OR answer")
       end
 
-      saveable_mc = Saveable::MultipleChoice.find_or_create_by_learner_id_and_offering_id_and_multiple_choice_id(@learner.id, @offering.id, @multiple_choice.id)
+      saveable_mc = Saveable::MultipleChoice.find_or_create_by_learner_id_and_offering_id_and_multiple_choice_id(1, @offering.id, @multiple_choice.id)
       if saveable_mc.answers.empty? || saveable_mc.answers.last.answer != choice
         saveable_mc.answers.create(:choice_id => choice.id)
       end
 
-      get :show, :id => @offering.id, :format => 'run_html'
-      # We are not getting to the partial with a @learner value.
+      get :show, :id => @page.id, :offering_id => @offering.id, :format => 'run_html'
 
       or_regex = /<textarea.*?name='questions\[embeddable__open_response_(\d+)\].*?>[^<]*This is an OR answer[^<]*<\/textarea>/m
       response.body.should =~ or_regex

@@ -2,9 +2,12 @@
   %strong= embeddable.prompt
   %br
   %br
-  - if @learner and (saveable = Saveable::MultipleChoice.find_by_learner_id_and_multiple_choice_id(@learner, embeddable.id))
+  - if @learner and (saveable = Saveable::MultipleChoice.find_by_learner_id_and_multiple_choice_id(@learner.id, embeddable.id))
     - current_answer = saveable.answers.last.choice if saveable.answered?
   - embeddable.choices.each do |choice|
     - selected = (current_answer == choice) ? true : false
-    %input{:type => "radio", :name => "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]", :value => "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}", :checked => selected}= choice.choice
+    - control_name = "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]"
+    %input{:type => "radio", :name => control_name, :value => "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}", :checked => selected}
+    %label{:name => control_name}
+      = choice.choice
   %button= "Check Answer"
