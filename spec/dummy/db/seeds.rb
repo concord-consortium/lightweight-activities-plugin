@@ -109,3 +109,25 @@ offer1.runnable = act
 offer1.save
 
 #### End Activity Creation ####
+
+#### Activity 2 ####
+act_boiling_point = Lightweight::LightweightActivity.create!(:name => "Boiling point activity")
+
+### Page 1 ###
+# This creates a page and adds it to the activity.
+page_1_boiling_point = act_boiling_point.pages.create!(:name => "Page 1", :theme => 'full', :text => "All molecules attract to each other through forces called \"intermolecular attractions.\" The temperature at which many substances boil is determined by intermolecular attractions.")
+
+## Add embeddables ##
+# Create an (X)HTML embeddable.
+xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "<p>This is the XHTML embeddable. It should come before the open response.</p>")
+
+# Create an OpenResponse embeddable
+or1 = Embeddable::OpenResponse.create!(:name => "Open Response One", :prompt => "How, other than color, are polar and non-polar molecules different? This should be after the HTML embeddable.")
+
+# Add the embeddables created above to the page. The order they are added is the order
+# they will be displayed: first on top, last on the bottom.
+page_1_boiling_point.add_embeddable(xhtml1)
+page_1_boiling_point.add_embeddable(or1)
+page_1_boiling_point.sidebar = "<p>This is sidebar content.</p>"
+page_1_boiling_point.save
+### End Page 1 ###
