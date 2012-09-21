@@ -36,11 +36,11 @@ xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some
 
 # Add the five embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page1.add_embeddable(mc1)
-page1.add_embeddable(or1)
-page1.add_embeddable(xhtml1)
-page1.add_embeddable(or2)
-page1.add_embeddable(mc2)
+page1.add_embeddable(mc1, 1)
+page1.add_embeddable(or1, 2)
+page1.add_embeddable(xhtml1, 3)
+page1.add_embeddable(or2, 4)
+page1.add_embeddable(mc2, 5)
 
 page1.sidebar = "<p>This is first-page sidebar text. Only the first page has sidebar text.</p>"
 page1.save
@@ -69,9 +69,9 @@ Embeddable::MultipleChoiceChoice.create(:choice => 'Because they are angry', :mu
 xhtml2 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
 
 # Add the three embeddables to the page, in order.
-page2.add_embeddable(xhtml2)
-page2.add_embeddable(mc3)
-page2.add_embeddable(or3)
+page2.add_embeddable(xhtml2, 1)
+page2.add_embeddable(mc3, 2)
+page2.add_embeddable(or3, 3)
 ### End Page 2 ###
 
 ### page 3 ###
@@ -91,10 +91,10 @@ xhtml4 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "It's so much
 xhtml5 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "Good job! You're all done now.")
 
 # Add the four embeddables to the page, in order.
-page3.add_embeddable(xhtml3)
-page3.add_embeddable(xhtml4)
-page3.add_embeddable(or4)
-page3.add_embeddable(xhtml5)
+page3.add_embeddable(xhtml3, 1)
+page3.add_embeddable(xhtml4, 2)
+page3.add_embeddable(or4, 3)
+page3.add_embeddable(xhtml5, 4)
 ### End Page 3 ###
 
 ### Create an Offering ###
@@ -112,34 +112,39 @@ offer1.save
 
 #### Start creation of one activity ####
 # Create the activity
-act2 = Lightweight::LightweightActivity.create!(:name => "Intermolecular Attractions and Boiling Point ")
+act_boiling_point = Lightweight::LightweightActivity.create!(:name => "Intermolecular Attractions and Boiling Point ")
+
+act_boiling_point.related = "<p>Here are some related links:</p><ul><li><a href='http://concord.org'>The Concord Consortium</a></li><li><a href='http://nsf.gov'>National Science Foundation</a></li></ul>"
+act_boiling_point.save
 
 ### Page 1 ###
 # This creates a page and adds it to the activity.
-page_new = act2.pages.create!(:name => "Page 1", :theme => 'full', :text => "All molecules attract to each other through forces called \"intermolecular attractions.\" The temperature at which many substances boil is determined by intermolecular attractions.")
+page_1_boiling_point = act_boiling_point.pages.create!(:name => "Page 1", :theme => 'full', :text => "All molecules attract to each other through forces called \"intermolecular attractions.\" The temperature at which many substances boil is determined by intermolecular attractions.")
 
 ## Add embeddables ##
-# Create an OpenResponse embeddable
-or1 = Embeddable::OpenResponse.create!(:name => "Open Response One", :prompt => "How, other than color, are polar and non-polar molecules different?")
-
 # Create an (X)HTML embeddable.
 xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "<p>In this activity you will explore how molecular level attractions affect a substance's boiling point.</p><p><strong>Molecules can be either polar or nonpolar</strong></p><ul><li>polar molecules share electrons evenly</li><li>non-polar molecules don't share electrons evenly, causing the formation of partial positive and partial negative charges on the surface of the molecule)</li></ul><p>All molecules, polar and non-polar, have an attraction for other molecules via the Coulomb force&#8212;the attractive force between positive and negative charges.</p><p>So, how do non-polar molecules form attractions if there is no apparent surface charge?</p><p><a href=\"http://chemsite.lsrhs.net/FlashMedia/html/dipoleVsLondon.html\">http://chemsite.lsrhs.net/FlashMedia/html/dipoleVsLondon.html</a></p><p>Over time, the fluctuating instantaneous dipoles will average out so that non-polar molecules have no permanent dipoles.  The average attraction between non-polar molecules will be weak compared to similarly sized polar molecules.</p><p>Polar molecules have a permanent dipole so that uneven charge distribution is reflected over time as well, and the permanent attraction is stronger than in non-polar molecules.</p>")
 
+# Create an OpenResponse embeddable
+or1 = Embeddable::OpenResponse.create!(:name => "Open Response One", :prompt => "How, other than color, are polar and non-polar molecules different?")
+
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page_new.add_embeddable(xhtml1)
-page_new.add_embeddable(or1)
+page_1_boiling_point.add_embeddable(xhtml1, 1)
+page_1_boiling_point.add_embeddable(or1, 2)
+page_1_boiling_point.sidebar = "<p><img src=\"/assets/lightweight/boiling-point-sidebar2.jpg\" alt=\"Nitrogen Ice Cream\" />At the molecular level, boiling looks similar for all materials.  At the macroscopic level, boiling can feel very different.</p><p>Compare the boiling of a pot of water with the boiling of nitrogen gas.</p><p>In the kitchen, you might boil water to cook pasta, but in the image above, MIT students are using boiling liquid nitrogen to make ice cream.</p><p>Water boils at 100&deg;C, while nitrogen boils at -196&deg;C. Why the big difference? That has to do with intermolecular attractions!</p>"
+page_1_boiling_point.save
 ### End Page 1 ###
 
 ## Page 2 ###
 # This creates a page and adds it to the activity.
-page_new2 = act2.pages.create!(:name => "Page 2", :theme => 'stacked-right', :text => "All molecules attract to each other, but there are different patterns and strengths of attraction. The model shows a bunch of polar and non-polar molecules.")
+page_2_boiling_point = act_boiling_point.pages.create!(:name => "Page 2", :theme => 'stacked-right', :text => "All molecules attract to each other, but there are different patterns and strengths of attraction. The model shows a bunch of polar and non-polar molecules.")
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
 interactive_pn2 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-1.json")
 # Add the same interactive to the page.
-page_new2.add_interactive(interactive_pn2)
+page_2_boiling_point.add_interactive(interactive_pn2)
 
 ## Add embeddables ##
 # Create an (X)HTML embeddable.
@@ -155,19 +160,19 @@ Embeddable::MultipleChoiceChoice.create(:choice => 'the positive parts of polar 
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page_new2.add_embeddable(xhtml1)
-page_new2.add_embeddable(mc1)
+page_2_boiling_point.add_embeddable(xhtml1, 1)
+page_2_boiling_point.add_embeddable(mc1, 2)
 ### End Page 2 ###
 
 ## Page 3 ###
 # This creates a page and adds it to the activity.
-page_new3 = act2.pages.create!(:name => "Page 3", :theme => 'stacked-right', :text => "")
+page_3_boiling_point = act_boiling_point.pages.create!(:name => "Page 3", :theme => 'stacked-right', :text => "")
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
 interactive_pn3 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-2.json")
 # Add the same interactive to the page.
-page_new3.add_interactive(interactive_pn3)
+page_3_boiling_point.add_interactive(interactive_pn3)
 
 ## Add embeddables ##
 # Create an (X)HTML embeddable.
@@ -191,22 +196,22 @@ or1 = Embeddable::OpenResponse.create!(:name => "Open Response One", :prompt => 
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page_new3.add_embeddable(xhtml1)
-page_new3.add_embeddable(mc1)
-page_new3.add_embeddable(mc2)
-page_new3.add_embeddable(mc3)
-page_new3.add_embeddable(or1)
+page_3_boiling_point.add_embeddable(xhtml1, 1)
+page_3_boiling_point.add_embeddable(mc1, 2)
+page_3_boiling_point.add_embeddable(mc2, 3)
+page_3_boiling_point.add_embeddable(mc3, 4)
+page_3_boiling_point.add_embeddable(or1, 5)
 ### End Page 3 ###
 
 ## Page 4 ###
 # This creates a page and adds it to the activity.
-page_new4 = act2.pages.create!(:name => "Page 4", :theme => 'stacked-right', :text => "Boiling point is a physical property that is determined by intermolecular attractions.")
+page_4_boiling_point = act_boiling_point.pages.create!(:name => "Page 4", :theme => 'stacked-right', :text => "Boiling point is a physical property that is determined by intermolecular attractions.")
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
 interactive_pn4 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/boiling-point.json")
 # Add the same interactive to the page.
-page_new4.add_interactive(interactive_pn4)
+page_4_boiling_point.add_interactive(interactive_pn4)
 
 ## Add embeddables ##
 # Create an (X)HTML embeddable.
@@ -229,12 +234,12 @@ or3 = Embeddable::OpenResponse.create!(:name => "Open Response 3", :prompt => "R
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page_new4.add_embeddable(xhtml1)
-page_new4.add_embeddable(mc1)
-page_new4.add_embeddable(xhtml2)
-page_new4.add_embeddable(or2)
-page_new4.add_embeddable(mc2)
-page_new4.add_embeddable(or3)
+page_4_boiling_point.add_embeddable(xhtml1, 1)
+page_4_boiling_point.add_embeddable(mc1, 2)
+page_4_boiling_point.add_embeddable(xhtml2, 3)
+page_4_boiling_point.add_embeddable(or2, 4)
+page_4_boiling_point.add_embeddable(mc2, 5)
+page_4_boiling_point.add_embeddable(or3, 6)
 ### End Page 4 ###
 
 ### Create an Offering ###
@@ -242,11 +247,11 @@ page_new4.add_embeddable(or3)
 # speaking we don't need them for styling but there may be errors if there isn't one.
 
 # Create the offering.
-offer2 = Portal::Offering.create!
+offer_boiling_point = Portal::Offering.create!
 # Make this activity the "runnable" for the offering.
-offer2.runnable = act2
+offer_boiling_point.runnable = act_boiling_point
 # Save the offering.
-offer2.save
+offer_boiling_point.save
 
 #### End Activity Creation ####
 
@@ -273,13 +278,16 @@ Embeddable::MultipleChoiceChoice.create(:choice => 'white circles', :multiple_ch
 Embeddable::MultipleChoiceChoice.create(:choice => 'colored circles', :multiple_choice => mc1)
 
 # Create an (X)HTML embeddable.
-xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "<p><img src=\"http://upload.wikimedia.org/wikipedia/commons/f/f1/Water_and_oil.jpg\" alt=\"Water and Oil\" />Shake up the \"salad dressing\" in the model below, and see if you can figure out which part is water and which part is oil.</p>")
+xhtml1 = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "<p><img src=\"/assets/lightweight/water-and-oil.jpg\" alt=\"Water and Oil\" />Shake up the \"salad dressing\" in the model below, and see if you can figure out which part is water and which part is oil.</p>")
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page1_solubility.add_embeddable(xhtml1)
-page1_solubility.add_embeddable(or1)
-page1_solubility.add_embeddable(mc1)
+page1_solubility.add_embeddable(xhtml1, 1)
+page1_solubility.add_embeddable(or1, 2)
+page1_solubility.add_embeddable(mc1, 3)
+
+page1_solubility.sidebar = "<p><img src=\"/assets/lightweight/solubility-sidebar1.jpg\" alt=\"Rock Candy Sticks\" />Many people have enjoyed eating a stick of rock candy. Contrary to its name, rock candy is not made out of rocks. The rock shape arises from the shapes of the sugar crystals.</p><p>You can make your own rock candy at home.</p><ul><li>Prepare strings, skewers, or toothpicks to suspend into individual jars. You should make sure that the string, skewer, or toothpick doesn't touch the bottom of the jar, and make sure that you can suspend them stably (no rolling around!).</li><li>Boil 2 cups of water with 4.5 cups of sugar for 5 minutes, stirring frequently.  Make sure that all of the sugar dissolves.</li><li>Remove the syrup mixture from the heat, and stir in flavoring (2 teaspoons) and coloring if you wish.</li><li>Let the mixture stand, undisturbed, for 5 minutes.</li><li>Pour the mixture into individual jars and lower skewers or strings into the jars. After a couple of hours, you should start to see crystals. Let them grow until they reach the size you want, and then take them out and enjoy!</li></ul><p>Why does the sugar dissolve in the water? Intermolecular attractions! Delicious intermolecular attractions...</p>"
+page1_solubility.save
 ### End Page 1 ###
 
 ## Page 2 ###
@@ -308,10 +316,10 @@ or1 = Embeddable::OpenResponse.create!(:name => "Open Response One", :prompt => 
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page2_solubility.add_embeddable(xhtml1)
-page2_solubility.add_embeddable(mc1)
-page2_solubility.add_embeddable(xhtml2)
-page2_solubility.add_embeddable(or1)
+page2_solubility.add_embeddable(xhtml1, 1)
+page2_solubility.add_embeddable(mc1, 2)
+page2_solubility.add_embeddable(xhtml2, 3)
+page2_solubility.add_embeddable(or1, 4)
 ### End Page 2 ###
 
 ## Page 3 ###
@@ -340,10 +348,10 @@ or2 = Embeddable::OpenResponse.create!(:name => "Open Response Two", :prompt => 
 
 # Add the embeddables created above to the page. The order they are added is the order
 # they will be displayed: first on top, last on the bottom.
-page3_solubility.add_embeddable(xhtml1)
-page3_solubility.add_embeddable(mc1)
-page3_solubility.add_embeddable(or1)
-page3_solubility.add_embeddable(or2)
+page3_solubility.add_embeddable(xhtml1, 1)
+page3_solubility.add_embeddable(mc1, 2)
+page3_solubility.add_embeddable(or1, 3)
+page3_solubility.add_embeddable(or2, 4)
 ### End Page 3 ###
 
 ### Create an Offering ###
@@ -351,10 +359,10 @@ page3_solubility.add_embeddable(or2)
 # speaking we don't need them for styling but there may be errors if there isn't one.
 
 # Create the offering.
-offer2 = Portal::Offering.create!
+offer_solubility = Portal::Offering.create!
 # Make this activity the "runnable" for the offering.
-offer2.runnable = act_solubility
+offer_solubility.runnable = act_solubility
 # Save the offering.
-offer2.save
+offer_solubility.save
 
 #### End Activity Creation ####
