@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	// prepare for scrolling model
-	calculateDimensions();
+	calcPageDimensions();
 	$(document).bind('scroll', $scroll_handler);
 	
 	// add event listeners
@@ -20,7 +20,6 @@ $(document).ready(function() {
 	});
 });
 
-
 var $content_height;
 var $content_offset;
 var $content_top;
@@ -29,17 +28,41 @@ var $last_scroll_pos = $(document).scrollTop();
 var $stop_scrolltop;
 var $model_width;
 
-function calculateDimensions(){
-  $content_height = $('.content').height();
-  $content_offset = $('.content').offset();
+var $scroll_handler = function() {
+	if ($(document).scrollTop() > 60 && $(document).scrollTop() < 821) {
+    	$('div.model').css({
+							'position': 'absolute', 
+							'top': $(document).scrollTop() + 'px', 
+							'width': $model_width
+							});
+		$value = $content_top + $content_height;
+	} else if ($(document).scrollTop() >= 821) {
+    	$('div.model').css({
+							'position': 'absolute', 
+							'top': '821px', 
+							'width': $model_width
+							});
+	} else {
+    	$('div.model').css({
+							'position': 'absolute', 
+							'top': '64px', 
+							'width': $model_width
+							});
+	}
+	//alert($(document).scrollTop());
+};
+
+function calcPageDimensions(){
+  $content_height = $('#content').height();
+  $content_offset = $('#content').offset();
   $content_top = $content_offset.top;
   $content_bottom = $(document).height() - ($content_top + $content_height);
-  $model_height = $('.model').height();
-  $model_width = $('.model').css('width');
+  $model_height = $('.other').height();
+  $model_width = $('.other').css('width');
 }
 
 $(window).resize(function(){
-	calculateDimensions();
+	calcPageDimensions();
 });
 
 function checkAnswer() {
@@ -98,7 +121,7 @@ function showTutorial() {
 
 function exitFullScreen() {
 	if (!($('body').hasClass('full'))) {
-		$(document).bind('scroll', $scroll_handler);
+		$(document).bind('scroll', scrollHandler());
 	}
 	$('#tutorial').fadeOut('fast');
 	$('.model').fadeOut('fast');
@@ -111,17 +134,6 @@ function exitFullScreen() {
 	$('#overlay').fadeOut('slow');
 	$('.model').fadeIn('fast');
 }
-
-var $scroll_handler = function() {
-	if ($(document).scrollTop() > 60 && $(document).scrollTop() < 821) {
-    $('.model').css({'position': 'absolute', 'top': $(document).scrollTop() + 'px', 'width': $model_width});
-		$value = $content_top + $content_height;
-	} else if ($(document).scrollTop() >= 821) {
-    $(',model').css({'position': 'absolute', 'top': '821px', 'width': $model_width});
-	} else {
-    $(',model').css({'position': 'absolute', 'top': '64px', 'width': $model_width});
-	}
-};
 
 function nextQuestion(num) {
 	var curr_q = '.q' + (num - 1);
@@ -148,6 +160,6 @@ function adjustWidth() {
 	
 	$('#header div').css('width', width);
 	$('.content').css('width', width);
-	$('.model').css('width', model_width);
+	$('div.model').css('width', model_width);
 	$('#footer div').css('width', width);
 }

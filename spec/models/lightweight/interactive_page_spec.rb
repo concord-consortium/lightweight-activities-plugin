@@ -49,6 +49,36 @@ describe Lightweight::InteractivePage do
   end
 
   it 'should have embeddables' do
-    pending
+    [3,1,2].each do |i|
+      embed = Embeddable::Xhtml.create!(:name => "embeddable #{i}", :content => "This is the #{ActiveSupport::Inflector.ordinalize(i)} embeddable")
+      @page.add_embeddable(embed, i)
+    end
+    @page.reload
+
+    @page.embeddables.size.should == 3
+  end
+
+  it 'should have embeddables in the correct order' do
+    [3,1,2].each do |i|
+      embed = Embeddable::Xhtml.create!(:name => "embeddable #{i}", :content => "This is the #{ActiveSupport::Inflector.ordinalize(i)} embeddable")
+      @page.add_embeddable(embed, i)
+    end
+    @page.reload
+
+    @page.embeddables.first.content.should == "This is the 1st embeddable"
+    @page.embeddables.last.name.should == "embeddable 3"
+  end
+
+  it 'should insert embeddables at the end if position is not provided' do
+    [2,3,1].each do |i|
+      embed = Embeddable::Xhtml.create!(:name => "embeddable #{i}", :content => "This is the #{ActiveSupport::Inflector.ordinalize(i)} embeddable")
+      @page.add_embeddable(embed)
+    end
+    embed4 = Embeddable::Xhtml.create!(:name => "Embeddable 4", :content => "This is the 4th embeddable")
+    @page.add_embeddable(embed4)
+    @page.reload
+
+    @page.embeddables.first.content.should == "This is the 2nd embeddable"
+    @page.embeddables.last.name.should == "Embeddable 4"
   end
 end

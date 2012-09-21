@@ -21,10 +21,10 @@ module Lightweight
       if @offering
         @learner = setup_portal_student
       end
-      all_pages = @activity.pages
-      current_idx = all_pages.index(@page)
-      @previous_page = (current_idx > 0) ? all_pages[current_idx-1] : nil
-      @next_page = (current_idx < (all_pages.size-1)) ? all_pages[current_idx+1] : nil
+      @all_pages = @activity.pages
+      current_idx = @all_pages.index(@page)
+      @previous_page = (current_idx > 0) ? @all_pages[current_idx-1] : nil
+      @next_page = (current_idx < (@all_pages.size-1)) ? @all_pages[current_idx+1] : nil
     end
 
     private

@@ -1,13 +1,17 @@
 ---
-application.js: application-0f2a237e01e42157d9f3cd6fc6846a00.js
-application.css: application-b2cc5db219de9fb8c73d019c8ce1c7e8.css
-lightweight/body-bg.gif: lightweight/body-bg-f138c55b8d666e77a212000079562ed6.gif
-lightweight/cc-logo.png: lightweight/cc-logo-6b7846837da51902a3a1d70df70d0696.png
-lightweight/mw-logo.png: lightweight/mw-logo-dfa1d4362b9515a4bba1f7569cfd1815.png
-lightweight/page-nav-next-dis.png: lightweight/page-nav-next-dis-7311f54b0c0800d10b73314f02b64a30.png
-lightweight/page-nav-next.png: lightweight/page-nav-next-3a8f9b08da98f1bccb7121d7608cb069.png
-lightweight/page-nav-prev-dis.png: lightweight/page-nav-prev-dis-d6f0e61f91d3366dafca1717592d38f7.png
-lightweight/page-nav-prev.png: lightweight/page-nav-prev-a320a8994f7ee8427f6e98d459ebc470.png
-lightweight/watch-tutorial.png: lightweight/watch-tutorial-8277e7250c885ab44f3491809659668c.png
-lightweight/application.js: lightweight/application-704c78876392694aafe2a4e692b33cbb.js
-lightweight/application.css: lightweight/application-fcd9454fcb4346ca334639b02c2c3b18.css
+!binary "YXBwbGljYXRpb24uanM=": application-714e923e9edb369fea733e3a4634e4fd.js
+!binary "YXBwbGljYXRpb24uY3Nz": application-b873b8f1c07375a51bc4e54df2dcb779.css
+!binary "bGlnaHR3ZWlnaHQvYm9keS1iZy5naWY=": lightweight/body-bg-f138c55b8d666e77a212000079562ed6.gif
+!binary "bGlnaHR3ZWlnaHQvYm9pbGluZy1wb2ludC1zaWRlYmFyMS5qcGc=": lightweight/boiling-point-sidebar1-091aa0b8165730088a2a982a89a5207b.jpg
+!binary "bGlnaHR3ZWlnaHQvYm9pbGluZy1wb2ludC1zaWRlYmFyMi5qcGc=": lightweight/boiling-point-sidebar2-323d3a1fb0ca099cc66cb42a2ecd0870.jpg
+!binary "bGlnaHR3ZWlnaHQvY2MtbG9nby5wbmc=": lightweight/cc-logo-6b7846837da51902a3a1d70df70d0696.png
+!binary "bGlnaHR3ZWlnaHQvbXctbG9nby5wbmc=": lightweight/mw-logo-dfa1d4362b9515a4bba1f7569cfd1815.png
+!binary "bGlnaHR3ZWlnaHQvcGFnZS1uYXYtbmV4dC1kaXMucG5n": lightweight/page-nav-next-dis-7311f54b0c0800d10b73314f02b64a30.png
+!binary "bGlnaHR3ZWlnaHQvcGFnZS1uYXYtbmV4dC5wbmc=": lightweight/page-nav-next-3a8f9b08da98f1bccb7121d7608cb069.png
+!binary "bGlnaHR3ZWlnaHQvcGFnZS1uYXYtcHJldi1kaXMucG5n": lightweight/page-nav-prev-dis-d6f0e61f91d3366dafca1717592d38f7.png
+!binary "bGlnaHR3ZWlnaHQvcGFnZS1uYXYtcHJldi5wbmc=": lightweight/page-nav-prev-a320a8994f7ee8427f6e98d459ebc470.png
+!binary "bGlnaHR3ZWlnaHQvc29sdWJpbGl0eS1zaWRlYmFyMS5qcGc=": lightweight/solubility-sidebar1-522a02bac3fbe1795f482862956dd0e8.jpg
+!binary "bGlnaHR3ZWlnaHQvd2F0Y2gtdHV0b3JpYWwucG5n": lightweight/watch-tutorial-8277e7250c885ab44f3491809659668c.png
+!binary "bGlnaHR3ZWlnaHQvd2F0ZXItYW5kLW9pbC5qcGc=": lightweight/water-and-oil-6b5aec22dbc01c2f00eda64ca7dbfd61.jpg
+!binary "bGlnaHR3ZWlnaHQvYXBwbGljYXRpb24uanM=": lightweight/application-c42a17ddaa83bae93eeb10d17591b9a8.js
+!binary "bGlnaHR3ZWlnaHQvYXBwbGljYXRpb24uY3Nz": lightweight/application-772accc0d9f17e015298ee1e02fee3a2.css

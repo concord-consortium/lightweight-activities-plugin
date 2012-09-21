@@ -1,13 +1,24 @@
 - next_page = nil unless defined?(next_page)
 - previous_page = nil unless defined?(previous_page)
 %div{:class => ["content", page.theme]}
-  #forward-page
-    -if next_page
-      = link_to "Next page", interactive_page_show_path(next_page)
-  #back-page
-    -if previous_page
-      = link_to "Previous page", interactive_page_show_path(previous_page)
-  %h1
+  .page-nav
+    - if previous_page
+      %a{:class => 'previous', :href => interactive_page_show_path(previous_page)}
+        ! &nbsp;
+    - else
+      %a{:class => 'previous disabled'}
+        ! &nbsp;
+    - page_counter = 1
+    - all_pages.each do |p|
+      = link_to page_counter, interactive_page_show_path(p), :class => (p === page) ? 'active' : ''
+      - page_counter = page_counter + 1
+    - if next_page
+      %a{:class => 'next', :href => interactive_page_show_path(next_page)}
+        ! &nbsp;
+    - else
+      %a{:class => 'next disabled'}
+        ! &nbsp;
+  .title
     = page.lightweight_activity.name
   %p.question= page.name
   .text
@@ -30,6 +41,6 @@
   - if page.sidebar
     .sidebar
       != page.sidebar
-  -if !next_page
+  - if !next_page
     .related
       != page.lightweight_activity.related

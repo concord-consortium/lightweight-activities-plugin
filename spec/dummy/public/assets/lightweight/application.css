@@ -195,11 +195,11 @@ button.disabled {
 	padding: 1% 1% 1% 0;
 	width: 38%;
 	}
-body.right .text {
+.stacked-right .text {
 	float: right;
 	padding: 1% 0 1% 1%;
 	}
-body.full .text {
+.full .text {
 	padding: 0;
 	width: 100%;
 	}
@@ -211,7 +211,7 @@ body.full .text {
 		list-style: disc;
 		margin: 10px 0 0 20px;
 		}
-	body.full .title h2 {
+	.full .title h2 {
 		margin: 20px 0 0;
 		}
 	.instructions h2, .model-instructions h2 {
@@ -225,14 +225,28 @@ body.full .text {
 		width: 94%;
 		border-radius: 13px;
 		}
-	body.full .questions p {
+	.questions label {
+		display: block;
+		margin-bottom: 1em;
+		padding-left: 1.7em;
+		text-indent: -1.7em;
+		}
+	.full .questions p {
 		float: left;
 		margin: 1% .5% 1% 0;
 		min-height: 243px;
 		width: 43%;
 		}
-	body.full .questions p:nth-child(2), body.full .questions p:nth-child(4) {
+	.full .questions p:nth-child(2), .full .questions p:nth-child(4) {
 		margin: 1% 0 1% 1.25%;
+		}
+	.questions .xhtml p {
+		background: transparent;
+		clear: both;
+		float: none;
+		height: auto;
+		min-height: 0;
+		width: 100%;
 		}
 	.questions textarea {
 		height: 200px;
@@ -244,19 +258,19 @@ body.full .text {
 	height: auto;
 	width: 60%;
 	}
-body.right .other {
+.stacked-right .other {
 	float: left;
 	height: auto;
 	width: 60%;
 	}
-body.full .other {
+.full .other {
 	clear: both;
 	float: left;
 	width: 100%;
 	}
 	.model {
-		background: #d5e5ef;
-		height: 560px;
+		background: #fff;
+		height: auto;
 		margin: 13px 0 20px;
 		overflow: hidden;
 		position: relative;
@@ -264,15 +278,17 @@ body.full .other {
 		}
 		.model iframe {
 			border: none;
+			height: 435px !important; /* TEMPORARY(?) FIX FOR MAKING CURRENT MODEL APPEAR AT CORRECT SIZE. MAY NOT WORK FOR OTHER MODELS */
 			margin: 3px 0 0;
 			padding: 0;
+			width: 100%;
 			}
 		.toolbar {
 			background: #26a2bc;
 			color: #fff;
 			font-size: .9em;
 			height: 15px;
-			padding: 5px 5px 5px;
+			padding: 5px;
 			text-align: right;
 			}
 			.toolbar a {
@@ -295,7 +311,7 @@ body.full .other {
 		text-indent: -999em;
 		width: 174px;
 		}
-#sidebar {
+.sidebar {
 	background: #26a2bc;
 	clear: both;
 	color: #fff;
@@ -305,49 +321,60 @@ body.full .other {
 	padding: 1%;
 	border-radius: 13px;
 	}
-	#sidebar img {
+	.sidebar h2 {
+		font: 500 2em museo-slab, georgia, 'times new roman', serif;
+		margin: 0 0 20px;
+		}
+	.sidebar img {
 		float: left;
 		margin: 0 10px 0 0;
 		}
-	#sidebar p {
+	.sidebar p {
 		font-size: 1em;
 		line-height: 150%;
 		margin-bottom: 1em;
 		}
-	#sidebar small {
+	.sidebar small {
 		font-size: .9em;
 		}
-	#sidebar.related a {
+	.related {
+		background: #26a2bc;
+		clear: both;
+		color: #fff;
+		height: auto;
+		margin-top: 20px;
+		min-height: 224px;
+		padding: 1%;
+		border-radius: 13px;
+		}
+	.related a {
 		border-bottom: dotted 1px #fff;
 		color: #fff;
 		text-decoration: none;
 		}
-	#sidebar h2 {
-		font: 500 2em museo-slab, georgia, 'times new roman', serif;
-		margin: 0 0 20px;
-		}
-	#sidebar.related h2 {
+	.related h2 {
 		margin-bottom: 10px;
 		text-align: center;
 		}
-	#sidebar.related h3 {
+	.related h3 {
 		font: 700 1.3em museo-slab, georgia, 'times new roman', serif;
 		}
-	#sidebar.related ul {
+	.related ul {
 		list-style: none;
 		margin: 0;
 		}
-	#sidebar.related li {
+	.related li {
 		float: left;
 		margin: 1%;
 		width: 31%;
 		}
-	#sidebar.related img {
+	.related img {
 		float: right;
 		margin: 3px 0 0 10px;
 		}
 #footer {
 	background: #26a2bc;
+	clear: both;
 	color: #fff;
 	height: 100px;
 	margin-top: 20px;
