@@ -2,14 +2,22 @@
 - previous_page = nil unless defined?(previous_page)
 %div{:class => ["content", page.theme]}
   .page-nav
-    / TODO: include prev/next links with "disabled" if they're null
-    / TODO: "active" class
     - if previous_page
-      = link_to "&nbsp;", interactive_page_show_page(previous_page)
+      %a{:class => 'previous', :href => interactive_page_show_path(previous_page)}
+        ! &nbsp;
+    - else
+      %a{:class => 'previous disabled'}
+        ! &nbsp;
+    - page_counter = 1
     - all_pages.each do |p|
-      = link_to p.position.to_s, interactive_page_show_page(p)
+      = link_to page_counter, interactive_page_show_path(p), :class => (p === page) ? 'active' : ''
+      - page_counter = page_counter + 1
     - if next_page
-      = link_to "&nbsp;", interactive_page_show_page(next_page)
+      %a{:class => 'next', :href => interactive_page_show_path(next_page)}
+        ! &nbsp;
+    - else
+      %a{:class => 'next disabled'}
+        ! &nbsp;
   .title
     = page.lightweight_activity.name
     %p.question= page.name

@@ -93,6 +93,20 @@ describe Lightweight::InteractivePageController do
       response.body.should_not match /<form accept-charset="UTF-8" action="\/portal\/offerings/
     end
 
+    it 'should list pages with links to each' do
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
+      page3 = act.pages.create!(:name => "Page 3", :text => "This is the last activity text.")
+
+      get :show, :id => page1.id
+
+      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page1.id}"[^>]*>[^<]*1[^<]*<\/a>/
+      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page2.id}"[^>]*>[^<]*2[^<]*<\/a>/
+      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page3.id}"[^>]*>[^<]*3[^<]*<\/a>/
+    end
+
     it 'should only render the forward navigation link if it is a first page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
@@ -102,8 +116,8 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page1.id
 
-      response.body.should match /<div id='forward-page'>[^<]*<a href="\/lightweight\/page\/#{page2.id}">/
-      response.body.should match /<div id='back-page'>[^<]*<\/div>/
+      response.body.should match /<a class='previous disabled'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='next' href='\/lightweight\/page\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
     it 'should render both the forward and back navigation links if it is a middle page' do
@@ -115,8 +129,8 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page2.id
 
-      response.body.should match /<div id='forward-page'>[^<]*<a href="\/lightweight\/page\/#{page3.id}">/
-      response.body.should match /<div id='back-page'>[^<]*<a href="\/lightweight\/page\/#{page1.id}">/
+      response.body.should match /<a class='previous' href='\/lightweight\/page\/#{page1.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='next' href='\/lightweight\/page\/#{page3.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
     it 'should only render the back navigation links on the last page' do
@@ -128,19 +142,30 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page3.id
 
-      response.body.should match /<div id='forward-page'>[^<]*<\/div>/
-      response.body.should match /<div id='back-page'>[^<]*<a href="\/lightweight\/page\/#{page2.id}">/
+      response.body.should match /<a class='previous' href='\/lightweight\/page\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='next disabled'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
-    it 'should not render either navigation link if it is the only page' do
+    it 'should indicate the active page with a DOM class attribute' do
+      # setup
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
+
+      get :show, :id => page1.id
+
+      response.body.should match /<a href="\/lightweight\/page\/#{page1.id}" class="active">1<\/a>/
+    end
+
+    it 'should not render pagination links if it is the only page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 
       get :show, :id => page1.id
 
-      response.body.should match /<div id='forward-page'>[^<]*<\/div>/
-      response.body.should match /<div id='back-page'>[^<]*<\/div>/
+      response.body.should_not match /<a class='prev'>/
+      response.body.should_not match /<a class='next'>/
     end
 
     it 'should include a class value matching the defined theme' do
