@@ -6,6 +6,8 @@ class Portal::Offering < ActiveRecord::Base
 
   belongs_to :runnable, :polymorphic => true, :counter_cache => "offerings_count"
 
+  has_many :learners, :dependent => :destroy, :class_name => "Portal::Learner", :foreign_key => "offering_id"
+
   has_many :open_responses, :class_name => "Saveable::OpenResponse", :foreign_key => "offering_id" do
     def answered
       find(:all).select { |question| question.answered? }
