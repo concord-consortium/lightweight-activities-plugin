@@ -31,7 +31,7 @@ module Lightweight
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student
       learner = nil
-      if defined? current_user and portal_student = current_user.portal_student
+      if portal_student = current_user.portal_student
         # create a learner for the user if one doesnt' exist
         learner = @offering.find_or_create_learner(portal_student)
       end
