@@ -33,9 +33,11 @@ describe Lightweight::InteractivePageController do
 
     it 'should render the page if it exists' do
       # setup
+      # Mock the setup_portal_student method because we don't have a current_user method (it's provided by the session)
+      controller.stub(:setup_portal_student) { mock_model('Learner', :id => 1) }
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
-      # Add the offering
+      # Add the offering - this can't be mocked because it's too close to the Activity
       offer = Portal::Offering.create!
       offer.runnable = act
       offer.save
@@ -178,6 +180,12 @@ describe Lightweight::InteractivePageController do
       response.body.should match /<div class='content theme-string'>/
     end
 
+    it 'should submit answers which can be parsed as Saveables' do
+      pending "This spec needs to be written"
+      # To create a Saveable, we need an Offering, a Learner, and an answered Embeddable.
+      # The current portal action creating Saveables is Portal::OfferingsController#answer
+    end
+
     it 'should display previous answers when viewed again' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
@@ -202,7 +210,6 @@ describe Lightweight::InteractivePageController do
 
       choice = @multiple_choice.choices.last
 
-      @learner = mock_model('Learner', :id => 1, :offering => @offering)
       controller.stub(:setup_portal_student) { mock_model('Learner', :id => 1) }
 
       # To create a saveable with a learner_id, we need to do it directly - posts to Offering#answer won't work, because it's a stub action which isn't learner-aware.
