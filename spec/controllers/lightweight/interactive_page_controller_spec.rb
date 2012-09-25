@@ -76,7 +76,7 @@ describe Lightweight::InteractivePageController do
       page1.add_embeddable(mc2)
 
       # get the rendering
-      get :show, :id => act.id
+      get :show, :id => page1.id, :offering_id => offer.id
 
       # verify the page is as expected
       response.body.should match /<iframe[^>]*src=['"]http:\/\/google.com['"]/m
@@ -223,7 +223,7 @@ describe Lightweight::InteractivePageController do
       page1.add_embeddable(or1)
 
       # get the rendering
-      get :show, :id => act.id
+      get :show, :id => page1.id, :offering_id => offer.id
 
       form_regex = /<form.*?action='\/portal\/offerings\/(\d+)\/answers'/
       response.body.should =~ form_regex
@@ -279,7 +279,7 @@ describe Lightweight::InteractivePageController do
         saveable_mc.answers.create(:choice_id => choice.id)
       end
 
-      get :show, :id => @page.id, :offering_id => @offering.id, :format => 'run_html'
+      get :show, :id => @page.id, :offering_id => @offering.id
 
       or_regex = /<textarea.*?name='questions\[embeddable__open_response_(\d+)\].*?>[^<]*This is an OR answer[^<]*<\/textarea>/m
       response.body.should =~ or_regex
