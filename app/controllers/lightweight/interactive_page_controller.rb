@@ -1,5 +1,7 @@
 require_dependency "lightweight/application_controller"
 
+include AuthorizedSystem unless !defined? AuthorizedSystem
+
 module Lightweight
   class InteractivePageController < ApplicationController
     def show
@@ -37,7 +39,8 @@ module Lightweight
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student
       learner = nil
-      if portal_student = current_user.portal_student
+      # Ignore this if lib/authorized_system is not present
+      if defined? AuthorizedSystem && portal_student = current_user.portal_student
         # create a learner for the user if one doesnt' exist
         learner = @offering.find_or_create_learner(portal_student)
       end
