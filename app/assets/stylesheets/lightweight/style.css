@@ -145,7 +145,7 @@ button.disabled {
 		text-decoration: none;
 		width: 18px;
 		}
-		.page-nav a.prev {
+		.page-nav a.previous {
 			background: transparent url(/assets/lightweight/page-nav-prev.png) no-repeat;
 			height: 30px;
 			margin-right: -1px;
@@ -159,7 +159,7 @@ button.disabled {
 			padding: 0;
 			width: 30px;
 			}
-		.page-nav a.prev.disabled {
+		.page-nav a.previous.disabled {
 			background: transparent url(/assets/lightweight/page-nav-prev-dis.png) no-repeat;
 			}
 		.page-nav a.next.disabled {
