@@ -29,4 +29,9 @@ class Portal::Offering < ActiveRecord::Base
     multiple_choices + open_responses
   end
 
+  def find_or_create_learner(student)
+    # This only works because this is a dummy model.
+    Portal::Learner.find(:first)
+  end
+
 end

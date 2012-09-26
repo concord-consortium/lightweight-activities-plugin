@@ -107,6 +107,8 @@ offer1 = Portal::Offering.create!
 offer1.runnable = act
 # Save the offering.
 offer1.save
+# Create a learner
+learner = Portal::Learner.create!({:offering => offer1})
 
 #### End Activity Creation ####
 
