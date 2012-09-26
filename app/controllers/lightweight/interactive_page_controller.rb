@@ -40,7 +40,8 @@ module Lightweight
     def setup_portal_student
       learner = nil
       # Ignore this if lib/authorized_system is not present
-      if defined? AuthorizedSystem && portal_student = current_user.portal_student
+      debugger
+      if defined? AuthorizedSystem && (portal_student = current_user.portal_student) && portal_student
         # create a learner for the user if one doesnt' exist
         learner = @offering.find_or_create_learner(portal_student)
       end
