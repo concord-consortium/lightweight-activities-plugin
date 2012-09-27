@@ -86,14 +86,14 @@ function maxHeader() {
 	}).animate({'height': '130px'}, 300, function(){
 		$('#header nav').fadeIn();	
 	});
-	$('#header h1').animate({'height': '78px', 'width': '372px'}, 300);
-	$('#header p').animate({'height': '56px', 'margin-top': '15px', 'width': '182px'}, 300);
+	$('#header #mw-logo').animate({'height': '78px', 'width': '372px'}, 300);
+	$('#header #cc-logo').animate({'height': '56px', 'margin-top': '15px', 'width': '182px'}, 300);
 }
 
 function minHeader() {
 	$('#header nav').fadeOut();
-	$('#header h1').animate({'height': '50px', 'width': '238px'}, 300);
-	$('#header p').animate({'height': '40px', 'margin-top': '10px', 'width': '130px'}, 300);
+	$('#header #mw-logo').animate({'height': '50px', 'width': '238px'}, 300);
+	$('#header #cc-logo').animate({'height': '40px', 'margin-top': '10px', 'width': '130px'}, 300);
 	$('#header').click(function(){
 		maxHeader();	
 	}).animate({'height': '60px'}, 300);

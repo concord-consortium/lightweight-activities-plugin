@@ -72,21 +72,19 @@ button.disabled {
 		position: relative;
 		width: 960px;
 		}
-	#header h1 {
+	#header #mw-logo {
 		float: left;
 		font-size: 1.5em;
 		height: 50px;
 		margin-top: 5px;
 		width: 238px;
 		}
-		#header h1 img { width: 100%; }
-	#header p {
+	#header #cc-logo {
 		float: right;
 		height: 40px;
 		margin-top: 10px;
 		width: 130px;
 		}
-		#header p img { width: 100%; }
 	#header nav {
 		bottom: 10px;
 		clear: both;

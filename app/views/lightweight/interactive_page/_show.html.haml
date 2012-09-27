@@ -18,7 +18,7 @@
     - else
       %a{:class => 'next disabled'}
         ! &nbsp;
-  .title
+  %h1.title
     = page.lightweight_activity.name
   %p.question= page.name
   .text
@@ -44,3 +44,6 @@
   - if !next_page
     .related
       != page.lightweight_activity.related
+  - if page.interactives
+    #embed
+    #share
