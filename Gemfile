@@ -17,5 +17,6 @@ gemspec
 # of the engine itself, so it can stay here in the Gemfile and doesn't need
 # to go into the Gemspec.
 gem 'acts_as_list'
+gem 'pry'
 # To use debugger
 # gem 'debugger'
