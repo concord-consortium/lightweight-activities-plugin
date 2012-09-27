@@ -1,7 +1,5 @@
 require_dependency "lightweight/application_controller"
 
-include AuthorizedSystem unless !defined? AuthorizedSystem
-
 module Lightweight
   class InteractivePageController < ApplicationController
 
