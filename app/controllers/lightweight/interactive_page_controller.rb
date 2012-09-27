@@ -4,6 +4,7 @@ include AuthorizedSystem unless !defined? AuthorizedSystem
 
 module Lightweight
   class InteractivePageController < ApplicationController
+
     def show
       @page = Lightweight::InteractivePage.find(params[:id])
       @activity = @page.lightweight_activity
@@ -39,9 +40,8 @@ module Lightweight
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student
       learner = nil
-      # Ignore this if lib/authorized_system is not present
-      debugger
-      if defined? AuthorizedSystem && (portal_student = current_user.portal_student) && portal_student
+      # TODO: Ignore this if lib/authorized_system is not present
+      if portal_student = current_user.portal_student
         # create a learner for the user if one doesnt' exist
         learner = @offering.find_or_create_learner(portal_student)
       end

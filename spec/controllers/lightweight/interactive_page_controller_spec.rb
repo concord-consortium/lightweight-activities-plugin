@@ -186,7 +186,6 @@ describe Lightweight::InteractivePageController do
     end
 
     it 'should submit answers which can be parsed as Saveables' do
-      pending "This spec needs to be written"
       # To create a Saveable, we need an Offering, a Learner, and an answered Embeddable.
       # The current portal action creating Saveables is Portal::OfferingsController#answer
       # The Learner is created from the session in that controller, so the form doesn't
@@ -225,7 +224,7 @@ describe Lightweight::InteractivePageController do
       # get the rendering
       get :show, :id => page1.id, :offering_id => offer.id
 
-      form_regex = /<form.*?action='\/portal\/offerings\/(\d+)\/answers'/
+      form_regex = /<form.*?action="\/portal\/offerings\/(\d+)\/answers"/
       response.body.should =~ form_regex
       response.body =~ form_regex
       $1.to_i.should == offer.id
