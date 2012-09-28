@@ -1,7 +1,7 @@
 require_dependency "lightweight/application_controller"
 
 module Lightweight
-  class InteractivePageController < ApplicationController
+  class InteractivePagesController < ApplicationController
 
     def show
       @page = Lightweight::InteractivePage.find(params[:id])
