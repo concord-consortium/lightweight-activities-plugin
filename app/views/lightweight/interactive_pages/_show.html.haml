@@ -3,7 +3,7 @@
 %div{:class => ["content", page.theme]}
   .page-nav
     - if previous_page
-      %a{:class => 'previous', :href => interactive_page_show_path(previous_page)}
+      %a{:class => 'previous', :href => activity_page_offering_show_path(previous_page)}
         ! &nbsp;
     - else
       %a{:class => 'previous disabled'}
