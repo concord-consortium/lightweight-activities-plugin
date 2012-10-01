@@ -5,6 +5,8 @@ Lightweight::Engine.routes.draw do
     resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ }
   end
   
-  # get "/activity/:id(/:offering_id)" => 'lightweight_activity#show', :as => 'lightweight_activity_show', :constraints => {:id => /\d+/, :offering_id => /\d+/}
-  # get "/page/:id(/:offering_id)" => 'interactive_page#show', :as => 'interactive_page_show', :constraints => {:id => /\d+/, :offering_id => /\d+/}
+  # 'Show' routes including offering_ids
+  get "/activities/:id(/:offering_id)" => 'lightweight_activities#show', :as => 'lightweight_activity_show', :constraints => {:id => /\d+/, :offering_id => /\d+/}
+  get "/pages/:id(/:offering_id)" => 'interactive_pages#show', :as => 'interactive_page_show', :constraints => { :id => /\d+/, :offering_id => /\d+/ }
+  get "/activities/:activity_id/pages/:id(/:offering_id)" => 'interactive_pages#show', :as => 'activity_page_offering_show', :constraints => { :id => /\d+/, :offering_id => /\d+/, :activity_id => /\d+/ }
 end

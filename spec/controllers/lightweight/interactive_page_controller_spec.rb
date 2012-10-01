@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Lightweight::InteractivePageController do
+describe Lightweight::InteractivePagesController do
   render_views
   before do
     # work around bug in routing testing
@@ -9,8 +9,8 @@ describe Lightweight::InteractivePageController do
 
   describe 'routing' do
     it 'recognizes and generates #show' do
-      {:get => "page/3/2"}.should route_to(:controller => 'lightweight/interactive_page', :action => 'show', :id => "3", :offering_id => '2')
-      {:get => "page/3"}.should route_to(:controller => 'lightweight/interactive_page', :action => 'show', :id => "3")
+      {:get => "activities/1/pages/3/2"}.should route_to(:controller => 'lightweight/interactive_pages', :action => 'show', :id => "3", :activity_id => "1", :offering_id => '2')
+      {:get => "activities/1/pages/3"}.should route_to(:controller => 'lightweight/interactive_pages', :action => 'show', :id => "3", :activity_id => "1")
     end
   end
 
@@ -95,7 +95,7 @@ describe Lightweight::InteractivePageController do
       page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
       page3 = act.pages.create!(:name => "Page 3", :text => "This is the last activity text.")
 
-      get :show, :id => page1.id
+      get :show, :id => page1.id, :activity_id => act.id
 
       response.body.should_not match /<form accept-charset="UTF-8" action="\/portal\/offerings/
     end
@@ -109,9 +109,9 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page1.id
 
-      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page1.id}"[^>]*>[^<]*1[^<]*<\/a>/
-      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page2.id}"[^>]*>[^<]*2[^<]*<\/a>/
-      response.body.should match /<a[^>]*href="\/lightweight\/page\/#{page3.id}"[^>]*>[^<]*3[^<]*<\/a>/
+      response.body.should match /<a[^>]*href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^>]*>[^<]*1[^<]*<\/a>/
+      response.body.should match /<a[^>]*href="\/lightweight\/activities\/#{act.id}\/pages\/#{page2.id}"[^>]*>[^<]*2[^<]*<\/a>/
+      response.body.should match /<a[^>]*href="\/lightweight\/activities\/#{act.id}\/pages\/#{page3.id}"[^>]*>[^<]*3[^<]*<\/a>/
     end
 
     it 'should only render the forward navigation link if it is a first page' do
@@ -124,7 +124,7 @@ describe Lightweight::InteractivePageController do
       get :show, :id => page1.id
 
       response.body.should match /<a class='previous disabled'>[^<]*&nbsp;[^<]*<\/a>/
-      response.body.should match /<a class='next' href='\/lightweight\/page\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='next' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
     it 'should render both the forward and back navigation links if it is a middle page' do
@@ -136,8 +136,8 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page2.id
 
-      response.body.should match /<a class='previous' href='\/lightweight\/page\/#{page1.id}'>[^<]*&nbsp;[^<]*<\/a>/
-      response.body.should match /<a class='next' href='\/lightweight\/page\/#{page3.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='previous' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='next' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page3.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
     it 'should only render the back navigation links on the last page' do
@@ -149,7 +149,7 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page3.id
 
-      response.body.should match /<a class='previous' href='\/lightweight\/page\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
+      response.body.should match /<a class='previous' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
       response.body.should match /<a class='next disabled'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
@@ -161,7 +161,7 @@ describe Lightweight::InteractivePageController do
 
       get :show, :id => page1.id
 
-      response.body.should match /<a href="\/lightweight\/page\/#{page1.id}" class="active">1<\/a>/
+      response.body.should match /<a href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}" class="active">1<\/a>/
     end
 
     it 'should not render pagination links if it is the only page' do
