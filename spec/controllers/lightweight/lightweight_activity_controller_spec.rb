@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Lightweight::LightweightActivityController do
+describe Lightweight::LightweightActivitiesController do
   render_views
   before do
     # work around bug in routing testing
@@ -9,7 +9,7 @@ describe Lightweight::LightweightActivityController do
 
   describe 'routing' do
     it 'recognizes and generates #show' do
-      {:get => "activity/3"}.should route_to(:controller => 'lightweight/lightweight_activity', :action => 'show', :id => "3")
+      {:get => "activities/3"}.should route_to(:controller => 'lightweight/lightweight_activities', :action => 'show', :id => "3")
     end
   end
 
@@ -37,7 +37,7 @@ describe Lightweight::LightweightActivityController do
       # get the rendering
       get :show, :id => act.id
 
-      response.should redirect_to interactive_page_show_url(page)
+      response.should redirect_to activity_page_url(page)
     end
   end
 end
