@@ -50,7 +50,7 @@ describe Lightweight::LightweightActivitiesController do
     context 'when the current user is an author' do
       it 'should provide a link to create a new Lightweight Investigation on the index page' do
         get :index
-        response.body.should match /<a[^>]+href='(\/lightweight\/activities\/)?new'[^>]>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/new"[^>]*>/
       end
 
       it 'should provide a list of authored Lightweight Investigations on the index page' do

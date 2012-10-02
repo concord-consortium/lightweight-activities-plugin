@@ -2,7 +2,7 @@ module Lightweight
   class LightweightActivity < ActiveRecord::Base
     attr_accessible :name, :publication_status, :user, :pages, :related, :description
 
-    belongs_to :user # Author
+    belongs_to :user, :class_name => '::User' # Author
 
     has_many :pages, :foreign_key => 'lightweight_activity_id', :class_name => 'Lightweight::InteractivePage', :order => :position
 
