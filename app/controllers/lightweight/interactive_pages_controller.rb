@@ -38,9 +38,8 @@ module Lightweight
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student
       learner = nil
-      # HACK: AuthenticatedSystem isn't accessible from the engine, so we need to find current_user directly. I don't much like this.
-      if !session[:user_id].blank? && (defined? ::User) == 'constant'
-        portal_student = ::User.find(session[:user_id]).portal_student
+      if current_user
+        portal_student = current_user.portal_student
         # create a learner for the user if one doesn't exist
         learner = @offering.find_or_create_learner(portal_student)
       end
