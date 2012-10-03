@@ -43,10 +43,6 @@ describe Lightweight::InteractivePagesController do
       offer.runnable = act
       offer.save
 
-      # Mock the setup_portal_student method because we don't have a current_user method (it's provided by the session)
-      @learner = mock_model(Portal::Learner, :valid? => true,:[]= => true, :save => true, :destroy=> false, :delete=>false, :offering=>offer)
-      controller.stub(:setup_portal_student) { @learner }
-
       # set up page
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://google.com")
