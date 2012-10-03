@@ -13,5 +13,9 @@ module Lightweight
       @offering = params[:offering_id] ? Portal::Offering.find(params[:offering_id]) : @activity.offerings.first
       redirect_to activity_page_path(@activity, @activity.pages.first, @offering)
     end
+
+    def new
+      @activity = Lightweight::LightweightActivity.new()
+    end
   end
 end

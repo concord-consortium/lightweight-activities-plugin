@@ -18,5 +18,6 @@ gemspec
 # to go into the Gemspec.
 gem 'acts_as_list'
 gem 'pry'
+gem 'dynamic_form',         "~> 1.1.4"
 # To use debugger
 # gem 'debugger'

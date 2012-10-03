@@ -41,13 +41,27 @@ describe Lightweight::LightweightActivitiesController do
     end
   end
 
-  describe 'index' do
-    context 'when the current user is not an author' do
-      it 'should redirect to the home page with an error message' do
-      end
+  context 'when the current user is not an author' do
+    before do
+      # TODO: Better mocks to reflect the differences between anonymous and Author users
+      controller.stub(:current_user, mock_model('User', :anonymous => true))
     end
 
-    context 'when the current user is an author' do
+    it 'should redirect to the home page with an error message' do
+      pending "Access control"
+      # GET Requests to index, new, edit
+      # PUT and POST requests (create, update)
+      # DELETE requests
+    end
+  end
+
+  context 'when the current user is an author' do
+    before do
+      # TODO: Better mocks to reflect the differences between anonymous and Author users
+      controller.stub(:current_user, mock_model('User', :has_role? => true))
+    end
+
+    describe 'index' do
       it 'should provide a link to create a new Lightweight Investigation on the index page' do
         get :index
         response.body.should match /<a[^>]+href="\/lightweight\/activities\/new"[^>]*>/
@@ -59,20 +73,23 @@ describe Lightweight::LightweightActivitiesController do
         response.body.should match /<div[^>]+id="lightweight_activities_list">/
       end
     end
+
+    describe 'new' do
+
+      it 'should provide a form for naming and describing a Lightweight Investigation' do
+        get :new
+        response.body.should match /<form[^<]+action="\/lightweight\/activities"[^<]+method="post"[^<]*>/
+        response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]*\/>/
+        response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*<\/textarea>/
+      end
+
+      it 'should create a new Lightweight Investigation when submitted with valid data' do
+        pending "Finish index first"
+      end
+
+      it 'should return to the form with an error message when submitted with invalid data' do
+        pending "Finish index first"
+      end
+    end
   end
-
-  describe 'new' do
-    it 'should provide a form for naming and describing a Lightweight Investigation' do
-      pending "Finish index first"
-    end
-
-    it 'should create a new Lightweight Investigation when submitted with valid data' do
-      pending "Finish index first"
-    end
-
-    it 'should return to the form with an error message when submitted with invalid data' do
-      pending "Finish index first"
-    end
-  end
-
 end
