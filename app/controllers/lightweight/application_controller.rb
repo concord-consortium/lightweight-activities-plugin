@@ -6,6 +6,12 @@ module Lightweight
       @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
     end
 
+    # Store the given user id in the session.
+    def current_user=(new_user)
+      session[:user_id] = new_user ? new_user.id : nil
+      @current_user = new_user || false
+    end
+
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
       if (defined? ::User) == 'constant'
@@ -26,7 +32,7 @@ module Lightweight
       end
     end
 
-    # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
+    # Called from #current_user.  Finally, attempt to login by an expiring token in the cookie.
     # for the paranoid: we _should_ be storing user_token = hash(cookie_token, request IP)
     def login_from_cookie
       if (defined? ::User) == 'constant'

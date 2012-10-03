@@ -3,7 +3,7 @@ require_dependency "lightweight/application_controller"
 module Lightweight
   class LightweightActivitiesController < ApplicationController
     def index
-      @activities = Lightweight::LightweightActivity.find(:all, :user_id => current_user.id) unless current_user.blank?
+      @activities = Lightweight::LightweightActivity.find_all_by_user_id(current_user.id) unless current_user.blank?
       @activities ||= Lightweight::LightweightActivity.find(:all)
     end
 
