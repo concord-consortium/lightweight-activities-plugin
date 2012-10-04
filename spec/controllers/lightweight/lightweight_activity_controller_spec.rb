@@ -37,7 +37,7 @@ describe Lightweight::LightweightActivitiesController do
       # get the rendering
       get :show, :id => act.id
 
-      response.should redirect_to activity_page_url(page)
+      response.should redirect_to activity_page_url(act, page)
     end
   end
 
