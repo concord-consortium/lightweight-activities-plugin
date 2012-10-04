@@ -17,5 +17,29 @@ module Lightweight
     def new
       @activity = Lightweight::LightweightActivity.new()
     end
+
+    def create
+      @activity = Lightweight::LightweightActivity.create(params[:lightweight_activity])
+      if @activity.save
+        redirect_to edit_activity_path(@activity)
+      else
+        # TODO: Flash error message
+        render :new
+      end
+    end
+
+    def edit
+      @activity = Lightweight::LightweightActivity.find(params[:id])
+    end
+
+    def update
+      @activity = Lightweight::LightweightActivity.find(params[:id])
+      if @activity.update_attributes(params[:lightweight_activity])
+        redirect_to activity_path(@activity)
+      else
+        # TODO: Flash error message
+        redirect_to edit_activity_path(@activity)
+      end
+    end
   end
 end

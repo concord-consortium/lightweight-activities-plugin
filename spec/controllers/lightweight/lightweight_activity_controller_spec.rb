@@ -82,13 +82,64 @@ describe Lightweight::LightweightActivitiesController do
         response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]*\/>/
         response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*<\/textarea>/
       end
+    end
 
-      it 'should create a new Lightweight Investigation when submitted with valid data' do
-        pending "Finish index first"
+    describe 'create' do
+      it 'should create a new Lightweight Activity when submitted with valid data' do
+        existing_activities = Lightweight::LightweightActivity.count
+
+        post :create, {:lightweight_activity => {:name => 'Test Activity', :description => "Test Activity's description"}}
+
+        response.should redirect_to(edit_activity_path(assigns(:activity)))
+        Lightweight::LightweightActivity.count.should equal existing_activities + 1
       end
 
       it 'should return to the form with an error message when submitted with invalid data' do
-        pending "Finish index first"
+        pending "It turns out there aren't (m)any ways to build invalid data here."
+        existing_activities = Lightweight::LightweightActivity.count
+
+        post :create, {}
+
+        response.body.should match /<form[^<]+action="\/lightweight\/activities"[^<]+method="post"[^<]*>/
+        response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]*\/>/
+        response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*<\/textarea>/
+        Lightweight::LightweightActivity.count.should equal existing_activities
+      end
+    end
+
+    describe 'edit' do
+      it 'should display a form showing the current name and description' do
+        act = Lightweight::LightweightActivity.create!(:name => 'This name needs editing', :description => 'Activity to be edited')
+        get :edit, {:id => act.id}
+
+        response.body.should match /<form[^<]+action="\/lightweight\/activities\/#{act.id}"[^<]+method="post"[^<]*>/
+        response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
+        response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]+value="#{act.name}"[^<]*\/>/
+        response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*Activity to be edited[^<]*<\/textarea>/
+      end
+    end
+
+    describe 'update' do
+      it "should change the activity's database record to show submitted data" do
+        act = Lightweight::LightweightActivity.create!(:name => 'This name needs editing', :description => 'Activity to be edited')
+        existing_activities = Lightweight::LightweightActivity.count
+
+        post :update, {:_method => 'put', :id => act.id, :lightweight_activity => { :name => 'This name has been edited', :description => 'Activity which was edited' }}
+
+        Lightweight::LightweightActivity.count.should == existing_activities
+
+        updated = Lightweight::LightweightActivity.find(act.id)
+        updated.name.should == 'This name has been edited'
+        updated.description.should == 'Activity which was edited'
+      end
+
+      it "should redirect to the activity's edit page on error" do
+        pending "It turns out there aren't (m)any ways to build invalid data here."
+        act = Lightweight::LightweightActivity.create!(:name => 'This name needs editing', :description => 'Activity to be edited')
+
+        post :update, {:_method => 'put', :id => act.id}
+
+        response.should redirect_to(edit_activity_path(act))
       end
     end
   end
