@@ -62,12 +62,12 @@ describe Lightweight::LightweightActivitiesController do
     end
 
     describe 'index' do
-      it 'should provide a link to create a new Lightweight Investigation on the index page' do
+      it 'should provide a link to create a new Lightweight Activity on the index page' do
         get :index
         response.body.should match /<a[^>]+href="\/lightweight\/activities\/new"[^>]*>/
       end
 
-      it 'should provide a list of authored Lightweight Investigations on the index page' do
+      it 'should provide a list of authored Lightweight Activities on the index page' do
         pending "only needed for editing"
         get :index
         response.body.should match /<div[^>]+id="lightweight_activities_list">/
@@ -76,7 +76,7 @@ describe Lightweight::LightweightActivitiesController do
 
     describe 'new' do
 
-      it 'should provide a form for naming and describing a Lightweight Investigation' do
+      it 'should provide a form for naming and describing a Lightweight Activity' do
         get :new
         response.body.should match /<form[^<]+action="\/lightweight\/activities"[^<]+method="post"[^<]*>/
         response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]*\/>/
