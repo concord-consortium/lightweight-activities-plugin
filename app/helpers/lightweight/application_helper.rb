@@ -24,7 +24,8 @@ module Lightweight
     def title_for_component(component, options={})
       title = name_for_component(component, options)
       id = dom_id_for(component, options[:id_prefix], :title)
-      if ::Rails.env == "development" || @current_user.has_role?('admin')
+#      if ::Rails.env == "development" || @current_user.has_role?('admin')
+      if false # TODO: Get this working correctly
         "<span id=#{id} class='component_title'>#{title}</span><span class='dev_note'> #{link_to(component.id, component)}</span>"
       else
         "<span id=#{id} class='component_title'>#{title}</span>"
