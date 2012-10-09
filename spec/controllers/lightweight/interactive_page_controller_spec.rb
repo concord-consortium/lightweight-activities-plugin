@@ -352,6 +352,17 @@ describe Lightweight::InteractivePagesController do
 
   describe 'edit' do
     it 'shows a form for editing a page' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+
+      get :edit, :id => page1.id, :activity_id => act.id
+
+      response.body.should match /<form[^>]+action="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^<]+method="post"[^<]*>/
+      response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
+      response.body.should match /<input[^<]+id="interactive_page_name"[^<]+name="interactive_page\[name\]"[^<]+type="text"[^<]+value="#{page1.name}"[^<]*\/>/
+      response.body.should match /<input[^<]+id="interactive_page_theme"[^<]+name="interactive_page\[theme\]"[^<]+type="text"[^<]+value="#{page1.theme}"[^<]*\/>/
+      response.body.should match /<textarea[^<]+id="interactive_page_text"[^<]+name="interactive_page\[text\]"[^<]*>[\s]*This is the main activity text.[\s]*<\/textarea>/
+      response.body.should match /<textarea[^<]+id="interactive_page_sidebar"[^<]+name="interactive_page\[sidebar\]"[^<]*>[\s]*<\/textarea>/
     end
 
     it 'redirects to the Activity page if no page is editable' do
@@ -361,12 +372,33 @@ describe Lightweight::InteractivePagesController do
 
   describe 'update' do
     it 'updates the specified Page with provided values' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+
+      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
+
+      page1.reload
+      page1.sidebar.should == 'This page now has sidebar text.'
     end
 
     it 'redirects to the edit page with a message confirming success' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+
+      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
+
+      response.should redirect_to(edit_activity_page_path(act, page1))
     end
 
     it 'redirects to the edit page with a message if there is an error' do
+      pending "Again, it seems to be pretty hard to feed this invalid data"
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+
+      # This actually generates an exception and a 500 error, not a failed update
+      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :related => 'This page now has sidebar text.' }}
+
+      response.should redirect_to(edit_activity_page_path(act, page1))
     end
   end
 end

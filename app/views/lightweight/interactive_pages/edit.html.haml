@@ -1,0 +1,13 @@
+%h1 Edit page
+= form_for @page, {:url => "/lightweight/activities/#{@activity.id}/pages/#{@page.id}", :method => 'put'} do |f|
+  = f.error_messages
+  = edit_menu_for(@page, f)
+  = field_set_tag 'Page Name' do
+    = f.text_field :name
+  = field_set_tag 'Page Appearance' do
+    = f.text_field :theme
+  = field_set_tag 'Page Text' do
+    = f.text_area :text, :cols => 80, :rows => 5, :class => 'mceNoEditor'
+  = field_set_tag 'Sidebar Text' do
+    = f.text_area :sidebar, :cols => 80, :rows => 5, :class => 'mceNoEditor'
+= javascript_tag("focus_first_field();");

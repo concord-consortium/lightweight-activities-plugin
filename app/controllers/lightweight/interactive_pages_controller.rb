@@ -48,6 +48,11 @@ module Lightweight
     end
 
     def update
+      if @page.update_attributes(params[:interactive_page])
+        redirect_to edit_activity_page_path(@activity, @page)
+      else
+        redirect_to edit_activity_page_path(@activity, @page)
+      end
     end
 
     private
