@@ -17,7 +17,10 @@ gemspec
 # of the engine itself, so it can stay here in the Gemfile and doesn't need
 # to go into the Gemspec.
 gem 'acts_as_list'
+# Pry is sometimes useful for debugging
 gem 'pry'
+# dynamic_form shouldn't need to be here, because it's listed as a dependency
+# in the .gemspec file, but when I take it out it breaks tests.
 gem 'dynamic_form',         "~> 1.1.4"
 # To use debugger
 # gem 'debugger'
