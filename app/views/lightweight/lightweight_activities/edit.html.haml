@@ -2,3 +2,4 @@
 = form_for @activity, {:url => "/lightweight/activities/#{@activity.id}", :method => 'put'} do |f|
   = render :partial => 'form', :locals => {:f => f}
 = javascript_tag("focus_first_field();");
+= link_to "Add pages to this activity", new_activity_page_path(@activity)

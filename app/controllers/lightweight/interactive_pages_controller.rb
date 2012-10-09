@@ -34,6 +34,19 @@ module Lightweight
       end
     end
 
+    def new
+      # There's really nothing to do here; we can go through #create and skip on ahead to #edit.
+      create
+    end
+
+    def create
+      redirect_to edit_activity_page_path(@activity, @page)
+    end
+
+    def edit
+      @page = Lighweight::InteractivePage.find_by_activity_id_and_page_id(params[:activity_id], params[:id])
+    end
+
     private
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student

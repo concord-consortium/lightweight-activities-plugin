@@ -318,5 +318,43 @@ describe Lightweight::InteractivePagesController do
 
       response.body.should_not match /<div class='related'>/
     end
+
+    describe 'new' do
+      it 'should create a new page and redirect to its edit page' do
+        act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+
+        get :new, :activity_id => act.id
+
+        response.should redirect_to(edit_activity_page_path(act.id, assigns(:page)))
+      end
+    end
+
+    describe 'create' do
+      it 'should add an InteractivePage to the current LightweightActivity' do
+      end
+
+      it 'should return an error if no LightweightActivity is specified' do
+      end
+    end
+
+    describe 'edit' do
+      it 'should show a form for editing a page' do
+      end
+
+      it 'should redirect to the Activity page if no page is editable' do
+        pending "This is a pretty far-fetched scenario"
+      end
+    end
+
+    describe 'update' do
+      it 'should update the specified Page with provided values' do
+      end
+
+      it 'should redirect to the edit page with a message confirming success' do
+      end
+
+      it 'should redirect to the edit page with a message if there is an error' do
+      end
+    end
   end
 end

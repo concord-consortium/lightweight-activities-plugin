@@ -68,7 +68,6 @@ describe Lightweight::LightweightActivitiesController do
       end
 
       it 'should provide a list of authored Lightweight Activities on the index page' do
-        pending "only needed for editing"
         get :index
         response.body.should match /<div[^>]+id="lightweight_activities_list">/
       end
@@ -116,6 +115,13 @@ describe Lightweight::LightweightActivitiesController do
         response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
         response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]+value="#{act.name}"[^<]*\/>/
         response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*Activity to be edited[^<]*<\/textarea>/
+      end
+
+      it 'should include a link to add pages' do
+        act = Lightweight::LightweightActivity.create!(:name => 'This Activity needs pages', :description => 'Activity to add pages to')
+        get :edit, {:id => act.id}
+
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/new"/
       end
     end
 
