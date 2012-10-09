@@ -331,9 +331,21 @@ describe Lightweight::InteractivePagesController do
 
     describe 'create' do
       it 'should add an InteractivePage to the current LightweightActivity' do
+        act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+        activity_page_count = act.pages.length
+
+        post :create, :activity_id => act.id
+
+        act.reload
+        act.pages.length.should == activity_page_count + 1
       end
 
-      it 'should return an error if no LightweightActivity is specified' do
+      it 'does not route if no LightweightActivity is specified' do
+        begin
+          post :create
+          throw "Should not have been able to route without an ID"
+        rescue ActionController::RoutingError
+        end
       end
     end
 
