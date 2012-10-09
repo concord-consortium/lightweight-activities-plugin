@@ -2,10 +2,9 @@ require_dependency "lightweight/application_controller"
 
 module Lightweight
   class InteractivePagesController < ApplicationController
+    before_filter :set_page, :except => [:new, :create]
 
     def show
-      @page = Lightweight::InteractivePage.find(params[:id])
-      @activity = @page.lightweight_activity
       # TODO: Select the offering properly rather than hard-wiring it.
       if (params[:offering_id])
         begin
@@ -40,14 +39,30 @@ module Lightweight
     end
 
     def create
+      @activity = Lightweight::LightweightActivity.find(params[:activity_id])
+      @page = Lightweight::InteractivePage.create!(:lightweight_activity => @activity)
       redirect_to edit_activity_page_path(@activity, @page)
     end
 
     def edit
-      @page = Lighweight::InteractivePage.find_by_activity_id_and_page_id(params[:activity_id], params[:id])
+    end
+
+    def update
     end
 
     private
+    def set_page
+      if params[:activity_id]
+        @activity = Lightweight::LightweightActivity.find(params[:activity_id], :include => :pages)
+        @page = @activity.pages.find(params[:id])
+        # TODO: Exception handling if the ID'd Page doesn't belong to the ID'd Activity
+      else
+        # I don't like this method much.
+        @page = Lightweight::InteractivePage.find(params[:id], :include => :lightweight_activity)
+        @activity = @page.lightweight_activity
+      end
+    end
+
     # This is borrowed from the Portal::Offerings controller and should perhaps be more generalized.
     def setup_portal_student
       learner = nil
