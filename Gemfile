@@ -19,6 +19,11 @@ gemspec
 gem 'acts_as_list'
 # Pry is sometimes useful for debugging
 gem 'pry'
+# Guard runs tests automatically when the files they test (or the tests
+# themselves) change
+gem 'guard-rspec'
+# rb-fsevent is a Guard dependency
+gem 'rb-fsevent'
 # dynamic_form shouldn't need to be here, because it's listed as a dependency
 # in the .gemspec file, but when I take it out it breaks tests.
 gem 'dynamic_form',         "~> 1.1.4"
