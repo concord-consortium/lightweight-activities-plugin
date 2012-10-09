@@ -318,55 +318,55 @@ describe Lightweight::InteractivePagesController do
 
       response.body.should_not match /<div class='related'>/
     end
+  end
 
-    describe 'new' do
-      it 'creates a new page and redirects to its edit page' do
-        act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+  describe 'new' do
+    it 'creates a new page and redirects to its edit page' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
-        get :new, :activity_id => act.id
+      get :new, :activity_id => act.id
 
-        response.should redirect_to(edit_activity_page_path(act.id, assigns(:page)))
-      end
+      response.should redirect_to(edit_activity_page_path(act.id, assigns(:page)))
+    end
+  end
+
+  describe 'create' do
+    it 'adds an InteractivePage to the current LightweightActivity' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      activity_page_count = act.pages.length
+
+      post :create, :activity_id => act.id
+
+      act.reload
+      act.pages.length.should == activity_page_count + 1
     end
 
-    describe 'create' do
-      it 'adds an InteractivePage to the current LightweightActivity' do
-        act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-        activity_page_count = act.pages.length
-
-        post :create, :activity_id => act.id
-
-        act.reload
-        act.pages.length.should == activity_page_count + 1
-      end
-
-      it 'does not route if no LightweightActivity is specified' do
-        begin
-          post :create
-          throw "Should not have been able to route without an ID"
-        rescue ActionController::RoutingError
-        end
+    it 'does not route if no LightweightActivity is specified' do
+      begin
+        post :create
+        throw "Should not have been able to route without an ID"
+      rescue ActionController::RoutingError
       end
     end
+  end
 
-    describe 'edit' do
-      it 'shows a form for editing a page' do
-      end
-
-      it 'redirects to the Activity page if no page is editable' do
-        pending "This is a pretty far-fetched scenario"
-      end
+  describe 'edit' do
+    it 'shows a form for editing a page' do
     end
 
-    describe 'update' do
-      it 'updates the specified Page with provided values' do
-      end
+    it 'redirects to the Activity page if no page is editable' do
+      pending "This is a pretty far-fetched scenario"
+    end
+  end
 
-      it 'redirects to the edit page with a message confirming success' do
-      end
+  describe 'update' do
+    it 'updates the specified Page with provided values' do
+    end
 
-      it 'redirects to the edit page with a message if there is an error' do
-      end
+    it 'redirects to the edit page with a message confirming success' do
+    end
+
+    it 'redirects to the edit page with a message if there is an error' do
     end
   end
 end
