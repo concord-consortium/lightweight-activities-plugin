@@ -24,6 +24,8 @@ gem 'pry'
 gem 'guard-rspec'
 # rb-fsevent is a Guard dependency
 gem 'rb-fsevent'
+# Rspec formatter
+gem 'fuubar'
 # dynamic_form shouldn't need to be here, because it's listed as a dependency
 # in the .gemspec file, but when I take it out it breaks tests.
 gem 'dynamic_form',         "~> 1.1.4"
