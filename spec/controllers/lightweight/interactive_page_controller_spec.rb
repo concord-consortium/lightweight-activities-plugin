@@ -15,7 +15,7 @@ describe Lightweight::InteractivePagesController do
   end
 
   describe 'show' do
-    it 'should not route when id is not valid' do
+    it 'does not route when id is not valid' do
       begin
         get :show, :id => 'foo'
         throw "Should not have been able to route with id='foo'"
@@ -23,7 +23,7 @@ describe Lightweight::InteractivePagesController do
       end
     end
 
-    it 'should render 404 when the activity does not exist' do
+    it 'renders 404 when the activity does not exist' do
       begin
         get :show, :id => 34
       rescue ActionController::RoutingError
@@ -31,7 +31,7 @@ describe Lightweight::InteractivePagesController do
       end
     end
 
-    it 'should render the page if it exists' do
+    it 'renders the page if it exists' do
       # setup
       # Mock the setup_portal_student method because we don't have a current_user method (it's provided by the session)
       @learner = mock_model(Portal::Learner, :valid? => true,:[]= => true, :save => true, :destroy=> false, :delete=>false)
@@ -85,7 +85,7 @@ describe Lightweight::InteractivePagesController do
 
     end
 
-    it 'should not render a form if the activity has no offering' do
+    it 'does not a form if the activity has no offering' do
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
@@ -96,7 +96,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should_not match /<form accept-charset="UTF-8" action="\/portal\/offerings/
     end
 
-    it 'should list pages with links to each' do
+    it 'lists pages with links to each' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -110,7 +110,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a[^>]*href="\/lightweight\/activities\/#{act.id}\/pages\/#{page3.id}"[^>]*>[^<]*3[^<]*<\/a>/
     end
 
-    it 'should only render the forward navigation link if it is a first page' do
+    it 'only renders the forward navigation link if it is a first page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -123,7 +123,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a class='next' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page2.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
-    it 'should render both the forward and back navigation links if it is a middle page' do
+    it 'renders both the forward and back navigation links if it is a middle page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -136,7 +136,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a class='next' href='\/lightweight\/activities\/#{act.id}\/pages\/#{page3.id}'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
-    it 'should only render the back navigation links on the last page' do
+    it 'only renders the back navigation links on the last page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -149,7 +149,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a class='next disabled'>[^<]*&nbsp;[^<]*<\/a>/
     end
 
-    it 'should indicate the active page with a DOM class attribute' do
+    it 'indicates the active page with a DOM class attribute' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -160,7 +160,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}" class="active">1<\/a>/
     end
 
-    it 'should not render pagination links if it is the only page' do
+    it 'renders pagination links if it is the only page' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
@@ -171,7 +171,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should_not match /<a class='next'>/
     end
 
-    it 'should include a class value matching the defined theme' do
+    it 'includes a class value matching the defined theme' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :theme => 'theme-string')
@@ -181,7 +181,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<div class='content theme-string'>/
     end
 
-    it 'should submit answers which can be parsed as Saveables' do
+    it 'submits answers which can be parsed as Saveables' do
       # To create a Saveable, we need an Offering, a Learner, and an answered Embeddable.
       # The current portal action creating Saveables is Portal::OfferingsController#answer
       # The Learner is created from the session in that controller, so the form doesn't
@@ -237,7 +237,7 @@ describe Lightweight::InteractivePagesController do
 
     end
 
-    it 'should display previous answers when viewed again' do
+    it 'displays previous answers when viewed again' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
@@ -283,14 +283,14 @@ describe Lightweight::InteractivePagesController do
       response.body.should =~ mc_regex
     end
 
-    it 'should disable the submit button when there is no learner' do
+    it 'disables the submit button when there is no learner' do
       pending('Not sure this is required')
       controller.stub!(:setup_portal_student).and_return(nil)
       get :show, :id => @offering.id, :format => 'run_html'
       response.body.should =~ /<input.*class='disabled'.*type='submit'/
     end
 
-    it 'should show sidebar content on pages which have it' do
+    it 'shows sidebar content on pages which have it' do
       # setup
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '<p>This is sidebar text.</p>')
@@ -300,7 +300,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<div class='sidebar'>\n<p>This is sidebar text\.<\/p>/
     end
 
-    it 'should show related content on the last page' do
+    it 'shows related content on the last page' do
       act = Lightweight::LightweightActivity.create!(:name => "Test activity", :related => '<p>This is related content.</p>')
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 
@@ -309,7 +309,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<div class='related'>\n<p>This is related content\.<\/p>/
     end
 
-    it 'should not show related content on pages other than the last page' do
+    it 'does not show related content on pages other than the last page' do
       act = Lightweight::LightweightActivity.create!(:name => "Test activity", :related => '<p>This is related content.</p>')
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       page2 = act.pages.create!(:name => "Page 2", :text => "This is the next activity text.")
@@ -320,7 +320,7 @@ describe Lightweight::InteractivePagesController do
     end
 
     describe 'new' do
-      it 'should create a new page and redirect to its edit page' do
+      it 'creates a new page and redirects to its edit page' do
         act = Lightweight::LightweightActivity.create!(:name => "Test activity")
 
         get :new, :activity_id => act.id
@@ -330,7 +330,7 @@ describe Lightweight::InteractivePagesController do
     end
 
     describe 'create' do
-      it 'should add an InteractivePage to the current LightweightActivity' do
+      it 'adds an InteractivePage to the current LightweightActivity' do
         act = Lightweight::LightweightActivity.create!(:name => "Test activity")
         activity_page_count = act.pages.length
 
@@ -350,22 +350,22 @@ describe Lightweight::InteractivePagesController do
     end
 
     describe 'edit' do
-      it 'should show a form for editing a page' do
+      it 'shows a form for editing a page' do
       end
 
-      it 'should redirect to the Activity page if no page is editable' do
+      it 'redirects to the Activity page if no page is editable' do
         pending "This is a pretty far-fetched scenario"
       end
     end
 
     describe 'update' do
-      it 'should update the specified Page with provided values' do
+      it 'updates the specified Page with provided values' do
       end
 
-      it 'should redirect to the edit page with a message confirming success' do
+      it 'redirects to the edit page with a message confirming success' do
       end
 
-      it 'should redirect to the edit page with a message if there is an error' do
+      it 'redirects to the edit page with a message if there is an error' do
       end
     end
   end
