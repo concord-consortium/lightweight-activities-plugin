@@ -1,6 +1,6 @@
 module Lightweight
   class LightweightActivity < ActiveRecord::Base
-    attr_accessible :name, :publication_status, :user, :pages, :related, :description
+    attr_accessible :name, :publication_status, :user_id, :pages, :related, :description
 
     belongs_to :user, :class_name => '::User' # Author
 

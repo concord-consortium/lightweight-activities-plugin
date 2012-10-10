@@ -96,9 +96,9 @@ describe Lightweight::LightweightActivitiesController do
       end
 
       it 'creates LightweightActivities owned by the current_user' do
-        pending "This is very difficult to manage in the engine."
+        # pending "This is very difficult to manage in the engine."
         existing_activities = Lightweight::LightweightActivity.count(:conditions => {:user_id => 10})
-        post :create, {:lightweight_activity => {:name => 'Owned Activity', :description => "Test Activity's description"}}
+        post :create, {:lightweight_activity => {:name => 'Owned Activity', :description => "Test Activity's description", :user_id => 10}}
 
         Lightweight::LightweightActivity.count(:conditions => {:user_id => 10}).should equal existing_activities + 1
       end
