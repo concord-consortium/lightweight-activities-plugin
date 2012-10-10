@@ -376,6 +376,19 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/new"[^>]*>[\s]*Add another page to #{act.name}[\s]*<\/a>/
     end
 
+    it 'has links for adding MwInteractives to the page' do
+      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+
+      get :edit, :id => page1.id, :activity_id => act.id
+
+      response.body.should match /<a[^>]+href="\/lightweight\/pages\/#{page1.id}\/mw_interactives\/new"[^>]*>[\s]*Add an Interactive[\s]*<\/a>/
+    end
+
+    it 'has links for adding Embeddables to the page' do
+      pending 'PT story #36334731'
+    end
+
     it 'redirects to the Activity page if no page is editable' do
       pending "This is a pretty far-fetched scenario"
     end
