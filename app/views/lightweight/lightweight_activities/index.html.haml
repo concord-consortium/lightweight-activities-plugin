@@ -19,7 +19,7 @@
 .item_collection
   %ul.quiet_list
     - @activities.each do |activity|
-      %div{ :id => dom_id_for(activity, :item), :class => 'item' }
+      %li{ :id => dom_id_for(activity, :item), :class => 'item' }
         %div.action_menu
           %div.action_menu_header_left
             = link_to activity.name, activity_path(activity), :class => 'container_link'
