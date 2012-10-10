@@ -58,7 +58,7 @@ describe Lightweight::LightweightActivitiesController do
   context 'when the current user is an author' do
     before do
       # TODO: Better mocks to reflect the differences between anonymous and Author users
-      controller.stub(:current_user, mock_model('User', :has_role? => true))
+      controller.stub(:current_user, mock_model('User', :has_role? => true, :id => 10))
     end
 
     describe 'index' do
@@ -93,6 +93,14 @@ describe Lightweight::LightweightActivitiesController do
         flash[:notice].should == "Lightweight Activity Test Activity was created."
         response.should redirect_to(edit_activity_path(assigns(:activity)))
         Lightweight::LightweightActivity.count.should equal existing_activities + 1
+      end
+
+      it 'creates LightweightActivities owned by the current_user' do
+        pending "This is very difficult to manage in the engine."
+        existing_activities = Lightweight::LightweightActivity.count(:conditions => {:user_id => 10})
+        post :create, {:lightweight_activity => {:name => 'Owned Activity', :description => "Test Activity's description"}}
+
+        Lightweight::LightweightActivity.count(:conditions => {:user_id => 10}).should equal existing_activities + 1
       end
 
       it 'should return to the form with an error message when submitted with invalid data' do

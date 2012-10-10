@@ -3,8 +3,11 @@ require_dependency "lightweight/application_controller"
 module Lightweight
   class LightweightActivitiesController < ApplicationController
     def index
-      @activities = Lightweight::LightweightActivity.find_all_by_user_id(current_user.id) unless current_user.blank?
-      @activities ||= Lightweight::LightweightActivity.find(:all)
+      if current_user.blank?
+        @activities ||= Lightweight::LightweightActivity.find(:all)
+      else
+        @activities = Lightweight::LightweightActivity.find_all_by_user_id(current_user.id)
+      end
     end
 
     def show
@@ -20,6 +23,9 @@ module Lightweight
 
     def create
       @activity = Lightweight::LightweightActivity.create(params[:lightweight_activity])
+      if current_user
+        @activity.user = current_user
+      end
       if @activity.save
         flash[:notice] = "Lightweight Activity #{@activity.name} was created."
         redirect_to edit_activity_path(@activity)
