@@ -45,7 +45,7 @@ describe Lightweight::InteractivePagesController do
 
       # set up page
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
-      interactive = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://google.com")
+      interactive = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://google.com")
       page1.add_interactive(interactive)
 
       # Add embeddables

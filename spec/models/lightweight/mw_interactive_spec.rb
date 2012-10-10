@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Lightweight::MWInteractive do
+describe Lightweight::MwInteractive do
   before :each do
     @valid = {
       :name => "mw interactive",
       :url  => "http://www.concord.org"
     }
-    @interactive = Lightweight::MWInteractive.create!(@valid)
+    @interactive = Lightweight::MwInteractive.create!(@valid)
   end
 
   it 'should have valid attributes' do

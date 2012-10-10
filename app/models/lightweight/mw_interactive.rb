@@ -1,5 +1,5 @@
 module Lightweight
-  class MWInteractive < ActiveRecord::Base
+  class MwInteractive < ActiveRecord::Base
     attr_accessible :name, :url, :user
 
     has_one :interactive_item, :as => :interactive

@@ -29,7 +29,7 @@ describe Lightweight::InteractivePage do
 
   it 'should have interactives' do
     [3,1,2].each do |i|
-      inter = Lightweight::MWInteractive.create!(:name => "inter #{i}", :url => "http://www.concord.org/#{i}")
+      inter = Lightweight::MwInteractive.create!(:name => "inter #{i}", :url => "http://www.concord.org/#{i}")
       @page.add_interactive(inter, i)
     end
     @page.reload
@@ -39,7 +39,7 @@ describe Lightweight::InteractivePage do
 
   it 'should have interactives in the correct order' do
     [3,1,2].each do |i|
-      inter = Lightweight::MWInteractive.create!(:name => "inter #{i}", :url => "http://www.concord.org/#{i}")
+      inter = Lightweight::MwInteractive.create!(:name => "inter #{i}", :url => "http://www.concord.org/#{i}")
       @page.add_interactive(inter, i)
     end
     @page.reload
