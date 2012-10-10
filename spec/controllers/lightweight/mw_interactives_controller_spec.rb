@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe MwInteractivesController do
+describe Lightweight::MwInteractivesController do
 
 end
