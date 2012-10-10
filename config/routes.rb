@@ -9,6 +9,11 @@ Lightweight::Engine.routes.draw do
   # index .xml file as a feed for select menus - but they need create-update-delete.
   resources :mw_interactives, :controller => 'mw_interactives', :constraints => { :id => /\d+/ }, :except => :show
 
+  # This is so we can build the InteractiveItem at the same time as the Interactive
+  resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ }, :only => [:show] do
+    resources :mw_interactives, :controller => 'mw_interactives', :constraints => { :id => /\d+/ }, :except => :show
+  end
+
   # 'Show' routes including offering_ids
   get "/activities/:id(/:offering_id)" => 'lightweight_activities#show', :as => 'lightweight_activity_show', :constraints => {:id => /\d+/, :offering_id => /\d+/}
   get "/pages/:id(/:offering_id)" => 'interactive_pages#show', :as => 'interactive_page_show', :constraints => { :id => /\d+/, :offering_id => /\d+/ }
