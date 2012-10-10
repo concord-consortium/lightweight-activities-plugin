@@ -11,3 +11,7 @@
   = field_set_tag 'Sidebar Text' do
     = f.text_area :sidebar, :cols => 80, :rows => 5, :class => 'mceNoEditor'
 = javascript_tag("focus_first_field();");
+
+.tasks
+  = link_to "Return to #{@activity.name}", edit_activity_path(@activity)
+  = link_to "Add another page to #{@activity.name}", new_activity_page_path(@activity) 
