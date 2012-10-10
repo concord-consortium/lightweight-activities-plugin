@@ -365,13 +365,14 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<textarea[^<]+id="interactive_page_sidebar"[^<]+name="interactive_page\[sidebar\]"[^<]*>[\s]*<\/textarea>/
     end
 
-    it 'has links to return to the activity or add another page' do
+    it 'has links to show the page, return to the activity, or add another page' do
       act = Lightweight::LightweightActivity.create!(:name => "Test activity")
       page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 
       get :edit, :id => page1.id, :activity_id => act.id
 
-      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/edit"[^>]*>[\s]*Return to #{act.name}[\s]*<\/a>/
+      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^>]*>[\s]*See this page[\s]*<\/a>/
+      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/edit"[^>]*>[\s]*Return to editing #{act.name}[\s]*<\/a>/
       response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/new"[^>]*>[\s]*Add another page to #{act.name}[\s]*<\/a>/
     end
 

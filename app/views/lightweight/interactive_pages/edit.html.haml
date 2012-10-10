@@ -13,5 +13,6 @@
 = javascript_tag("focus_first_field();");
 
 .tasks
-  = link_to "Return to #{@activity.name}", edit_activity_path(@activity)
+  = link_to "See this page", activity_page_path(@activity, @page)
+  = link_to "Return to editing #{@activity.name}", edit_activity_path(@activity)
   = link_to "Add another page to #{@activity.name}", new_activity_page_path(@activity) 
