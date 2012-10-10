@@ -90,6 +90,7 @@ describe Lightweight::LightweightActivitiesController do
 
         post :create, {:lightweight_activity => {:name => 'Test Activity', :description => "Test Activity's description"}}
 
+        flash[:notice].should == "Lightweight Activity Test Activity was created."
         response.should redirect_to(edit_activity_path(assigns(:activity)))
         Lightweight::LightweightActivity.count.should equal existing_activities + 1
       end
@@ -100,6 +101,7 @@ describe Lightweight::LightweightActivitiesController do
 
         post :create, {}
 
+        flash[:warning].should == 'There was a problem creating the new Lightweight Activity.'
         response.body.should match /<form[^<]+action="\/lightweight\/activities"[^<]+method="post"[^<]*>/
         response.body.should match /<input[^<]+id="lightweight_activity_name"[^<]+name="lightweight_activity\[name\]"[^<]+type="text"[^<]*\/>/
         response.body.should match /<textarea[^<]+id="lightweight_activity_description"[^<]+name="lightweight_activity\[description\]"[^<]*>[^<]*<\/textarea>/
@@ -139,6 +141,7 @@ describe Lightweight::LightweightActivitiesController do
         updated = Lightweight::LightweightActivity.find(act.id)
         updated.name.should == 'This name has been edited'
         updated.description.should == 'Activity which was edited'
+        flash[:notice].should == "Activity #{updated.name} was updated."
       end
 
       it "should redirect to the activity's edit page on error" do
@@ -147,6 +150,7 @@ describe Lightweight::LightweightActivitiesController do
 
         post :update, {:_method => 'put', :id => act.id}
 
+        flash[:warning].should == "There was a problem updating activity #{act.name}."
         response.should redirect_to(edit_activity_path(act))
       end
     end

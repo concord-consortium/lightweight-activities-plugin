@@ -387,6 +387,7 @@ describe Lightweight::InteractivePagesController do
 
       post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
 
+      flash[:notice].should == "Page #{page1.name} was updated."
       response.should redirect_to(edit_activity_page_path(act, page1))
     end
 
@@ -398,6 +399,7 @@ describe Lightweight::InteractivePagesController do
       # This actually generates an exception and a 500 error, not a failed update
       post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :related => 'This page now has sidebar text.' }}
 
+      flash[:warning].should == "There was a problem updating Page #{page1.name}."
       response.should redirect_to(edit_activity_page_path(act, page1))
     end
   end

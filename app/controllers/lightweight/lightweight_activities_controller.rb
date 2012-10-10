@@ -21,9 +21,10 @@ module Lightweight
     def create
       @activity = Lightweight::LightweightActivity.create(params[:lightweight_activity])
       if @activity.save
+        flash[:notice] = "Lightweight Activity #{@activity.name} was created."
         redirect_to edit_activity_path(@activity)
       else
-        # TODO: Flash error message
+        flash[:warning] = "There was a problem creating the new Lightweight Activity."
         render :new
       end
     end
@@ -35,9 +36,10 @@ module Lightweight
     def update
       @activity = Lightweight::LightweightActivity.find(params[:id])
       if @activity.update_attributes(params[:lightweight_activity])
+        flash[:notice] = "Activity #{@activity.name} was updated."
         redirect_to activity_path(@activity)
       else
-        # TODO: Flash error message
+        flash[:warning] = "There was a problem updating activity #{@activity.name}."
         redirect_to edit_activity_path(@activity)
       end
     end
