@@ -4,7 +4,8 @@ describe Lightweight::MwInteractive do
   before :each do
     @valid = {
       :name => "mw interactive",
-      :url  => "http://www.concord.org"
+      :url  => "http://www.concord.org",
+      :width => 60
     }
     @interactive = Lightweight::MwInteractive.create!(@valid)
   end
@@ -12,6 +13,7 @@ describe Lightweight::MwInteractive do
   it 'should have valid attributes' do
     @interactive.name.should == "mw interactive"
     @interactive.url.should  == "http://www.concord.org"
+    @interactive.width.should == 60
   end
 
   it 'should be able to associate an interactive page' do
