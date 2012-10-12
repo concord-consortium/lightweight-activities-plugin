@@ -32,7 +32,9 @@
 
   %h1.title
     = @activity.name
-  %p.question= "Editing #{@page.name}"
+  %p.question
+    Editing
+    = in_place_editor_field @page, 'name'
   = form_for @page, {:url => "/lightweight/activities/#{@activity.id}/pages/#{@page.id}", :method => 'put'} do |f|
     = f.error_messages
     = edit_menu_for(@page, f)

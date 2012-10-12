@@ -3,7 +3,12 @@ require_dependency "lightweight/application_controller"
 module Lightweight
   class InteractivePagesController < ApplicationController
     before_filter :set_page, :except => [:new, :create]
-    in_place_edit_for :interactive_page, [:name, :text, :theme, :sidebar]
+
+    # This defines actions to receive in_place_editing submissions
+    in_place_edit_for :lightweight_interactive_page, :name
+    in_place_edit_for :lightweight_interactive_page, :text
+    in_place_edit_for :lightweight_interactive_page, :theme
+    in_place_edit_for :lightweight_interactive_page, :sidebar
 
     def show
       # TODO: Select the offering properly rather than hard-wiring it.
