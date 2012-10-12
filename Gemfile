@@ -17,6 +17,7 @@ gemspec
 # of the engine itself, so it can stay here in the Gemfile and doesn't need
 # to go into the Gemspec.
 gem 'acts_as_list'
+gem 'in_place_editing'
 # Pry is sometimes useful for debugging
 gem 'pry'
 # Guard runs tests automatically when the files they test (or the tests

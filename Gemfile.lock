@@ -59,6 +59,7 @@ GEM
     haml (3.1.7)
     hike (1.2.1)
     i18n (0.6.1)
+    in_place_editing (1.2.0)
     journey (1.0.4)
     json (1.7.5)
     listen (0.5.3)
@@ -140,6 +141,7 @@ DEPENDENCIES
   dynamic_form (~> 1.1.4)
   fuubar
   guard-rspec
+  in_place_editing
   lightweight_activities!
   pry
   rb-fsevent
