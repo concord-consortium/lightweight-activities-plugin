@@ -3,6 +3,7 @@ require_dependency "lightweight/application_controller"
 module Lightweight
   class InteractivePagesController < ApplicationController
     before_filter :set_page, :except => [:new, :create]
+    in_place_edit_for :interactive_page, [:name, :text, :theme, :sidebar]
 
     def show
       # TODO: Select the offering properly rather than hard-wiring it.
