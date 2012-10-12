@@ -382,7 +382,8 @@ describe Lightweight::InteractivePagesController do
 
       get :edit, :id => page1.id, :activity_id => act.id
 
-      response.body.should match /<a[^>]+href="\/lightweight\/pages\/#{page1.id}\/mw_interactives\/new"[^>]*>[\s]*Add an Interactive[\s]*<\/a>/
+      response.body.should match /<a[^>]+href="\/lightweight\/pages\/#{page1.id}\/mw_interactives\/new"[^>]*>[\s]*Add interactive[\s]*<\/a>/
+      
     end
 
     it 'has links for adding Embeddables to the page' do
