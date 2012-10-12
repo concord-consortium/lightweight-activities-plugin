@@ -42,7 +42,7 @@
       = f.text_field :theme
     .text
       %p.instructions= @page.text
-      = f.text_area :text, :cols => 80, :rows => 5, :class => 'mceNoEditor'
+      = f.text_area :text, :rows => 5, :class => 'mceNoEditor', :placeholder => "Instructions"
       .questions
         - @page.embeddables.each do |e|
           - e_type = e.class.name.underscore
@@ -53,7 +53,7 @@
         = render :partial => "#{i_type}/show", :locals => {:interactive => interactive}
     .sidebar
       != @page.sidebar
-      = f.text_area :sidebar, :cols => 80, :rows => 5, :class => 'mceNoEditor'
+      = f.text_area :sidebar, :rows => 5, :placeholder => 'Sidebar text'
     - if @page.interactives
       #embed
       #share
