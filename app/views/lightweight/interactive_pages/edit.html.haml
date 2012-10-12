@@ -38,13 +38,11 @@
   = form_for @page, {:url => "/lightweight/activities/#{@activity.id}/pages/#{@page.id}", :method => 'put'} do |f|
     = f.error_messages
     = edit_menu_for(@page, f)
-    = field_set_tag 'Page Name' do
-      = f.text_field :name
     = field_set_tag 'Page Appearance' do
       = f.text_field :theme
     .text
-      %p.instructions= @page.text
-      = f.text_area :text, :rows => 5, :class => 'mceNoEditor', :placeholder => "Instructions"
+      -# TODO: How do we make this show up if there's no text yet for the field?
+      %p.instructions= in_place_editor_field @page, 'text'
       .questions
         - @page.embeddables.each do |e|
           - e_type = e.class.name.underscore
@@ -55,8 +53,8 @@
         = render :partial => "#{i_type}/show", :locals => {:interactive => interactive}
       = link_to "Add interactive", new_page_mw_interactive_path(@page)
     .sidebar
-      != @page.sidebar
-      = f.text_area :sidebar, :rows => 5, :placeholder => 'Sidebar text'
+      -# TODO: How do we make this show up if there's no text yet for the field?
+      = in_place_editor_field @page, 'sidebar'
     - if @page.interactives
       #embed
       #share
