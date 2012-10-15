@@ -46,7 +46,7 @@
       .questions
         - @page.embeddables.each do |e|
           - e_type = e.class.name.underscore
-          = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
+          = render :partial => "#{e_type.pluralize}/lightweight", :locals => {:embeddable => e}
     .other
       - @page.interactives.each do |interactive|
         - i_type = interactive.class.name.underscore
