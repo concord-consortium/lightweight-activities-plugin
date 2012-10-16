@@ -21,9 +21,28 @@ module Lightweight
     end
 
     def edit
+      @interactive = Lightweight::MwInteractive.find(params[:id])
+      if params[:page_id]
+        @page = Lightweight::InteractivePage.find(params[:page_id])
+      end
     end
 
     def update
+      @interactive = Lightweight::MwInteractive.find(params[:id])
+      if params[:page_id]
+        @page = Lightweight::InteractivePage.find(params[:page_id])
+      end
+      if (@interactive.update_attributes(params[:mw_interactive]))
+        # respond success
+        flash[:notice] = 'Your MW Interactive was updated'
+      else
+        flash[:warning] = "There was a problem updating your MW Interactive"
+      end
+      if @page
+        redirect_to edit_page_mw_interactive_path(@page, @interactive)
+      else
+        redirect_to edit_mw_interactive_path(@interactive)
+      end
     end
   end
 end

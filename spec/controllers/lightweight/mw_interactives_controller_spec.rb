@@ -55,33 +55,77 @@ describe Lightweight::MwInteractivesController do
 
       describe 'create' do
         it 'creates an empty MW Interactive' do
-          post :create
+          starting_count = Lightweight::MwInteractive.count()
+          join_count = Lightweight::InteractiveItem.count()
+          post :create, :page_id => @page.id
+
+          Lightweight::MwInteractive.count().should equal starting_count + 1
+          Lightweight::InteractiveItem.count().should equal join_count + 1
         end
 
         it 'redirects the submitter to the edit page' do
+          post :create, :page_id => @page.id
+          response.should redirect_to("/lightweight/pages/#{@page.id}/mw_interactives/#{assigns(:interactive).id}/edit")
         end
       end
     end
 
-    describe 'edit' do
-      it 'shows a form with values of the MW Interactive filled in' do
-      end
-    end
-
-    describe 'update' do
-      it 'replaces the values of the MW Interactive to match submitted values' do
+    context 'when editing an existing MW Interactive' do
+      before do
+        @int = Lightweight::MwInteractive.create!(:name => 'Test Interactive', :url => 'http://concord.org')
       end
 
-      it 'returns to the edit page with a message indicating success' do
+      describe 'edit' do
+        it 'shows a form with values of the MW Interactive filled in' do
+          get :edit, :id => @int.id
+
+          response.body.should match /<form[^>]+action="\/lightweight\/mw_interactives\/#{@int.id}"[^<]+method="post"[^<]*>/
+          response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
+
+          response.body.should match /<input[^<]+id="mw_interactive_width"[^<]+name="mw_interactive\[width\]"[^<]+type="text"[^<]+value="#{@int.width}"[^<]*\/>/
+          response.body.should match /<input[^<]+id="mw_interactive_name"[^<]+name="mw_interactive\[name\]"[^<]+type="text"[^>]+value="#{@int.name}"[^<]*\/>/
+          response.body.should match /<input[^<]+id="mw_interactive_url"[^<]+name="mw_interactive\[url\]"[^<]+type="text"[^>]+value="#{@int.url}"[^<]*\/>/
+        end
+
+        it 'has a link to go back to the page if one exists' do
+          @act = Lightweight::LightweightActivity.create!()
+          @page = Lightweight::InteractivePage.create!(:name => 'Page with interactive', :lightweight_activity => @act)
+          Lightweight::InteractiveItem.create!(:interactive_page => @page, :interactive => @int)
+
+          get :edit, :page_id => @page.id, :id => @int.id
+          response.body.should match /<a[^<]+href="\/lightweight\/activities\/#{@act.id}\/pages\/#{@page.id}\/edit"[^<]*>[\s]*Go back to #{@page.name}[\s]*<\/a>/
+        end
       end
 
-      it 'returns to the edit page with an error on failure' do
-      end
-    end
+      describe 'update' do
+        it 'replaces the values of the MW Interactive to match submitted values' do
+          new_values_hash = { :name => 'Edited name', :url => 'http://lab.concord.org' }
+          post :update, :id => @int.id, :mw_interactive => new_values_hash
 
-    describe 'destroy' do
-      it 'removes the requested MW Interactive from the database' do
-        pending 'deleting is not yet specified'
+          mw_int = Lightweight::MwInteractive.find(@int.id)
+          mw_int.name.should == new_values_hash[:name]
+          mw_int.url.should == new_values_hash[:url]
+        end
+
+        it 'returns to the edit page with a message indicating success' do
+          new_values_hash = { :name => 'Edited name', :url => 'http://lab.concord.org' }
+          post :update, :id => @int.id, :mw_interactive => new_values_hash
+          response.should redirect_to(edit_mw_interactive_path(@int))
+          flash[:notice].should == 'Your MW Interactive was updated'
+        end
+
+        it 'returns to the edit page with an error on failure' do
+          new_values_hash = { :width => nil }
+          post :update, :id => @int.id, :mw_interactive => new_values_hash
+          response.should redirect_to(edit_mw_interactive_path(@int))
+          flash[:warning].should == 'There was a problem updating your MW Interactive'
+        end
+      end
+
+      describe 'destroy' do
+        it 'removes the requested MW Interactive from the database' do
+          pending 'deleting is not yet specified'
+        end
       end
     end
   end
