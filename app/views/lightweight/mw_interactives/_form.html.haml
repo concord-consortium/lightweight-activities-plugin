@@ -1,4 +1,5 @@
-= form_for @interactive do |f|
+- form_url = defined?(@page) ? page_mw_interactive_path(@page, @interactive) : mw_interactive_path(@interactive)
+= form_for @interactive, :url => form_url do |f|
   = f.error_messages
   = edit_menu_for(@interactive, f)
   =# f.hidden_field 'investigation_id', :value =>@activity.investigation.id # LightweightActivities currently don't belong_to Investigations
