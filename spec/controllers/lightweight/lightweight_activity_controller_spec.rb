@@ -67,10 +67,11 @@ describe Lightweight::LightweightActivitiesController do
         response.body.should match /<a[^>]+href="\/lightweight\/activities\/new"[^>]*>/
       end
 
-      it 'should provide a list of authored Lightweight Activities on the index page' do
+      it 'should provide a list of authored Lightweight Activities with edit and run links on the index page' do
         act = Lightweight::LightweightActivity.create!(:name => 'There should be at least one')
         get :index
-        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}"[^>]+class="container_link">[\s]*#{act.name}[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/edit"[^>]+class="container_link"[^>]*>[\s]*#{act.name}[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}"[^>]*>[\s]*Run[\s]*<\/a>/
       end
     end
 
