@@ -53,4 +53,5 @@
   %ul.tasks
     %li= link_to "See this page", activity_page_path(@activity, @page)
     %li= link_to "Return to editing #{@activity.name}", edit_activity_path(@activity)
-    %li= link_to "Add another page to #{@activity.name}", new_activity_page_path(@activity) 
+    %li= link_to "Add another page to #{@activity.name}", new_activity_page_path(@activity)
+    %li= link_to "All activities", activities_path

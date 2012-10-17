@@ -10,3 +10,4 @@
       %ul
         - @activity.pages.each do |p|
           %li= link_to p.name, edit_activity_page_path(@activity, p)
+  %li= link_to "All activities", activities_path

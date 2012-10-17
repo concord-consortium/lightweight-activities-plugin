@@ -374,6 +374,7 @@ describe Lightweight::InteractivePagesController do
       response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^>]*>[\s]*See this page[\s]*<\/a>/
       response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/edit"[^>]*>[\s]*Return to editing #{act.name}[\s]*<\/a>/
       response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/new"[^>]*>[\s]*Add another page to #{act.name}[\s]*<\/a>/
+      response.body.should match /<a[^>]+href="\/lightweight\/activities"[^<]*>[\s]*All activities[\s]*<\/a>/
     end
 
     it 'has links for adding MwInteractives to the page' do
