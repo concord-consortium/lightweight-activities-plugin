@@ -351,44 +351,44 @@ describe Lightweight::InteractivePagesController do
   end
 
   describe 'edit' do
-    it 'shows a form for editing a page' do
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+    context 'when editing an existing page' do
+      before do
+        @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+        @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      end
 
-      get :edit, :id => page1.id, :activity_id => act.id
+      it 'shows a form for editing a page' do
+        get :edit, :id => @page1.id, :activity_id => @act.id
 
-      response.body.should match /<form[^>]+action="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^<]+method="post"[^<]*>/
-      response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
-      response.body.should match /<input[^<]+id="interactive_page_name"[^<]+name="interactive_page\[name\]"[^<]+type="text"[^<]+value="#{page1.name}"[^<]*\/>/
-      response.body.should match /<input[^<]+id="interactive_page_theme"[^<]+name="interactive_page\[theme\]"[^<]+type="text"[^<]+value="#{page1.theme}"[^<]*\/>/
-      response.body.should match /<textarea[^<]+id="interactive_page_text"[^<]+name="interactive_page\[text\]"[^<]*>[\s]*This is the main activity text.[\s]*<\/textarea>/
-      response.body.should match /<textarea[^<]+id="interactive_page_sidebar"[^<]+name="interactive_page\[sidebar\]"[^<]*>[\s]*<\/textarea>/
-    end
+        response.body.should match /<form[^>]+action="\/lightweight\/activities\/#{@act.id}\/pages\/#{@page1.id}"[^<]+method="post"[^<]*>/
+        response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
+        response.body.should match /<input[^<]+id="interactive_page_name"[^<]+name="interactive_page\[name\]"[^<]+type="text"[^<]+value="#{@page1.name}"[^<]*\/>/
+        response.body.should match /<input[^<]+id="interactive_page_theme"[^<]+name="interactive_page\[theme\]"[^<]+type="text"[^<]+value="#{@page1.theme}"[^<]*\/>/
+        response.body.should match /<textarea[^<]+id="interactive_page_text"[^<]+name="interactive_page\[text\]"[^<]*>[\s]*#{@page1.text}[\s]*<\/textarea>/
+        response.body.should match /<textarea[^<]+id="interactive_page_sidebar"[^<]+name="interactive_page\[sidebar\]"[^<]*>[\s]*<\/textarea>/
+      end
 
-    it 'has links to show the page, return to the activity, or add another page' do
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
+      it 'has links to show the page, return to the activity, or add another page' do
+        get :edit, :id => @page1.id, :activity_id => @act.id
 
-      get :edit, :id => page1.id, :activity_id => act.id
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{@act.id}\/pages\/#{@page1.id}"[^>]*>[\s]*See this page[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{@act.id}\/edit"[^>]*>[\s]*Return to editing #{@act.name}[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{@act.id}\/pages\/new"[^>]*>[\s]*Add another page to #{@act.name}[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/activities"[^<]*>[\s]*All activities[\s]*<\/a>/
+      end
 
-      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/#{page1.id}"[^>]*>[\s]*See this page[\s]*<\/a>/
-      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/edit"[^>]*>[\s]*Return to editing #{act.name}[\s]*<\/a>/
-      response.body.should match /<a[^>]+href="\/lightweight\/activities\/#{act.id}\/pages\/new"[^>]*>[\s]*Add another page to #{act.name}[\s]*<\/a>/
-      response.body.should match /<a[^>]+href="\/lightweight\/activities"[^<]*>[\s]*All activities[\s]*<\/a>/
-    end
+      it 'has links for adding MwInteractives to the page' do
+        get :edit, :id => @page1.id, :activity_id => @act.id
 
-    it 'has links for adding MwInteractives to the page' do
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
-
-      get :edit, :id => page1.id, :activity_id => act.id
-
-      response.body.should match /<a[^>]+href="\/lightweight\/pages\/#{page1.id}\/mw_interactives\/new"[^>]*>[\s]*Add interactive[\s]*<\/a>/
+        response.body.should match /<a[^>]+href="\/lightweight\/pages\/#{@page1.id}\/mw_interactives\/new"[^>]*>[\s]*Add interactive[\s]*<\/a>/
       
-    end
+      end
 
-    it 'has links for adding Embeddables to the page' do
-      pending 'PT story #36334731'
+      it 'has links for adding Embeddables to the page' do
+        get :edit, :id => @page1.id, :activity_id => @act.id
+
+        response.body.should match //
+      end
     end
 
     it 'redirects to the Activity page if no page is editable' do
