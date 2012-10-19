@@ -385,9 +385,10 @@ describe Lightweight::InteractivePagesController do
       end
 
       it 'has links for adding Embeddables to the page' do
+        pending "No plan for this yet"
         get :edit, :id => @page1.id, :activity_id => @act.id
 
-        response.body.should match //
+        response.body.should match /<a[^>]+href="#"[^<]*>Add embeddable<\/a>/
       end
     end
 
