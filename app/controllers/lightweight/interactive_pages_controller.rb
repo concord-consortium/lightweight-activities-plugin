@@ -49,12 +49,20 @@ module Lightweight
     end
 
     def update
-      if @page.update_attributes(params[:interactive_page])
-        flash[:notice] = "Page #{@page.name} was updated."
-        redirect_to edit_activity_page_path(@activity, @page)
-      else
-        flash[warning] = "There was a problem updating Page #{@page.name}."
-        redirect_to edit_activity_page_path(@activity, @page)
+      respond_to do |format|
+        if @page.update_attributes(params[:interactive_page])
+          format.html do
+            flash[:notice] = "Page #{@page.name} was updated."
+            redirect_to edit_activity_page_path(@activity, @page)
+          end
+          format.json { respond_with_bip @page }
+        else
+          format.html do
+            flash[warning] = "There was a problem updating Page #{@page.name}."
+            redirect_to edit_activity_page_path(@activity, @page)
+          end
+          format.json { respond_with_bip @page }
+        end
       end
     end
 

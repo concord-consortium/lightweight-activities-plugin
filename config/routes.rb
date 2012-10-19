@@ -10,9 +10,12 @@ Lightweight::Engine.routes.draw do
   resources :mw_interactives, :controller => 'mw_interactives', :constraints => { :id => /\d+/ }, :except => :show
 
   # This is so we can build the InteractiveItem at the same time as the Interactive
-  resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ }, :only => [:show] do
+  resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ } do
     resources :mw_interactives, :controller => 'mw_interactives', :constraints => { :id => /\d+/ }, :except => :show
   end
+
+  # best_in_place needs interactive_page_path
+  resources :pages, :as => 'interactive_pages', :controller => 'interactive_pages', :constraints => { :id => /\d+/ }, :except => [:new, :create]
 
   # 'Show' routes including offering_ids
   get "/activities/:id(/:offering_id)" => 'lightweight_activities#show', :as => 'lightweight_activity_show', :constraints => {:id => /\d+/, :offering_id => /\d+/}
