@@ -66,6 +66,17 @@ module Lightweight
       end
     end
 
+    def add_embeddable
+      e = params[:embeddable_type].constantize.create!
+      @page.add_embeddable(e)
+      redirect_to edit_activity_page_path(@activity, @page)
+    end
+
+    def remove_embeddable
+      Lightweight::PageItem.find_by_interactive_page_id_and_embeddable_id(params[:id], params[:embeddable_id]).destroy
+      redirect_to edit_activity_page_path(@activity, @page)
+    end
+
     private
     def set_page
       if params[:activity_id]

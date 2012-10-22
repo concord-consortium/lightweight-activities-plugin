@@ -2,7 +2,10 @@ Lightweight::Engine.routes.draw do
   # HACK: Seems like these should be nested resources of the offering, but that's not really practical
   # with the engine's URL scheme. Either way, we need to be able to optionally specify an offering ID.
   resources :activities, :controller => 'lightweight_activities', :constraints => { :id => /\d+/ } do
-    resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ }
+    resources :pages, :controller => 'interactive_pages', :constraints => { :id => /\d+/ } do
+      post 'add_embeddable', :on => :member
+      post 'remove_embeddable', :on => :member
+    end
   end
   
   # These don't need index or show pages - though there might be something to be said for an

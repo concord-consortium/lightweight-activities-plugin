@@ -29,14 +29,13 @@
     .text
       %p.instructions
         = best_in_place @page, :text, :type => :textarea, :nil => "Instructions (click to edit)"
-      = field_set_tag 'Add embeddable' do
-        = select :page, :embeddables, BASE_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] }
-        =# submit button
-        -# On form submit associate new, empty embeddable and reload
+      = form_tag :controller => 'interactive_pages', :action => 'add_embeddable' do
+        = select_tag :embeddable_type, options_for_select(BASE_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] })
+        = submit_tag 'Add Embeddable'
       .questions
         - @page.embeddables.each do |e|
           - e_type = e.class.name.underscore
-          = render :partial => "#{e_type.pluralize}/lightweight", :locals => {:embeddable => e}
+          = render :partial => "#{e_type}/lightweight", :locals => {:embeddable => e}
     .other
       - @page.interactives.each do |interactive|
         - i_type = interactive.class.name.underscore

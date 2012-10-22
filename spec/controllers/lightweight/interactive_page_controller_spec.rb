@@ -384,10 +384,10 @@ describe Lightweight::InteractivePagesController do
       end
 
       it 'has links for adding Embeddables to the page' do
-        pending "No plan for this yet"
         get :edit, :id => @page1.id, :activity_id => @act.id
 
-        response.body.should match /<a[^>]+href="#"[^<]*>Add embeddable<\/a>/
+        response.body.should match /<form[^>]+action="\/lightweight\/activities\/#{@act.id}\/pages\/#{@page1.id}\/add_embeddable"[^<]*>/
+        response.body.should match /<select[^>]+name="embeddable_type"[^>]*>/
       end
     end
 
@@ -397,36 +397,84 @@ describe Lightweight::InteractivePagesController do
   end
 
   describe 'update' do
+    before do
+      @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+    end
+
     it 'updates the specified Page with provided values' do
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+      post :update, {:_method => 'put', :activity_id => @act.id, :id => @page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
 
-      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
-
-      page1.reload
-      page1.sidebar.should == 'This page now has sidebar text.'
+      @page1.reload
+      @page1.sidebar.should == 'This page now has sidebar text.'
     end
 
     it 'redirects to the edit page with a message confirming success' do
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+      post :update, {:_method => 'put', :activity_id => @act.id, :id => @page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
 
-      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :sidebar => 'This page now has sidebar text.' }}
-
-      flash[:notice].should == "Page #{page1.name} was updated."
-      response.should redirect_to(edit_activity_page_path(act, page1))
+      flash[:notice].should == "Page #{@page1.name} was updated."
+      response.should redirect_to(edit_activity_page_path(@act, @page1))
     end
 
     it 'redirects to the edit page with a message if there is an error' do
       pending "Again, it seems to be pretty hard to feed this invalid data"
-      act = Lightweight::LightweightActivity.create!(:name => "Test activity")
-      page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
 
       # This actually generates an exception and a 500 error, not a failed update
-      post :update, {:_method => 'put', :activity_id => act.id, :id => page1.id, :interactive_page => { :related => 'This page now has sidebar text.' }}
+      post :update, {:_method => 'put', :activity_id => @act.id, :id => @page1.id, :interactive_page => { :related => 'This page now has sidebar text.' }}
 
-      flash[:warning].should == "There was a problem updating Page #{page1.name}."
-      response.should redirect_to(edit_activity_page_path(act, page1))
+      flash[:warning].should == "There was a problem updating Page #{@page1.name}."
+      response.should redirect_to(edit_activity_page_path(@act, @page1))
+    end
+  end
+
+  describe 'add_embeddable' do
+    before do
+      @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+    end
+
+    it 'creates an arbitrary embeddable and adds it to the page' do
+      xhtml_count = Embeddable::Xhtml.count()
+      embeddable_count = @page1.embeddables.length
+      post :add_embeddable, :activity_id => @act.id, :id => @page1.id, :embeddable_type => 'Embeddable::Xhtml'
+
+      @page1.reload
+
+      @page1.embeddables.count.should == embeddable_count + 1
+      Embeddable::Xhtml.count().should == xhtml_count + 1
+    end
+
+    it 'redirects to the edit page' do
+      post :add_embeddable, :activity_id => @act.id, :id => @page1.id, :embeddable_type => 'Embeddable::Xhtml'
+
+      response.should redirect_to(edit_activity_page_path(@act.id, @page1.id))
+    end
+  end
+  
+  describe 'remove_embeddable' do
+    before do
+      @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+    end
+
+    it 'removes the identified embeddable from the page' do
+      embeddable = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
+      @page1.add_embeddable(embeddable)
+      @page1.reload
+      embed_count = @page1.embeddables.length
+      post :remove_embeddable, :activity_id => @act.id, :id => @page1.id, :embeddable_id => embeddable.id
+
+      @page1.reload
+      @page1.embeddables.length.should == embed_count - 1
+      !@page1.embeddables.include?(embeddable)
+    end
+
+    it 'redirects to the edit page' do
+      embeddable = Embeddable::Xhtml.create!(:name => "Xhtml 1", :content => "This is some <strong>xhtml</strong> content!")
+      @page1.add_embeddable(embeddable)
+      post :remove_embeddable, :activity_id => @act.id, :id => @page1.id, :embeddable_id => embeddable.id
+
+      response.should redirect_to(edit_activity_page_path(@act.id, @page1.id))
     end
   end
 end
