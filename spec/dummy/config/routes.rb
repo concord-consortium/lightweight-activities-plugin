@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   mount Lightweight::Engine => "/lightweight"
 
-  namespace :portal do
-    resources :offerings do
+  namespace :embeddable do
+    resources :xhtml, only: [:update]
+    resources :open_response, only: [:update]
+    resources :multiple_choice do
       member do
-        post :answers
+        post :add_choice
       end
     end
   end
