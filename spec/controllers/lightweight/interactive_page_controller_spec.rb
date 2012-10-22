@@ -358,15 +358,13 @@ describe Lightweight::InteractivePagesController do
         @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
       end
 
-      it 'shows a form for editing a page' do
+      it 'displays page fields with edit-in-place capacity' do
         get :edit, :id => @page1.id, :activity_id => @act.id
 
-        response.body.should match /<form[^>]+action="\/lightweight\/activities\/#{@act.id}\/pages\/#{@page1.id}"[^<]+method="post"[^<]*>/
-        response.body.should match /<input[^<]+name="_method"[^<]+type="hidden"[^<]+value="put"[^<]+\/>/
-        response.body.should match /<input[^<]+id="interactive_page_name"[^<]+name="interactive_page\[name\]"[^<]+type="text"[^<]+value="#{@page1.name}"[^<]*\/>/
-        response.body.should match /<input[^<]+id="interactive_page_theme"[^<]+name="interactive_page\[theme\]"[^<]+type="text"[^<]+value="#{@page1.theme}"[^<]*\/>/
-        response.body.should match /<textarea[^<]+id="interactive_page_text"[^<]+name="interactive_page\[text\]"[^<]*>[\s]*#{@page1.text}[\s]*<\/textarea>/
-        response.body.should match /<textarea[^<]+id="interactive_page_sidebar"[^<]+name="interactive_page\[sidebar\]"[^<]*>[\s]*<\/textarea>/
+        # These data-object and data-attribute span attributes are characteristic of best_in_place; another edit-in-place gem might not use the same attributes.
+        response.body.should match /<span[^>]+data-object='interactive_page'[^>]+data-attribute='name'[^>]*>#{@page1.name}<\/span>/
+        response.body.should match /<span[^>]+data-object='interactive_page'[^>]+data-attribute='text'[^>]*>#{@page1.text}<\/span>/
+        response.body.should match /<span[^>]+data-object='interactive_page'[^>]+data-attribute='sidebar'[^>]*>#{@page1.sidebar}<\/span>/
       end
 
       it 'has links to show the page, return to the activity, or add another page' do
