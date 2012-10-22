@@ -24,16 +24,11 @@
   %p.question
     Editing
     = best_in_place @page, :name, :type => :input, :nil => 'page name (click to edit)'
-  = form_for @page, {:url => "/lightweight/activities/#{@activity.id}/pages/#{@page.id}", :method => 'put'} do |f|
-    = f.error_messages
-    = edit_menu_for(@page, f)
-    = field_set_tag 'Page Name' do
-      = f.text_field :name
     = field_set_tag 'Page Appearance' do
-      = f.text_field :theme
+      = best_in_place @page, :theme, :type => :input
     .text
-      %p.instructions= @page.text
-      = f.text_area :text, :rows => 5, :class => 'mceNoEditor', :placeholder => "Instructions"
+      %p.instructions
+        = best_in_place @page, :text, :type => :textarea, :nil => "Instructions (click to edit)"
       = field_set_tag 'Add embeddable' do
         = select :page, :embeddables, BASE_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] }
         =# submit button
@@ -48,8 +43,7 @@
         = render :partial => "#{i_type.pluralize}/show", :locals => {:interactive => interactive}
       = link_to "Add interactive", new_page_mw_interactive_path(@page)
     .sidebar
-      != @page.sidebar
-      = f.text_area :sidebar, :rows => 5, :placeholder => 'Sidebar text'
+      = best_in_place @page, :sidebar, :type => :textarea, :rows => 5, :nil => 'Sidebar text (click to edit)'
     - if @page.interactives
       #embed
       #share
