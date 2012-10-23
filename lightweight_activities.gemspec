@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.6"
   s.add_dependency "haml", "~> 3.1.4"
   s.add_dependency "dynamic_form", "~> 1.1.4"
+  s.add_dependency 'best_in_place', "~> 1.1.2"
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
