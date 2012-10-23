@@ -10,4 +10,12 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :portal do
+    resources :offerings do
+      member do
+        post :answers
+      end
+    end
+  end
 end
