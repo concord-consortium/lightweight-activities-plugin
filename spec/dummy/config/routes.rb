@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   mount Lightweight::Engine => "/lightweight"
 
   namespace :embeddable do
-    resources :xhtml, only: [:update]
-    resources :open_response, only: [:update]
-    resources :multiple_choice do
+    resources :xhtmls, only: [:update]
+    resources :open_responses, only: [:update]
+    resources :multiple_choices do
       member do
         post :add_choice
       end
