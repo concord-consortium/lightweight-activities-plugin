@@ -32,5 +32,5 @@ Because Embeddables are not native to this Engine, but rather to the Portal itse
 
 * The engine needs two view partials for each kind of Embeddable it supports, one for display, e.g. `views/embeddable/multiple_choice/_lightweight.html.haml`, and one for authoring, e.g. `views/embeddable/multiple_choice/_author.html.haml`. The two should be largely similar but the latter should use `best_in_place` to support editing of fields.
 * Because the Engine uses best\_in\_place as its in-place editor rather than the "official" Rails in-place editor, primarily because it supports jQuery rather than Prototype, tweaks will need to be made to the controllers for each Embeddable. Specifically, the `update` action will need to respond to requests for the `.json` format with this:
-
-     format.json { respond_with_bip @embeddable_model }
+        format.json { respond_with_bip @embeddable_model }
+  See the embeddable controllers in the dummy application for examples.
