@@ -1,0 +1,8 @@
+.model
+  .toolbar
+    = best_in_place interactive, :url, :type => :input
+    | Delete
+  %iframe{:src => interactive.url}
+    Your browser does not support inline frames, or is currently not configured to display inline frames.
+    Content can be viewed at the actual source page:
+    = link_to interactive.url, interactive.url

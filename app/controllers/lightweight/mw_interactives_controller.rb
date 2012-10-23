@@ -38,10 +38,14 @@ module Lightweight
       else
         flash[:warning] = "There was a problem updating your MW Interactive"
       end
-      if @page
-        redirect_to edit_page_mw_interactive_path(@page, @interactive)
-      else
-        redirect_to edit_mw_interactive_path(@interactive)
+      respond_to do |format|
+        if @page
+          format.html { redirect_to edit_page_mw_interactive_path(@page, @interactive) }
+          format.json { respond_with_bip @interactive }
+        else
+          format.html { redirect_to edit_mw_interactive_path(@interactive) }
+          format.json { respond_with_bip @interactive }
+        end
       end
     end
   end

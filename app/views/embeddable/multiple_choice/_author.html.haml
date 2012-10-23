@@ -6,6 +6,6 @@
     - control_name = "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]"
     - control_id = "embeddable__#{choice.class.to_s.demodulize.underscore}_#{choice.id}"
     %label{:for => control_id}
-      %input{:type => "radio", :name => control_name, :id => control_id, :value => control_id, :checked => selected}
+      %input{:type => "radio", :name => control_name, :id => control_id, :value => control_id }
       = choice.choice
   %button= "Check Answer"
