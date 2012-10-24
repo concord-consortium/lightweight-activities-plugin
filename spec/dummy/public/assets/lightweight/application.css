@@ -10,9 +10,9 @@
  *
 
 
+
  */
 
-= require style
 /*
   Place all the styles related to the matching controller here.
   They will automatically be included in application.css.
@@ -92,21 +92,19 @@ button.disabled {
 		position: relative;
 		width: 960px;
 		}
-	#header h1 {
+	#header #mw-logo {
 		float: left;
 		font-size: 1.5em;
 		height: 50px;
 		margin-top: 5px;
 		width: 238px;
 		}
-		#header h1 img { width: 100%; }
-	#header p {
+	#header #cc-logo {
 		float: right;
 		height: 40px;
 		margin-top: 10px;
 		width: 130px;
 		}
-		#header p img { width: 100%; }
 	#header nav {
 		bottom: 10px;
 		clear: both;
@@ -165,7 +163,7 @@ button.disabled {
 		text-decoration: none;
 		width: 18px;
 		}
-		.page-nav a.prev {
+		.page-nav a.previous {
 			background: transparent url(/assets/lightweight/page-nav-prev.png) no-repeat;
 			height: 30px;
 			margin-right: -1px;
@@ -179,7 +177,7 @@ button.disabled {
 			padding: 0;
 			width: 30px;
 			}
-		.page-nav a.prev.disabled {
+		.page-nav a.previous.disabled {
 			background: transparent url(/assets/lightweight/page-nav-prev-dis.png) no-repeat;
 			}
 		.page-nav a.next.disabled {
