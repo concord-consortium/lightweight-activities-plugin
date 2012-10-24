@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lightweight_activities (0.0.19)
+    lightweight_activities (0.0.20)
       best_in_place (~> 1.1.2)
       dynamic_form (~> 1.1.4)
       haml (~> 3.1.4)
