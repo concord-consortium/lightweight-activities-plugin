@@ -373,3 +373,24 @@ button.disabled {
 	width: 100%;
 	z-index: 10;
 	}
+  ul.quiet_list {
+    clear: both;
+    list-style: none;
+  }
+  ul.quiet_list li.item {
+    padding-top: 20px;
+  }
+  .action_menu_header_left {
+    float: left;
+    width: 49.5%;
+    clear: both;
+  }
+  .action_menu_header_right {
+    background-color: #eed087;
+    border: 1px solid #e5a333;
+    float: right;
+    width: 49.5%;
+  }
+  .action_menu_header_right ul li {
+    list-style: none;
+  }
