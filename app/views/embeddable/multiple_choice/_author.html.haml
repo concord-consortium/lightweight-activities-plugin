@@ -1,5 +1,5 @@
-%p
-  %strong= best_in_place embeddable, :prompt, :type => :textarea, :path => main_app.embeddable_multiple_choice_path, :nil => 'Click to edit prompt'
+.authorable_multiple_choice
+  %strong= best_in_place embeddable, :prompt, :type => :textarea, :path => main_app.embeddable_multiple_choice_path(embeddable), :nil => 'Click to edit prompt'
   %br
   %br
   - embeddable.choices.each do |choice|

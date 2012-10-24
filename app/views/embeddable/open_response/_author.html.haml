@@ -1,3 +1,3 @@
-%p
-  %strong= best_in_place embeddable, :prompt, :type => :textarea, :path => main_app.embeddable_open_response_path, :nil => 'Click to edit prompt.'
+.authorable_open_response
+  %strong= best_in_place embeddable, :prompt, :type => :textarea, :path => main_app.embeddable_open_response_path(embeddable), :nil => 'Click to edit prompt.'
   %textarea{:name => "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]"}
