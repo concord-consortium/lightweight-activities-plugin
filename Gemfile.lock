@@ -143,6 +143,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
+  best_in_place (~> 1.1.2)
   ci_reporter (~> 1.7.0)
   dynamic_form (~> 1.1.4)
   fuubar
