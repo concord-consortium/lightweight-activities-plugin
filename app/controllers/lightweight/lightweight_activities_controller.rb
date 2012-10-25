@@ -43,7 +43,7 @@ module Lightweight
       @activity = Lightweight::LightweightActivity.find(params[:id])
       if @activity.update_attributes(params[:lightweight_activity])
         flash[:notice] = "Activity #{@activity.name} was updated."
-        redirect_to activity_path(@activity)
+        redirect_to edit_activity_path(@activity)
       else
         flash[:warning] = "There was a problem updating activity #{@activity.name}."
         redirect_to edit_activity_path(@activity)
