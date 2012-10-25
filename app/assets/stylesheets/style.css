@@ -379,6 +379,7 @@ button.disabled {
   }
   ul.quiet_list li.item {
     padding-top: 20px;
+    margin: 5px 0 15px 0;
   }
   .action_menu_header_left {
     float: left;
@@ -393,4 +394,11 @@ button.disabled {
   }
   .action_menu_header_right ul li {
     list-style: none;
+    float: left;
+    margin: 0.5em 1.5em 0.5em 0.5em;
+  }
+  h2.list-head {
+    clear: both;
+    font-size: 1.7em;
+    font-weight: bold;
   }

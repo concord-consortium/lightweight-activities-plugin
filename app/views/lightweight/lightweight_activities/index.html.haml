@@ -1,20 +1,15 @@
 .action_menu
   .action_menu_header
     .action_menu_header_left
-      = form_tag url_for(:action => "index", :page => session[:page] || 1 ), :method => 'get' do
-        = content_tag :label do
-          = text_field_tag :search, params[:search], :size => 30
-        %input{ :type => "submit", :value => "Search"}
-      -# if @activities
-        -# %p= page_entries_info @activities
-      -# %p.paginator
-        =# will_paginate @activities
     .action_menu_header_right
       %ul.menu
         -#unless current_user.anonymous?
-        %li= link_to 'create activity', new_activity_path
+        %li= link_to 'create new activity', new_activity_path
         %li= toggle_all 'activity descriptions'
 
+
+%h2.list-head 
+  Lightweight Activities
 
 .item_collection
   %ul.quiet_list
@@ -25,11 +20,10 @@
             = link_to activity.name, edit_activity_path(activity), :class => 'container_link', :title => 'Click to edit'
           %div.action_menu_header_right
             %ul.menu
+              %li= link_to "Edit", edit_activity_path(activity)
               %li= link_to "Run", activity_path(activity), :format => 'run_html'
-              -# unless(current_user.anonymous?)
-                -# %li.menu=link_to 'duplicate', duplicate_activity_url(activity)
-              -# %li.menu=link_to 'export (xml)', export_activity_url(activity)
+              %li Delete
               -# if (activity.changeable?(current_user))
                 -# %li.menu=link_to 'delete', activity, :class => 'delete', :data => { :confirm => "Are you sure you want to delete investigation #{activity.id}" }, :method => :delete
         %div{:id => dom_id_for(activity, :details), :class => 'tiny'}
-          %p=activity.description
+          %p= activity.description
