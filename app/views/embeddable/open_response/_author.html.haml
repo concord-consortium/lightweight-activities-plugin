@@ -1,3 +1,5 @@
 .authorable_open_response
+  .embeddable_tools
+    = link_to "Remove", page_remove_embeddable_path(page, embeddable), :method => :post, :data => {:confirm => 'Are you sure?'}
   %strong= best_in_place embeddable, :prompt, :type => :textarea, :path => main_app.embeddable_open_response_path(embeddable), :nil => 'Click to edit prompt.'
   %textarea{:name => "questions[embeddable__#{embeddable.class.to_s.demodulize.underscore}_#{embeddable.id}]"}

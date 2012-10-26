@@ -1,2 +1,4 @@
 .xhtml.authorable_xhtml
+  .embeddable_tools
+    = link_to "Remove", page_remove_embeddable_path(page, embeddable), :method => :post, :data => {:confirm => 'Are you sure?'}
   = best_in_place embeddable, :content, :type => :textarea, :path => main_app.embeddable_xhtml_path(embeddable), :nil => 'Click to add text'
