@@ -9,5 +9,14 @@
       Edit pages:
       %ul
         - @activity.pages.each do |p|
-          %li= link_to p.name, edit_activity_page_path(@activity, p)
+          %li{ :id => dom_id_for(p, :item), :class => 'item' }
+            %div.action_menu
+              %div.action_menu_header_left
+                = link_to p.name, edit_activity_page_path(@activity, p)
+              %div.action_menu_header_right
+                %ul.menu
+                  %li= link_to "Edit", edit_activity_page_path(@activity, p)
+                  %li= link_to "Show", activity_page_path(@activity, p), :target => 'new'
+                  %li Delete
+
   %li= link_to "All activities", activities_path
