@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   # make sure to match gem versions with the portal
   s.add_dependency "rails", "~> 3.2.6"
+  s.add_dependency "jquery-rails", "~> 2.1.3"
   s.add_dependency "haml", "~> 3.1.4"
   s.add_dependency "dynamic_form", "~> 1.1.4"
   s.add_dependency 'best_in_place', "~> 1.1.2"
