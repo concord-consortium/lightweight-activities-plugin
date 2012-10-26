@@ -164,5 +164,31 @@ describe Lightweight::LightweightActivitiesController do
         response.should redirect_to(edit_activity_path(act))
       end
     end
+
+    describe 'delete' do
+      it 'does not route without an ID' do
+        begin
+          post :destroy, { :_method => 'delete' }
+          throw "Should not have been able to route with id='foo'"
+        rescue ActionController::RoutingError
+        end
+      end
+
+      it 'removes the specified activity from the database with a message' do
+        act = Lightweight::LightweightActivity.create!(:name => 'Short-lived activity', :description => 'The test should delete this in a few lines')
+        existing_activities = Lightweight::LightweightActivity.count
+
+        post :destroy, {:_method => 'delete', :id => act.id}
+
+        Lightweight::LightweightActivity.count.should == existing_activities - 1
+        response.should redirect_to(activities_path)
+        flash[:notice].should == "Activity #{act.name} was deleted."
+        begin
+          Lightweight::LightweightActivity.find(act.id)
+          throw "Should not have found #{act.name}."
+        rescue ActiveRecord::RecordNotFound
+        end
+      end
+    end
   end
 end

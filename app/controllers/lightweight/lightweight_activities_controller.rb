@@ -2,6 +2,8 @@ require_dependency "lightweight/application_controller"
 
 module Lightweight
   class LightweightActivitiesController < ApplicationController
+    before_filter :set_activity, :except => [:index, :new, :create]
+
     def index
       if current_user.blank?
         @activities ||= Lightweight::LightweightActivity.find(:all)
@@ -11,7 +13,6 @@ module Lightweight
     end
 
     def show
-      @activity = Lightweight::LightweightActivity.find(params[:id])
       # If we're given an offering ID, use that to set the offering; otherwise just take the first one.
       @offering = params[:offering_id] ? Portal::Offering.find(params[:offering_id]) : @activity.offerings.first
       redirect_to activity_page_offering_show_path(@activity, @activity.pages.first, @offering)
@@ -36,11 +37,9 @@ module Lightweight
     end
 
     def edit
-      @activity = Lightweight::LightweightActivity.find(params[:id])
     end
 
     def update
-      @activity = Lightweight::LightweightActivity.find(params[:id])
       if @activity.update_attributes(params[:lightweight_activity])
         flash[:notice] = "Activity #{@activity.name} was updated."
         redirect_to edit_activity_path(@activity)
@@ -48,6 +47,21 @@ module Lightweight
         flash[:warning] = "There was a problem updating activity #{@activity.name}."
         redirect_to edit_activity_path(@activity)
       end
+    end
+
+    def destroy
+      if @activity.delete
+        flash[:notice] = "Activity #{@activity.name} was deleted."
+        redirect_to activities_path
+      else
+        flash[:warning] = "There was a problem deleting activity #{@activity.name}."
+        redirect_to edit_activity_path(@activity)
+      end
+    end
+
+    private
+    def set_activity
+      @activity = Lightweight::LightweightActivity.find(params[:id])
     end
   end
 end
