@@ -66,6 +66,16 @@ module Lightweight
       end
     end
 
+    def destroy
+      if @page.delete
+        flash[:notice] = "Page #{@page.name} was deleted."
+        redirect_to edit_activity_path(@activity)
+      else
+        flash[:warning] = "There was a problem deleting page #{@page.name}."
+        redirect_to edit_activity_path(@activity)
+      end
+    end
+
     def add_embeddable
       e = params[:embeddable_type].constantize.create!
       @page.add_embeddable(e)

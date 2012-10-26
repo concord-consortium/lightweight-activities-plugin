@@ -427,6 +427,37 @@ describe Lightweight::InteractivePagesController do
     end
   end
 
+  describe 'destroy' do
+    before do
+      @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
+      @page1 = @act.pages.create!(:name => "Page 1", :text => "This is the main activity text.", :sidebar => '')
+    end
+
+    it 'removes the page from the database and redirects to the activity edit page with a message' do
+      page_count = @act.pages.length
+
+      post :destroy, :_method => 'delete', :id => @page1.id
+
+      @act.reload
+
+      @act.pages.length.should == page_count - 1
+      flash[:notice].should == "Page #{@page1.name} was deleted."
+      begin
+        Lightweight::InteractivePage.find(@page1.id)
+        throw "Should not have been able to find this page"
+      rescue ActiveRecord::RecordNotFound
+      end
+    end
+
+    it 'does not route with no ID' do
+      begin
+        post :destroy, { :_method => 'delete' }
+        throw "Should not have been able to route with no id"
+      rescue ActionController::RoutingError
+      end
+    end
+  end
+
   describe 'add_embeddable' do
     before do
       @act = Lightweight::LightweightActivity.create!(:name => "Test activity")
