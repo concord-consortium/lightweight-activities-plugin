@@ -169,7 +169,7 @@ describe Lightweight::LightweightActivitiesController do
       it 'does not route without an ID' do
         begin
           post :destroy, { :_method => 'delete' }
-          throw "Should not have been able to route with id='foo'"
+          throw "Should not have been able to route with no id"
         rescue ActionController::RoutingError
         end
       end
