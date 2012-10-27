@@ -2,6 +2,8 @@ require_dependency "lightweight/application_controller"
 
 module Lightweight
   class MwInteractivesController < ApplicationController
+    before_filter :set_interactive, :except => [:new, :create]
+
     def new
       create
     end
@@ -21,17 +23,9 @@ module Lightweight
     end
 
     def edit
-      @interactive = Lightweight::MwInteractive.find(params[:id])
-      if params[:page_id]
-        @page = Lightweight::InteractivePage.find(params[:page_id])
-      end
     end
 
     def update
-      @interactive = Lightweight::MwInteractive.find(params[:id])
-      if params[:page_id]
-        @page = Lightweight::InteractivePage.find(params[:page_id])
-      end
       if (@interactive.update_attributes(params[:mw_interactive]))
         # respond success
         flash[:notice] = 'Your MW Interactive was updated'
@@ -46,6 +40,25 @@ module Lightweight
           format.html { redirect_to edit_mw_interactive_path(@interactive) }
           format.json { respond_with_bip @interactive }
         end
+      end
+    end
+
+    def destroy
+      @interactive.interactive_item.delete
+      if @interactive.delete
+        flash[:notice] = 'Your interactive was deleted.'
+        redirect_to edit_activity_page_path(@page.lightweight_activity, @page)
+      else
+        flash[:warning] = 'There was a problem deleting the interactive.'
+        redirect_to edit_activity_page_path(@page.lightweight_activity, @page)
+      end
+    end
+
+    private
+    def set_interactive
+      @interactive = Lightweight::MwInteractive.find(params[:id])
+      if params[:page_id]
+        @page = Lightweight::InteractivePage.find(params[:page_id])
       end
     end
   end

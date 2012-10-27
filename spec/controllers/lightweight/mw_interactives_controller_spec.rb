@@ -123,8 +123,20 @@ describe Lightweight::MwInteractivesController do
       end
 
       describe 'destroy' do
-        it 'removes the requested MW Interactive from the database' do
-          pending 'deleting is not yet specified'
+        it 'removes the requested MW Interactive from the database and page and redirects to the page edit page' do
+          @act = Lightweight::LightweightActivity.create!()
+          @page = Lightweight::InteractivePage.create!(:name => 'Page with interactive', :lightweight_activity => @act)
+          Lightweight::InteractiveItem.create!(:interactive_page => @page, :interactive => @int)
+          interactive_count = Lightweight::MwInteractive.count()
+          page_count = @page.interactives.length
+
+          post :destroy, :id => @int.id, :page_id => @page.id
+
+          response.should redirect_to(edit_activity_page_path(@act, @page))
+          Lightweight::MwInteractive.count().should == interactive_count - 1
+          @page.reload
+          @page.interactives.length.should == page_count - 1
+          flash[:notice].should == 'Your interactive was deleted.'
         end
       end
     end
