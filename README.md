@@ -54,3 +54,13 @@ dummy app:
 
       cd spec/dummy
       bundle exec rake lightweight:install:migrations
+
+### Adding Embeddable support
+
+To support new Embeddables:
+
+* We assume the Embeddable already has a model definition and controller in the host portal. The controller should have the necessary code to accept in-place-editing updates of individual fields in the Embeddable.
+* Add a view directory at `app/views/embeddable/<embeddable_name>`
+* Provide a `_lightweight.html.haml` partial within that view directory (for showing the embeddable within an InteractivePage)
+* Provide a `_author.html.haml` partial as well (for editing the embeddable)
+* Add the Embeddable's name as a string to the list of supported Embeddables at `lib/lightweight/version.rb` (it's the `SUPPORTED_EMBEDDABLES` constant).

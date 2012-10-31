@@ -30,7 +30,7 @@
       %p.instructions
         = best_in_place @page, :text, :type => :textarea, :nil => "Instructions (click to edit)"
       = form_tag :controller => 'interactive_pages', :action => 'add_embeddable' do
-        = select_tag :embeddable_type, options_for_select(BASE_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] })
+        = select_tag :embeddable_type, options_for_select(Lightweight::SUPPORTED_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] })
         = submit_tag 'Add Embeddable'
       .questions
         - @page.embeddables.each do |e|
