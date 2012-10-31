@@ -6,7 +6,7 @@ source "http://rubygems.org"
 gemspec
 
 # jquery-rails is used by the dummy application
-# gem "jquery-rails"
+gem "jquery-rails"
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
@@ -29,5 +29,9 @@ gem 'fuubar'
 # dynamic_form shouldn't need to be here, because it's listed as a dependency
 # in the .gemspec file, but when I take it out it breaks tests.
 gem 'dynamic_form',         "~> 1.1.4"
+# Likewise best_in_place seems to need to be in the Gemfile to show up in the
+# assets build path.
+gem 'best_in_place',        "~> 1.1.2"
+
 # To use debugger
 # gem 'debugger'

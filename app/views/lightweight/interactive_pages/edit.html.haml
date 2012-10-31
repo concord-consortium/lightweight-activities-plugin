@@ -1,13 +1,56 @@
-%h1 Edit page
-= form_for @page, {:url => "/lightweight/activities/#{@activity.id}/pages/#{@page.id}", :method => 'put'} do |f|
-  = f.error_messages
-  = edit_menu_for(@page, f)
-  = field_set_tag 'Page Name' do
-    = f.text_field :name
-  = field_set_tag 'Page Appearance' do
-    = f.text_field :theme
-  = field_set_tag 'Page Text' do
-    = f.text_area :text, :cols => 80, :rows => 5, :class => 'mceNoEditor'
-  = field_set_tag 'Sidebar Text' do
-    = f.text_area :sidebar, :cols => 80, :rows => 5, :class => 'mceNoEditor'
-= javascript_tag("focus_first_field();");
+=# TODO: Deal with pagination. This seems like a good place to handle "Add page."
+- next_page = nil unless defined?(next_page)
+- previous_page = nil unless defined?(previous_page)
+%div{:class => ["content", @page.theme]}
+  .page-nav
+    - if previous_page
+      %a{:class => 'previous', :href => edit_activity_page_path(@activity, previous_page)}
+        ! &nbsp;
+    - else
+      %a{:class => 'previous disabled'}
+        ! &nbsp;
+    - page_counter = 1
+    - @activity.pages.each do |p|
+      = link_to page_counter, edit_activity_page_path(@activity, p), :class => (p === @page) ? 'active' : ''
+      - page_counter = page_counter + 1
+    - if next_page
+      %a{:class => 'next', :href => edit_activity_page_path(@activity, next_page)}
+        ! &nbsp;
+    - else
+      = link_to '+', new_activity_page_path(@activity), {:title => "Add another page to #{@activity.name}", :class => 'next'}
+
+  %h1.title
+    = @activity.name
+  %p.question
+    Editing
+    = best_in_place @page, :name, :type => :input, :nil => 'page name (click to edit)'
+    = field_set_tag 'Page Appearance' do
+      = best_in_place @page, :theme, :type => :input
+    .text
+      %p.instructions
+        = best_in_place @page, :text, :type => :textarea, :nil => "Instructions (click to edit)"
+      = form_tag :controller => 'interactive_pages', :action => 'add_embeddable' do
+        = select_tag :embeddable_type, options_for_select(BASE_EMBEDDABLES.map { |e| [e[/::(\w+)$/,1], e] })
+        = submit_tag 'Add Embeddable'
+      .questions
+        - @page.embeddables.each do |e|
+          - e_type = e.class.name.underscore
+          = render :partial => "#{e_type}/author", :locals => { :embeddable => e, :page => @page }
+    .other
+      - @page.interactives.each do |interactive|
+        - i_type = interactive.class.name.underscore
+        = render :partial => "#{i_type.pluralize}/author", :locals => {:interactive => interactive}
+      = link_to "Add interactive", new_page_mw_interactive_path(@page)
+    .sidebar
+      = best_in_place @page, :sidebar, :type => :textarea, :rows => 5, :nil => 'Sidebar text (click to edit)'
+    - if @page.interactives
+      #embed
+      #share
+
+  =# javascript_tag("focus_first_field();");
+
+  %ul.tasks
+    %li= link_to "See this page", activity_page_path(@activity, @page), :target => 'new'
+    %li= link_to "Return to editing #{@activity.name}", edit_activity_path(@activity)
+    %li= link_to "Add another page to #{@activity.name}", new_activity_page_path(@activity)
+    %li= link_to "All activities", activities_path

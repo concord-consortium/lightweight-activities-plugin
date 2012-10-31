@@ -41,6 +41,7 @@ module Lightweight
     def create
       @activity = Lightweight::LightweightActivity.find(params[:activity_id])
       @page = Lightweight::InteractivePage.create!(:lightweight_activity => @activity)
+      flash[:notice] = "A new page was added to #{@activity.name}"
       redirect_to edit_activity_page_path(@activity, @page)
     end
 
@@ -48,11 +49,42 @@ module Lightweight
     end
 
     def update
-      if @page.update_attributes(params[:interactive_page])
-        redirect_to edit_activity_page_path(@activity, @page)
-      else
-        redirect_to edit_activity_page_path(@activity, @page)
+      respond_to do |format|
+        if @page.update_attributes(params[:interactive_page])
+          format.html do
+            flash[:notice] = "Page #{@page.name} was updated."
+            redirect_to edit_activity_page_path(@activity, @page)
+          end
+          format.json { respond_with_bip @page }
+        else
+          format.html do
+            flash[warning] = "There was a problem updating Page #{@page.name}."
+            redirect_to edit_activity_page_path(@activity, @page)
+          end
+          format.json { respond_with_bip @page }
+        end
       end
+    end
+
+    def destroy
+      if @page.delete
+        flash[:notice] = "Page #{@page.name} was deleted."
+        redirect_to edit_activity_path(@activity)
+      else
+        flash[:warning] = "There was a problem deleting page #{@page.name}."
+        redirect_to edit_activity_path(@activity)
+      end
+    end
+
+    def add_embeddable
+      e = params[:embeddable_type].constantize.create!
+      @page.add_embeddable(e)
+      redirect_to edit_activity_page_path(@activity, @page)
+    end
+
+    def remove_embeddable
+      Lightweight::PageItem.find_by_interactive_page_id_and_embeddable_id(params[:id], params[:embeddable_id]).destroy
+      redirect_to edit_activity_page_path(@activity, @page)
     end
 
     private

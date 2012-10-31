@@ -1,17 +1,19 @@
 require 'spec_helper'
 
-describe Lightweight::MWInteractive do
+describe Lightweight::MwInteractive do
   before :each do
     @valid = {
       :name => "mw interactive",
-      :url  => "http://www.concord.org"
+      :url  => "http://www.concord.org",
+      :width => 60
     }
-    @interactive = Lightweight::MWInteractive.create!(@valid)
+    @interactive = Lightweight::MwInteractive.create!(@valid)
   end
 
   it 'should have valid attributes' do
     @interactive.name.should == "mw interactive"
     @interactive.url.should  == "http://www.concord.org"
+    @interactive.width.should == 60
   end
 
   it 'should be able to associate an interactive page' do

@@ -18,6 +18,9 @@ $(document).ready(function() {
 		fullScreen();
 		return false;
 	});
+
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
 });
 
 var $content_height;

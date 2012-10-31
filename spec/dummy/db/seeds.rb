@@ -9,7 +9,7 @@ act.save
 # This creates a page and adds it to the activity.
 page1 = act.pages.create!(:name => "Page 1", :text => "This is the main activity text.")
 # Creates an interactive
-interactive_p1 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
+interactive_p1 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
 # Adds the interactive to the page.
 page1.add_interactive(interactive_p1)
 
@@ -51,7 +51,7 @@ page1.save
 page2 = act.pages.create!(:name => "Page 2", :theme => 'stack-left', :text => "This is the main activity text. Sometimes, it just needs to be a bit longer.")
 # Create another interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_p2 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
+interactive_p2 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
 # Add the same interactive to the page.
 page2.add_interactive(interactive_p2)
 
@@ -78,7 +78,7 @@ page2.add_embeddable(or3, 3)
 # This creates a page and adds it to the activity.
 page3 = act.pages.create!(:name => "Page 3", :text => "This is the last page of the activity! I hope you've enjoyed your time today.")
 # Create another interactive to add to this page.
-interactive_p3 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
+interactive_p3 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
 page3.add_interactive(interactive_p3)
 
 ## Add embeddables ##
@@ -144,7 +144,7 @@ page_2_boiling_point = act_boiling_point.pages.create!(:name => "Page 2", :theme
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_pn2 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-1.json")
+interactive_pn2 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-1.json")
 # Add the same interactive to the page.
 page_2_boiling_point.add_interactive(interactive_pn2)
 
@@ -172,7 +172,7 @@ page_3_boiling_point = act_boiling_point.pages.create!(:name => "Page 3", :theme
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_pn3 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-2.json")
+interactive_pn3 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-2.json")
 # Add the same interactive to the page.
 page_3_boiling_point.add_interactive(interactive_pn3)
 
@@ -211,7 +211,7 @@ page_4_boiling_point = act_boiling_point.pages.create!(:name => "Page 4", :theme
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_pn4 = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/boiling-point.json")
+interactive_pn4 = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/boiling-point.json")
 # Add the same interactive to the page.
 page_4_boiling_point.add_interactive(interactive_pn4)
 
@@ -267,7 +267,7 @@ page1_solubility = act_solubility.pages.create!(:name => "Page 1", :text => "Hav
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_page1_solubility = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
+interactive_page1_solubility = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/oil-and-water-shake.json")
 # Add the same interactive to the page.
 page1_solubility.add_interactive(interactive_page1_solubility)
 
@@ -298,7 +298,7 @@ page2_solubility = act_solubility.pages.create!(:name => "Page 2", :theme => 'st
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_page2_solubility = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-1.json")
+interactive_page2_solubility = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-1.json")
 # Add the same interactive to the page.
 page2_solubility.add_interactive(interactive_page2_solubility)
 
@@ -330,7 +330,7 @@ page3_solubility = act_solubility.pages.create!(:name => "Page 3", :theme => 'st
 
 # Create an interactive to add to this page. (Interactives can only belong to one page,
 # so for the second page we need another new interactive.)
-interactive_page3_solubility = Lightweight::MWInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-2.json")
+interactive_page3_solubility = Lightweight::MwInteractive.create!(:name => "MW model", :url => "http://lab.dev.concord.org/examples/interactives/embeddable.html#interactives/intermolecular-attractions-page-2.json")
 # Add the same interactive to the page.
 page3_solubility.add_interactive(interactive_page3_solubility)
 

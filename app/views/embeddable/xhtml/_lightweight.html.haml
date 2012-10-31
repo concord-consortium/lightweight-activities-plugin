@@ -1,1 +1,5 @@
-.xhtml= embeddable.content.html_safe
+- if embeddable.content.blank?
+  .xhtml
+    Embeddable text will go here.
+- else
+  .xhtml= embeddable.content.html_safe
