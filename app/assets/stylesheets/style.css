@@ -384,13 +384,13 @@ button.disabled {
 	    margin: 1px 0 1px 10px;
 	    }
 ul.quiet_list {
-  border-top: dashed 1px #ddd;
+  border-top: dotted 1px #ddd;
   clear: both;
   list-style: none;
   margin-top: 30px;
   }
   ul.quiet_list li.item {
-    border-bottom: dashed 1px #ddd;
+    border-bottom: dotted 1px #ddd;
     padding: 20px 5px;
     margin: 0;
     }
@@ -411,54 +411,57 @@ ul.quiet_list {
 	display: block;
 	margin-top: 23px;
     }
-
-form.edit_lightweight_activity fieldset {
+#leftcol {
 	clear: left;
 	float: left;
-	margin-top: 20px;
-	width: 65%;
+	width: 60%;
+	}
+form.edit_lightweight_activity fieldset {
+	margin-bottom: 20px;
 	}
 form.edit_lightweight_activity legend {
 	font-weight: bold;
 	}
-#menu {
+form.edit_lightweight_activity .submit {
+	text-align: right;
+	width: 100%;
+	}
+#rightcol {
 	float: right;
-	list-style-type: none;
-	margin-top: -150px;
 	width: 35%;
+	}
+#menu h2 {
+	font-weight: bold;
+	margin-bottom: 10px;
+	}
+#pages {
+	background: #c9e9e6;
+	padding: 15px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	}
+#menu ul {
+	clear: both;
+	float: none;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
     }
-	#menu h2 {
-		font-weight: bold;
-		margin-bottom: 10px;
-		}
-	#pages {
-		background: #c9e9e6;
-		padding: 15px;
-		-moz-border-radius: 8px;
-		-webkit-border-radius: 8px;
-		border-radius: 8px;
-		}
-	#menu ul {
+	#menu ul li {
+		border-bottom: dotted 1px #6fc5d8;
 		clear: both;
-		float: none;
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
+		margin: 0 0 .5em;
+		padding: 5px 3px;
 	    }
-		#menu ul li {
-			border-bottom: dashed 1px #6fc5d8;
-			clear: both;
-			margin: 0 0 .5em;
-			padding: 5px 3px;
-		    }
-			#menu ul ul {
-				float: right;
+		#menu ul ul {
+			float: right;
+			}
+			#menu ul ul li {
+				display: inline;
 				}
-				#menu ul ul li {
-					display: inline;
-					}
-	#pages li#add { margin-top: 10px; }
-	#pages li#add a {
+#pages ul#add li { margin-top: 5px; }
+	#pages ul#add li a {
 	    background: transparent url(/assets/lightweight/icons/add.png) 0 0 no-repeat;
 	    background-size: 14px;
 	    color: #333;

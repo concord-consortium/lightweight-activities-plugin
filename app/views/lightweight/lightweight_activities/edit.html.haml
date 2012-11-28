@@ -1,18 +1,21 @@
 %h1.title Edit Activity
-= form_for @activity, {:url => "/lightweight/activities/#{@activity.id}", :method => 'put'} do |f|
-  = render :partial => 'form', :locals => {:f => f}
-= javascript_tag("focus_first_field();");
-#menu
-  - if @activity.pages.length > 0
-    #pages
-      %h2 Activity Pages
-      %ul
-        - @activity.pages.each do |p|
-          %li{ :id => dom_id_for(p, :item), :class => 'item' }
-            = p.name
-            %ul.menu
-              %li.edit= link_to "Edit", edit_activity_page_path(@activity, p)
-              %li.run= link_to "Show", activity_page_path(@activity, p), :target => 'new'
-              %li.delete= link_to "Delete", activity_page_path(@activity, p), method: :delete, data: { confirm: 'Are you sure?' }
-      %li#add= link_to "Add Page", new_activity_page_path(@activity)
-    %p= link_to "", activities_path
+#leftcol
+  = form_for @activity, {:url => "/lightweight/activities/#{@activity.id}", :method => 'put'} do |f|
+    = render :partial => 'form', :locals => {:f => f}
+  = javascript_tag("focus_first_field();");
+#rightcol
+  #menu
+    - if @activity.pages.length > 0
+      #pages
+        %h2 Activity Pages
+        %ul
+          - @activity.pages.each do |p|
+            %li{ :id => dom_id_for(p, :item), :class => 'item' }
+              = p.name
+              %ul.menu
+                %li.edit= link_to "Edit", edit_activity_page_path(@activity, p)
+                %li.run= link_to "Show", activity_page_path(@activity, p), :target => 'new'
+                %li.delete= link_to "Delete", activity_page_path(@activity, p), method: :delete, data: { confirm: 'Are you sure?' }
+        %ul#add
+          %li= link_to "Add Page", new_activity_page_path(@activity)
+      %p= link_to "", activities_path
